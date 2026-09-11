@@ -1,0 +1,497 @@
+{
+  "version": "1.2",
+  "metadata": {
+    "name": "Lookup Functions",
+    "description": "Values pulled from other queries with Lookup, LookupSet and Join",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT p.ProductID, p.ProductName, p.CategoryID, p.SupplierID,\n       CAST(p.UnitPrice AS REAL) AS UnitPrice, p.UnitsInStock\nFROM Products p\nORDER BY p.ProductName",
+    "columns": [
+      {
+        "name": "ProductID",
+        "dbType": "int64"
+      },
+      {
+        "name": "ProductName",
+        "dbType": "string"
+      },
+      {
+        "name": "CategoryID",
+        "dbType": "int64"
+      },
+      {
+        "name": "SupplierID",
+        "dbType": "int64"
+      },
+      {
+        "name": "UnitPrice",
+        "dbType": "double"
+      },
+      {
+        "name": "UnitsInStock",
+        "dbType": "int64"
+      }
+    ]
+  },
+  "lookupDataSources": [
+    {
+      "name": "Categories",
+      "dataSourceType": "dbsql",
+      "sql": "SELECT CategoryID, CategoryName, Description FROM Categories",
+      "columns": [
+        {
+          "name": "CategoryID",
+          "dbType": "int64"
+        },
+        {
+          "name": "CategoryName",
+          "dbType": "string"
+        },
+        {
+          "name": "Description",
+          "dbType": "string"
+        }
+      ]
+    },
+    {
+      "name": "Suppliers",
+      "dataSourceType": "dbsql",
+      "sql": "SELECT SupplierID, CompanyName, Country FROM Suppliers",
+      "columns": [
+        {
+          "name": "SupplierID",
+          "dbType": "int64"
+        },
+        {
+          "name": "CompanyName",
+          "dbType": "string"
+        },
+        {
+          "name": "Country",
+          "dbType": "string"
+        }
+      ]
+    }
+  ],
+  "sortColumns": [],
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 2.2,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Title",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.9
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 16,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Lookup Functions"
+        },
+        {
+          "name": "Note",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 1,
+            "w": 18,
+            "h": 0.9
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Category and supplier are not in the main query. They are looked up by id."
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0.7,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "H1",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 6.5,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Product"
+        },
+        {
+          "name": "H2",
+          "type": "label",
+          "bounds": {
+            "x": 6.5,
+            "y": 0,
+            "w": 4,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Category (Lookup)"
+        },
+        {
+          "name": "H3",
+          "type": "label",
+          "bounds": {
+            "x": 10.5,
+            "y": 0,
+            "w": 5,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Supplier (Lookup)"
+        },
+        {
+          "name": "H4",
+          "type": "label",
+          "bounds": {
+            "x": 15.5,
+            "y": 0,
+            "w": 2.5,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Price"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Product",
+          "type": "field",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 6.5,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#D8D8D8",
+                "width": 0.5
+              }
+            }
+          },
+          "source": "ProductName"
+        },
+        {
+          "name": "CatName",
+          "type": "computed",
+          "bounds": {
+            "x": 6.5,
+            "y": 0,
+            "w": 4,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#D8D8D8",
+                "width": 0.5
+              }
+            }
+          },
+          "expression": "Lookup(\"Categories\", CategoryID, \"CategoryID\", \"CategoryName\")"
+        },
+        {
+          "name": "SupName",
+          "type": "computed",
+          "bounds": {
+            "x": 10.5,
+            "y": 0,
+            "w": 5,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#D8D8D8",
+                "width": 0.5
+              }
+            }
+          },
+          "expression": "Lookup(\"Suppliers\", SupplierID, \"SupplierID\", \"CompanyName\")"
+        },
+        {
+          "name": "Price",
+          "type": "field",
+          "bounds": {
+            "x": 15.5,
+            "y": 0,
+            "w": 2.5,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#D8D8D8",
+                "width": 0.5
+              }
+            }
+          },
+          "source": "UnitPrice",
+          "format": "#,##0.00"
+        }
+      ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 2.4,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "SetLbl",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.3,
+            "w": 18,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Every category name, from LookupSet joined into one line:"
+        },
+        {
+          "name": "AllCategories",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.95,
+            "w": 18,
+            "h": 1.2
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#D8D8D8",
+                "width": 0.5
+              }
+            }
+          },
+          "expression": "Join(LookupSet(\"Categories\", CategoryID, \"CategoryID\", \"CategoryName\"), \", \")",
+          "wrapText": true,
+          "autoHeight": true
+        }
+      ]
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "PageInfo",
+          "type": "computed",
+          "bounds": {
+            "x": 12,
+            "y": 0.1,
+            "w": 6,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages()"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}

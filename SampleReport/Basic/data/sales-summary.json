@@ -1,0 +1,338 @@
+[
+    {
+        "Region":  "North",
+        "CustomerName":  "Acme Engineering",
+        "OrderDate":  "2026-03-08",
+        "Amount":  1589.81
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Acme Engineering",
+        "OrderDate":  "2026-05-04",
+        "Amount":  2602.11
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Acme Engineering",
+        "OrderDate":  "2026-07-24",
+        "Amount":  3104.53
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Acme Engineering",
+        "OrderDate":  "2026-11-15",
+        "Amount":  2983.48
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Britewire Ltd",
+        "OrderDate":  "2026-02-23",
+        "Amount":  1040.33
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Britewire Ltd",
+        "OrderDate":  "2026-04-04",
+        "Amount":  1395.49
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Britewire Ltd",
+        "OrderDate":  "2026-07-21",
+        "Amount":  1548.48
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Britewire Ltd",
+        "OrderDate":  "2026-11-12",
+        "Amount":  3697.32
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Northgate Supplies",
+        "OrderDate":  "2026-02-14",
+        "Amount":  1165.94
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Northgate Supplies",
+        "OrderDate":  "2026-06-14",
+        "Amount":  3231.54
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Northgate Supplies",
+        "OrderDate":  "2026-08-23",
+        "Amount":  1970.5
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Northgate Supplies",
+        "OrderDate":  "2026-11-01",
+        "Amount":  893.32
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Pinehurst Trading",
+        "OrderDate":  "2026-01-05",
+        "Amount":  1805.25
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Pinehurst Trading",
+        "OrderDate":  "2026-04-25",
+        "Amount":  1037.94
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Pinehurst Trading",
+        "OrderDate":  "2026-09-27",
+        "Amount":  1227.6
+    },
+    {
+        "Region":  "North",
+        "CustomerName":  "Pinehurst Trading",
+        "OrderDate":  "2026-12-16",
+        "Amount":  1868.97
+    },
+    {
+        "Region":  "South",
+        "CustomerName":  "Corvid Systems",
+        "OrderDate":  "2026-03-01",
+        "Amount":  2175.81
+    },
+    {
+        "Region":  "South",
+        "CustomerName":  "Corvid Systems",
+        "OrderDate":  "2026-04-17",
+        "Amount":  969.34
+    },
+    {
+        "Region":  "South",
+        "CustomerName":  "Corvid Systems",
+        "OrderDate":  "2026-07-15",
+        "Amount":  3483.74
+    },
+    {
+        "Region":  "South",
+        "CustomerName":  "Corvid Systems",
+        "OrderDate":  "2026-12-02",
+        "Amount":  3538.39
+    },
+    {
+        "Region":  "South",
+        "CustomerName":  "Southbank Metals",
+        "OrderDate":  "2026-02-19",
+        "Amount":  669.77
+    },
+    {
+        "Region":  "South",
+        "CustomerName":  "Southbank Metals",
+        "OrderDate":  "2026-04-17",
+        "Amount":  2631.16
+    },
+    {
+        "Region":  "South",
+        "CustomerName":  "Southbank Metals",
+        "OrderDate":  "2026-07-13",
+        "Amount":  1051.33
+    },
+    {
+        "Region":  "South",
+        "CustomerName":  "Southbank Metals",
+        "OrderDate":  "2026-10-05",
+        "Amount":  3216.42
+    },
+    {
+        "Region":  "South",
+        "CustomerName":  "Thornbury Works",
+        "OrderDate":  "2026-02-20",
+        "Amount":  1572.08
+    },
+    {
+        "Region":  "South",
+        "CustomerName":  "Thornbury Works",
+        "OrderDate":  "2026-05-03",
+        "Amount":  1545.54
+    },
+    {
+        "Region":  "South",
+        "CustomerName":  "Thornbury Works",
+        "OrderDate":  "2026-07-08",
+        "Amount":  1597.82
+    },
+    {
+        "Region":  "South",
+        "CustomerName":  "Thornbury Works",
+        "OrderDate":  "2026-12-26",
+        "Amount":  679.33
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Eastvale Plastics",
+        "OrderDate":  "2026-01-05",
+        "Amount":  643.18
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Eastvale Plastics",
+        "OrderDate":  "2026-05-02",
+        "Amount":  2810.21
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Eastvale Plastics",
+        "OrderDate":  "2026-08-01",
+        "Amount":  2952.56
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Eastvale Plastics",
+        "OrderDate":  "2026-11-10",
+        "Amount":  3280.52
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Harbour Components",
+        "OrderDate":  "2026-03-04",
+        "Amount":  3206.03
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Harbour Components",
+        "OrderDate":  "2026-06-14",
+        "Amount":  2338.53
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Harbour Components",
+        "OrderDate":  "2026-08-18",
+        "Amount":  1712.57
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Harbour Components",
+        "OrderDate":  "2026-10-02",
+        "Amount":  2104.94
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Kestrel Tooling",
+        "OrderDate":  "2026-02-07",
+        "Amount":  2980.79
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Kestrel Tooling",
+        "OrderDate":  "2026-04-20",
+        "Amount":  1434.26
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Kestrel Tooling",
+        "OrderDate":  "2026-07-02",
+        "Amount":  715.06
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Kestrel Tooling",
+        "OrderDate":  "2026-10-13",
+        "Amount":  3775.99
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Meridian Parts",
+        "OrderDate":  "2026-02-13",
+        "Amount":  3327.56
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Meridian Parts",
+        "OrderDate":  "2026-04-04",
+        "Amount":  1138.16
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Meridian Parts",
+        "OrderDate":  "2026-08-14",
+        "Amount":  3018.65
+    },
+    {
+        "Region":  "East",
+        "CustomerName":  "Meridian Parts",
+        "OrderDate":  "2026-11-26",
+        "Amount":  462.96
+    },
+    {
+        "Region":  "West",
+        "CustomerName":  "Westford Cables",
+        "OrderDate":  "2026-02-11",
+        "Amount":  1929.21
+    },
+    {
+        "Region":  "West",
+        "CustomerName":  "Westford Cables",
+        "OrderDate":  "2026-05-21",
+        "Amount":  3028.54
+    },
+    {
+        "Region":  "West",
+        "CustomerName":  "Westford Cables",
+        "OrderDate":  "2026-09-13",
+        "Amount":  3584.01
+    },
+    {
+        "Region":  "West",
+        "CustomerName":  "Westford Cables",
+        "OrderDate":  "2026-11-03",
+        "Amount":  1180.51
+    },
+    {
+        "Region":  "West",
+        "CustomerName":  "Quarry Lane Supply",
+        "OrderDate":  "2026-02-20",
+        "Amount":  1475.34
+    },
+    {
+        "Region":  "West",
+        "CustomerName":  "Quarry Lane Supply",
+        "OrderDate":  "2026-04-17",
+        "Amount":  1174.21
+    },
+    {
+        "Region":  "West",
+        "CustomerName":  "Quarry Lane Supply",
+        "OrderDate":  "2026-07-05",
+        "Amount":  2043.54
+    },
+    {
+        "Region":  "West",
+        "CustomerName":  "Quarry Lane Supply",
+        "OrderDate":  "2026-12-13",
+        "Amount":  2757.9
+    },
+    {
+        "Region":  "West",
+        "CustomerName":  "Ridgeway Fabrication",
+        "OrderDate":  "2026-01-22",
+        "Amount":  3518.7
+    },
+    {
+        "Region":  "West",
+        "CustomerName":  "Ridgeway Fabrication",
+        "OrderDate":  "2026-04-23",
+        "Amount":  735.75
+    },
+    {
+        "Region":  "West",
+        "CustomerName":  "Ridgeway Fabrication",
+        "OrderDate":  "2026-09-23",
+        "Amount":  648.95
+    },
+    {
+        "Region":  "West",
+        "CustomerName":  "Ridgeway Fabrication",
+        "OrderDate":  "2026-10-15",
+        "Amount":  985.18
+    }
+]

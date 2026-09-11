@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BlueCrafts.BluePrint.Designer" Version="1.0.42" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- One definition shared by all three samples. -->
+    <None Include="..\HelloReport.bpt" Link="HelloReport.bpt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

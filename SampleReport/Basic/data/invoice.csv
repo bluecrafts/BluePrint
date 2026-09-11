@@ -1,0 +1,8 @@
+InvoiceNo,CustomerName,LineNo,Description,Quantity,UnitPrice,LineTotal
+INV-2026-0042,Acme Engineering,1,"Hex bolt M8 x 40, zinc plated",250,0.42,105
+INV-2026-0042,Acme Engineering,2,"Flange nut M8, stainless",250,0.38,95
+INV-2026-0042,Acme Engineering,3,"Washer M8, spring",500,0.11,55
+INV-2026-0042,Acme Engineering,4,"Threadlocker, medium, 50 ml",6,14.75,88.5
+INV-2026-0042,Acme Engineering,5,"Cable gland PG16, nylon",40,1.95,78
+INV-2026-0042,Acme Engineering,6,"Terminal block, 12 way",12,6.4,76.8
+INV-2026-0042,Acme Engineering,7,"Delivery and handling",1,45,45

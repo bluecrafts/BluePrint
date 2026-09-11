@@ -1,0 +1,24 @@
+BluePrint Community Library License
+
+Copyright (c) 2026 BluePrint.
+
+This software is available as library-only software under a community license
+for individuals and small teams. No source code is provided under this license;
+only compiled library binaries are distributed. You may use, copy, and
+redistribute the library binaries for personal projects, internal tools, and
+small-team products, provided this license and the copyright notice remain intact.
+
+Larger enterprises and enterprise-scale deployments require a paid commercial
+license from BluePrint. If your organization has annual sales exceeding USD
+10,000,000, you are considered an enterprise organization for the purpose of
+this license and must obtain a commercial license before using the library in
+production.
+
+You may not remove or alter copyright notices. You may not misrepresent the
+origin of the software or imply endorsement by BluePrint without written
+permission. The software is provided "as is", without warranty of any kind,
+express or implied.
+
+To the maximum extent permitted by law, BluePrint shall not be liable for any
+direct, indirect, incidental, special, or consequential damages arising out of
+the use of this software.
