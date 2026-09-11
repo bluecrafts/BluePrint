@@ -1,0 +1,193 @@
+{
+  "version": "1.2",
+  "metadata": {
+    "name": "Customer Labels",
+    "description": "Mailing labels for every customer, two across",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "label",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    },
+    "labelLayout": {
+      "labelWidth": 8.7,
+      "labelHeight": 4,
+      "labelsPerRow": 2,
+      "rowGap": 0.4,
+      "columnGap": 0.6,
+      "fillDirection": "rowMajor",
+      "showCellBorder": true,
+      "cellBorderColor": "#C8C8C8",
+      "cellBorderWidth": 0.5
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT CompanyName, ContactName, Address, City, Region, PostalCode, Country\nFROM Customers\nORDER BY Country, PostalCode",
+    "columns": [
+      {
+        "name": "CompanyName",
+        "dbType": "string"
+      },
+      {
+        "name": "ContactName",
+        "dbType": "string"
+      },
+      {
+        "name": "Address",
+        "dbType": "string"
+      },
+      {
+        "name": "City",
+        "dbType": "string"
+      },
+      {
+        "name": "Region",
+        "dbType": "string"
+      },
+      {
+        "name": "PostalCode",
+        "dbType": "string"
+      },
+      {
+        "name": "Country",
+        "dbType": "string"
+      }
+    ]
+  },
+  "sortColumns": [],
+  "sections": [
+    {
+      "type": "detail",
+      "height": 4,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Company",
+          "type": "field",
+          "bounds": {
+            "x": 0.3,
+            "y": 0.3,
+            "w": 8.1,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 11,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "source": "CompanyName"
+        },
+        {
+          "name": "Contact",
+          "type": "field",
+          "bounds": {
+            "x": 0.3,
+            "y": 0.95,
+            "w": 8.1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "source": "ContactName"
+        },
+        {
+          "name": "Addr",
+          "type": "field",
+          "bounds": {
+            "x": 0.3,
+            "y": 1.6,
+            "w": 8.1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "source": "Address"
+        },
+        {
+          "name": "CityLine",
+          "type": "computed",
+          "bounds": {
+            "x": 0.3,
+            "y": 2.15,
+            "w": 8.1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "TextJoin(\" \", City, Region, PostalCode)"
+        },
+        {
+          "name": "CountryLine",
+          "type": "computed",
+          "bounds": {
+            "x": 0.3,
+            "y": 2.75,
+            "w": 8.1,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "Upper(Country)"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}

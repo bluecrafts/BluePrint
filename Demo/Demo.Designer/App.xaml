@@ -1,0 +1,15 @@
+<Application x:Class="Demo.Designer.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Merge the shared theme once, at the root. The control then
+                     picks up the right palette and follows the host into dark
+                     mode without any further wiring. -->
+                <ResourceDictionary Source="pack://application:,,,/BluePrint.UI;component/Themes/BluePrintTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

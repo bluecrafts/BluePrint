@@ -1,0 +1,348 @@
+{
+    "dataSource":  {
+                       "dataSourceType":  "external",
+                       "columns":  [
+                                       {
+                                           "dbType":  "string",
+                                           "name":  "Region",
+                                           "length":  40
+                                       },
+                                       {
+                                           "dbType":  "string",
+                                           "name":  "Quarter",
+                                           "length":  8
+                                       },
+                                       {
+                                           "dbType":  "decimal",
+                                           "name":  "Amount",
+                                           "decimals":  2
+                                       },
+                                       {
+                                           "dbType":  "int32",
+                                           "name":  "Units"
+                                       }
+                                   ]
+                   },
+    "sortColumns":  [
+
+                    ],
+    "metadata":  {
+                     "description":  "Three chart types over one set of rows",
+                     "name":  "Chart Showcase",
+                     "author":  "BluePrint"
+                 },
+    "version":  "1.2",
+    "paddingFullPage":  false,
+    "report":  {
+                   "layoutUnit":  "cm",
+                   "page":  {
+                                "orientation":  "portrait",
+                                "margins":  {
+                                                "left":  1.5,
+                                                "right":  1.5,
+                                                "bottom":  1.5,
+                                                "top":  1.5
+                                            },
+                                "paperSize":  {
+                                                  "name":  "A4",
+                                                  "widthMm":  210,
+                                                  "heightMm":  297
+                                              },
+                                "backgroundColor":  "#FFFFFF"
+                            },
+                   "type":  "canvas"
+               },
+    "noDataShowStructure":  true,
+    "slotData":  [
+
+                 ],
+    "sections":  [
+                     {
+                         "groupSortDirection":  "asc",
+                         "height":  1.2,
+                         "elements":  [
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "bold":  true,
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  16,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "Title",
+                                              "bounds":  {
+                                                             "y":  0,
+                                                             "w":  18,
+                                                             "h":  0.9,
+                                                             "x":  0
+                                                         },
+                                              "type":  "label",
+                                              "text":  "Chart Showcase"
+                                          }
+                                      ],
+                         "type":  "reportHeader",
+                         "groupLevel":  0,
+                         "autoHeight":  false,
+                         "backColor":  "Transparent",
+                         "keepTogether":  false,
+                         "resetPageNumberOnNewGroup":  false,
+                         "keepHeaderWithFirstDetailRow":  false,
+                         "repeatOnNewPage":  true,
+                         "newPageBefore":  false
+                     },
+                     {
+                         "groupSortDirection":  "asc",
+                         "height":  0,
+                         "elements":  [
+
+                                      ],
+                         "type":  "detail",
+                         "groupLevel":  0,
+                         "autoHeight":  false,
+                         "backColor":  "Transparent",
+                         "keepTogether":  false,
+                         "resetPageNumberOnNewGroup":  false,
+                         "keepHeaderWithFirstDetailRow":  false,
+                         "repeatOnNewPage":  true,
+                         "newPageBefore":  false
+                     },
+                     {
+                         "groupSortDirection":  "asc",
+                         "height":  23.8,
+                         "elements":  [
+                                          {
+                                              "chart":  {
+                                                            "chartType":  "Column",
+                                                            "legend":  {
+                                                                           "visible":  true,
+                                                                           "position":  "bottom"
+                                                                       },
+                                                            "style":  {
+                                                                          "palette":  "Office"
+                                                                      },
+                                                            "category":  [
+                                                                             {
+                                                                                 "expression":  "Quarter",
+                                                                                 "caption":  "Quarter"
+                                                                             }
+                                                                         ],
+                                                            "categoryAxis":  {
+                                                                                 "title":  "Quarter",
+                                                                                 "showGridLines":  false,
+                                                                                 "visible":  true
+                                                                             },
+                                                            "valueAxis":  {
+                                                                              "title":  "Sales",
+                                                                              "showGridLines":  true,
+                                                                              "format":  "#,##0",
+                                                                              "visible":  true
+                                                                          },
+                                                            "values":  [
+                                                                           {
+                                                                               "format":  "#,##0",
+                                                                               "aggregate":  "Sum",
+                                                                               "name":  "Sales",
+                                                                               "expression":  "Amount"
+                                                                           }
+                                                                       ],
+                                                            "title":  "Sales by quarter, split by region",
+                                                            "seriesGroup":  [
+                                                                                {
+                                                                                    "expression":  "Region",
+                                                                                    "caption":  "Region"
+                                                                                }
+                                                                            ]
+                                                        },
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "ColumnChart",
+                                              "bounds":  {
+                                                             "y":  0.2,
+                                                             "w":  18,
+                                                             "h":  7.4,
+                                                             "x":  0
+                                                         },
+                                              "type":  "chart"
+                                          },
+                                          {
+                                              "chart":  {
+                                                            "chartType":  "Line",
+                                                            "legend":  {
+                                                                           "visible":  true,
+                                                                           "position":  "bottom"
+                                                                       },
+                                                            "style":  {
+                                                                          "palette":  "Office"
+                                                                      },
+                                                            "category":  [
+                                                                             {
+                                                                                 "expression":  "Quarter",
+                                                                                 "caption":  "Quarter"
+                                                                             }
+                                                                         ],
+                                                            "categoryAxis":  {
+                                                                                 "title":  "Quarter",
+                                                                                 "showGridLines":  false,
+                                                                                 "visible":  true
+                                                                             },
+                                                            "valueAxis":  {
+                                                                              "title":  "Sales",
+                                                                              "showGridLines":  true,
+                                                                              "format":  "#,##0",
+                                                                              "visible":  true
+                                                                          },
+                                                            "values":  [
+                                                                           {
+                                                                               "format":  "#,##0",
+                                                                               "aggregate":  "Sum",
+                                                                               "name":  "Sales",
+                                                                               "expression":  "Amount"
+                                                                           }
+                                                                       ],
+                                                            "title":  "The same data as a line chart",
+                                                            "seriesGroup":  [
+                                                                                {
+                                                                                    "expression":  "Region",
+                                                                                    "caption":  "Region"
+                                                                                }
+                                                                            ]
+                                                        },
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "LineChart",
+                                              "bounds":  {
+                                                             "y":  8,
+                                                             "w":  18,
+                                                             "h":  7.4,
+                                                             "x":  0
+                                                         },
+                                              "type":  "chart"
+                                          },
+                                          {
+                                              "chart":  {
+                                                            "chartType":  "Pie",
+                                                            "legend":  {
+                                                                           "visible":  true,
+                                                                           "position":  "right"
+                                                                       },
+                                                            "style":  {
+                                                                          "palette":  "Pastel"
+                                                                      },
+                                                            "category":  [
+                                                                             {
+                                                                                 "expression":  "Region",
+                                                                                 "caption":  "Region"
+                                                                             }
+                                                                         ],
+                                                            "categoryAxis":  {
+                                                                                 "title":  "Quarter",
+                                                                                 "showGridLines":  false,
+                                                                                 "visible":  true
+                                                                             },
+                                                            "valueAxis":  {
+                                                                              "title":  "Sales",
+                                                                              "showGridLines":  true,
+                                                                              "format":  "#,##0",
+                                                                              "visible":  true
+                                                                          },
+                                                            "values":  [
+                                                                           {
+                                                                               "format":  "#,##0",
+                                                                               "aggregate":  "Sum",
+                                                                               "name":  "Sales",
+                                                                               "expression":  "Amount"
+                                                                           }
+                                                                       ],
+                                                            "title":  "Share of sales by region",
+                                                            "seriesGroup":  [
+
+                                                                            ]
+                                                        },
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "PieChart",
+                                              "bounds":  {
+                                                             "y":  15.8,
+                                                             "w":  18,
+                                                             "h":  7.4,
+                                                             "x":  0
+                                                         },
+                                              "type":  "chart"
+                                          }
+                                      ],
+                         "type":  "reportFooter",
+                         "groupLevel":  0,
+                         "autoHeight":  false,
+                         "backColor":  "Transparent",
+                         "keepTogether":  false,
+                         "resetPageNumberOnNewGroup":  false,
+                         "keepHeaderWithFirstDetailRow":  false,
+                         "repeatOnNewPage":  true,
+                         "newPageBefore":  false
+                     },
+                     {
+                         "groupSortDirection":  "asc",
+                         "height":  0.8,
+                         "elements":  [
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "right",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "PageInfo",
+                                              "bounds":  {
+                                                             "y":  0.1,
+                                                             "w":  6,
+                                                             "h":  0.6,
+                                                             "x":  12
+                                                         },
+                                              "type":  "computed",
+                                              "expression":  "\"Page \" + Page() + \" of \" + TotalPages()"
+                                          }
+                                      ],
+                         "type":  "pageFooter",
+                         "groupLevel":  0,
+                         "autoHeight":  false,
+                         "backColor":  "Transparent",
+                         "keepTogether":  false,
+                         "resetPageNumberOnNewGroup":  false,
+                         "keepHeaderWithFirstDetailRow":  false,
+                         "repeatOnNewPage":  true,
+                         "newPageBefore":  false
+                     }
+                 ]
+}

@@ -1,0 +1,175 @@
+{
+    "dataSource":  {
+                       "dataSourceType":  "external",
+                       "columns":  [
+                                       {
+                                           "dbType":  "string",
+                                           "name":  "ProductCode",
+                                           "length":  20
+                                       },
+                                       {
+                                           "dbType":  "string",
+                                           "name":  "ProductName",
+                                           "length":  60
+                                       },
+                                       {
+                                           "dbType":  "decimal",
+                                           "name":  "Price",
+                                           "decimals":  2
+                                       }
+                                   ]
+                   },
+    "sortColumns":  [
+
+                    ],
+    "metadata":  {
+                     "description":  "A sheet of product labels, three across",
+                     "name":  "Product Labels",
+                     "author":  "BluePrint"
+                 },
+    "version":  "1.2",
+    "paddingFullPage":  false,
+    "report":  {
+                   "layoutUnit":  "cm",
+                   "page":  {
+                                "orientation":  "portrait",
+                                "margins":  {
+                                                "left":  1.5,
+                                                "right":  1.5,
+                                                "bottom":  1.5,
+                                                "top":  1.5
+                                            },
+                                "paperSize":  {
+                                                  "name":  "A4",
+                                                  "widthMm":  210,
+                                                  "heightMm":  297
+                                              },
+                                "backgroundColor":  "#FFFFFF"
+                            },
+                   "type":  "label",
+                   "labelLayout":  {
+                                       "labelHeight":  3.2,
+                                       "cellBorderWidth":  0.5,
+                                       "fillDirection":  "rowMajor",
+                                       "rowGap":  0.3,
+                                       "columnGap":  0.4,
+                                       "cellBorderColor":  "#C8C8C8",
+                                       "labelWidth":  5.7,
+                                       "labelsPerRow":  3,
+                                       "showCellBorder":  true
+                                   }
+               },
+    "noDataShowStructure":  true,
+    "slotData":  [
+
+                 ],
+    "sections":  [
+                     {
+                         "groupSortDirection":  "asc",
+                         "height":  3.2,
+                         "elements":  [
+                                          {
+                                              "source":  "ProductName",
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "bold":  true,
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  11,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "PName",
+                                              "bounds":  {
+                                                             "y":  0.15,
+                                                             "w":  5.3,
+                                                             "h":  0.6,
+                                                             "x":  0.2
+                                                         },
+                                              "type":  "field"
+                                          },
+                                          {
+                                              "source":  "ProductCode",
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  9,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "PCode",
+                                              "bounds":  {
+                                                             "y":  0.8,
+                                                             "w":  3,
+                                                             "h":  0.5,
+                                                             "x":  0.2
+                                                         },
+                                              "type":  "field"
+                                          },
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "bold":  true,
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "right",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  11,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "PPrice",
+                                              "bounds":  {
+                                                             "y":  0.8,
+                                                             "w":  2.3,
+                                                             "h":  0.5,
+                                                             "x":  3.2
+                                                         },
+                                              "type":  "computed",
+                                              "expression":  "\"$\" + String(Price, \"#,##0.00\")"
+                                          },
+                                          {
+                                              "name":  "CodeBarcode",
+                                              "barcode":  {
+                                                              "showText":  true,
+                                                              "rotation":  "none",
+                                                              "symbology":  "Code128",
+                                                              "dpi":  300
+                                                          },
+                                              "expression":  "ProductCode",
+                                              "type":  "barcode",
+                                              "bounds":  {
+                                                             "y":  1.45,
+                                                             "w":  5.3,
+                                                             "h":  1.5,
+                                                             "x":  0.2
+                                                         },
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top"
+                                                        }
+                                          }
+                                      ],
+                         "type":  "detail",
+                         "groupLevel":  0,
+                         "autoHeight":  false,
+                         "backColor":  "Transparent",
+                         "keepTogether":  false,
+                         "resetPageNumberOnNewGroup":  false,
+                         "keepHeaderWithFirstDetailRow":  false,
+                         "repeatOnNewPage":  true,
+                         "newPageBefore":  false
+                     }
+                 ]
+}

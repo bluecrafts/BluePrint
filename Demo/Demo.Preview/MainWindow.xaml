@@ -1,0 +1,11 @@
+<Window x:Class="Demo.Preview.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:bp="clr-namespace:BluePrint.Render.WPF.Controls;assembly=BluePrint.Render.WPF"
+        Title="BluePrint preview" Height="800" Width="640">
+
+    <!-- The control renders, paginates, zooms and prints on its own. Hand it a
+         report definition and it does the rest. -->
+    <bp:BluePrintPreviewControl x:Name="Preview" />
+
+</Window>

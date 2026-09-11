@@ -1,0 +1,535 @@
+{
+  "version": "1.2",
+  "metadata": {
+    "name": "Products by Category",
+    "description": "Stock levels per category. Rows below the reorder level are marked",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT c.CategoryName, p.ProductName, p.QuantityPerUnit,\n       p.UnitsInStock, p.UnitsOnOrder, p.ReorderLevel\nFROM Categories c\nJOIN Products p ON p.CategoryID = c.CategoryID\nWHERE p.Discontinued = 0\nORDER BY c.CategoryName, p.ProductName",
+    "columns": [
+      {
+        "name": "CategoryName",
+        "dbType": "string"
+      },
+      {
+        "name": "ProductName",
+        "dbType": "string"
+      },
+      {
+        "name": "QuantityPerUnit",
+        "dbType": "string"
+      },
+      {
+        "name": "UnitsInStock",
+        "dbType": "int64"
+      },
+      {
+        "name": "UnitsOnOrder",
+        "dbType": "int64"
+      },
+      {
+        "name": "ReorderLevel",
+        "dbType": "int64"
+      }
+    ]
+  },
+  "sortColumns": [],
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 1.4,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Title",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.9
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 16,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Products by Category"
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0.7,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "H1",
+          "type": "label",
+          "bounds": {
+            "x": 0.5,
+            "y": 0,
+            "w": 8,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Product"
+        },
+        {
+          "name": "H2",
+          "type": "label",
+          "bounds": {
+            "x": 8.5,
+            "y": 0,
+            "w": 3.5,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Pack"
+        },
+        {
+          "name": "H3",
+          "type": "label",
+          "bounds": {
+            "x": 12,
+            "y": 0,
+            "w": 2,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "In stock"
+        },
+        {
+          "name": "H4",
+          "type": "label",
+          "bounds": {
+            "x": 14,
+            "y": 0,
+            "w": 2,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "On order"
+        },
+        {
+          "name": "H5",
+          "type": "label",
+          "bounds": {
+            "x": 16,
+            "y": 0,
+            "w": 2,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Reorder"
+        }
+      ]
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 1,
+      "groupByColumns": [
+        "CategoryName"
+      ],
+      "keepHeaderWithFirstDetailRow": true,
+      "height": 0.9,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "CatHead",
+          "type": "field",
+          "bounds": {
+            "x": 0,
+            "y": 0.15,
+            "w": 10,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 13,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "source": "CategoryName"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Product",
+          "type": "field",
+          "bounds": {
+            "x": 0.5,
+            "y": 0,
+            "w": 8,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#D8D8D8",
+                "width": 0.5
+              }
+            }
+          },
+          "source": "ProductName"
+        },
+        {
+          "name": "Pack",
+          "type": "field",
+          "bounds": {
+            "x": 8.5,
+            "y": 0,
+            "w": 3.5,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#D8D8D8",
+                "width": 0.5
+              }
+            }
+          },
+          "source": "QuantityPerUnit"
+        },
+        {
+          "name": "Stock",
+          "type": "field",
+          "bounds": {
+            "x": 12,
+            "y": 0,
+            "w": 2,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "foreColorExpression": "Iif(UnitsInStock <= ReorderLevel, \"#B00000\", \"#000000\")",
+            "backColorExpression": "Iif(UnitsInStock <= ReorderLevel, \"#FFE0E0\", \"Transparent\")",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#D8D8D8",
+                "width": 0.5
+              }
+            }
+          },
+          "source": "UnitsInStock",
+          "format": "#,##0"
+        },
+        {
+          "name": "OnOrder",
+          "type": "field",
+          "bounds": {
+            "x": 14,
+            "y": 0,
+            "w": 2,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#D8D8D8",
+                "width": 0.5
+              }
+            }
+          },
+          "source": "UnitsOnOrder",
+          "format": "#,##0"
+        },
+        {
+          "name": "Reorder",
+          "type": "field",
+          "bounds": {
+            "x": 16,
+            "y": 0,
+            "w": 2,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#D8D8D8",
+                "width": 0.5
+              }
+            }
+          },
+          "source": "ReorderLevel",
+          "format": "#,##0"
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 1,
+      "height": 0.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "CatCount",
+          "type": "computed",
+          "bounds": {
+            "x": 0.5,
+            "y": 0.1,
+            "w": 8,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "Count(ProductName for group 1) + \" product(s)\""
+        },
+        {
+          "name": "CatStock",
+          "type": "computed",
+          "bounds": {
+            "x": 12,
+            "y": 0.1,
+            "w": 2,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 1
+              }
+            }
+          },
+          "expression": "Sum(UnitsInStock for group 1)",
+          "format": "#,##0"
+        }
+      ]
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "PageInfo",
+          "type": "computed",
+          "bounds": {
+            "x": 12,
+            "y": 0.1,
+            "w": 6,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages()"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}

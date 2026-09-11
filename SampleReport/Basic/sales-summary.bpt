@@ -1,0 +1,551 @@
+{
+    "dataSource":  {
+                       "dataSourceType":  "external",
+                       "columns":  [
+                                       {
+                                           "dbType":  "string",
+                                           "name":  "Region",
+                                           "length":  40
+                                       },
+                                       {
+                                           "dbType":  "string",
+                                           "name":  "CustomerName",
+                                           "length":  80
+                                       },
+                                       {
+                                           "dbType":  "date",
+                                           "name":  "OrderDate"
+                                       },
+                                       {
+                                           "dbType":  "decimal",
+                                           "name":  "Amount",
+                                           "decimals":  2
+                                       }
+                                   ]
+                   },
+    "sortColumns":  [
+                        {
+                            "rules":  [
+                                          {
+                                              "field":  "Region",
+                                              "direction":  "asc"
+                                          },
+                                          {
+                                              "field":  "Amount",
+                                              "direction":  "desc"
+                                          }
+                                      ]
+                        }
+                    ],
+    "metadata":  {
+                     "description":  "Sales by region, grouped, with totals",
+                     "name":  "Sales Summary",
+                     "author":  "BluePrint"
+                 },
+    "version":  "1.2",
+    "paddingFullPage":  false,
+    "report":  {
+                   "layoutUnit":  "cm",
+                   "page":  {
+                                "orientation":  "portrait",
+                                "margins":  {
+                                                "left":  1.5,
+                                                "right":  1.5,
+                                                "bottom":  1.5,
+                                                "top":  1.5
+                                            },
+                                "paperSize":  {
+                                                  "name":  "A4",
+                                                  "widthMm":  210,
+                                                  "heightMm":  297
+                                              },
+                                "backgroundColor":  "#FFFFFF"
+                            },
+                   "type":  "canvas"
+               },
+    "noDataShowStructure":  true,
+    "slotData":  [
+
+                 ],
+    "sections":  [
+                     {
+                         "groupSortDirection":  "asc",
+                         "height":  1.6,
+                         "elements":  [
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "bold":  true,
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  16,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "Title",
+                                              "bounds":  {
+                                                             "y":  0,
+                                                             "w":  12,
+                                                             "h":  0.9,
+                                                             "x":  0
+                                                         },
+                                              "type":  "label",
+                                              "text":  "Sales Summary"
+                                          },
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "right",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "Printed",
+                                              "bounds":  {
+                                                             "y":  0.2,
+                                                             "w":  6,
+                                                             "h":  0.6,
+                                                             "x":  12
+                                                         },
+                                              "type":  "computed",
+                                              "expression":  "\"Printed \" + String(Today(), \"dd/MM/yyyy\")"
+                                          }
+                                      ],
+                         "type":  "reportHeader",
+                         "groupLevel":  0,
+                         "autoHeight":  false,
+                         "backColor":  "Transparent",
+                         "keepTogether":  false,
+                         "resetPageNumberOnNewGroup":  false,
+                         "keepHeaderWithFirstDetailRow":  false,
+                         "repeatOnNewPage":  true,
+                         "newPageBefore":  false
+                     },
+                     {
+                         "groupSortDirection":  "asc",
+                         "height":  0.7,
+                         "elements":  [
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "bold":  true,
+                                                            "backColor":  "#E8EDF2",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top",
+                                                            "border":  {
+                                                                           "all":  {
+                                                                                       "color":  "#AABCCE",
+                                                                                       "style":  "solid",
+                                                                                       "width":  0.5
+                                                                                   },
+                                                                           "uniform":  true
+                                                                       }
+                                                        },
+                                              "name":  "H1",
+                                              "bounds":  {
+                                                             "y":  0,
+                                                             "w":  8,
+                                                             "h":  0.7,
+                                                             "x":  0
+                                                         },
+                                              "type":  "label",
+                                              "text":  "Customer"
+                                          },
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "bold":  true,
+                                                            "backColor":  "#E8EDF2",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top",
+                                                            "border":  {
+                                                                           "all":  {
+                                                                                       "color":  "#AABCCE",
+                                                                                       "style":  "solid",
+                                                                                       "width":  0.5
+                                                                                   },
+                                                                           "uniform":  true
+                                                                       }
+                                                        },
+                                              "name":  "H2",
+                                              "bounds":  {
+                                                             "y":  0,
+                                                             "w":  4,
+                                                             "h":  0.7,
+                                                             "x":  8
+                                                         },
+                                              "type":  "label",
+                                              "text":  "Order date"
+                                          },
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "bold":  true,
+                                                            "backColor":  "#E8EDF2",
+                                                            "hAlign":  "right",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top",
+                                                            "border":  {
+                                                                           "all":  {
+                                                                                       "color":  "#AABCCE",
+                                                                                       "style":  "solid",
+                                                                                       "width":  0.5
+                                                                                   },
+                                                                           "uniform":  true
+                                                                       }
+                                                        },
+                                              "name":  "H3",
+                                              "bounds":  {
+                                                             "y":  0,
+                                                             "w":  6,
+                                                             "h":  0.7,
+                                                             "x":  12
+                                                         },
+                                              "type":  "label",
+                                              "text":  "Amount"
+                                          }
+                                      ],
+                         "type":  "pageHeader",
+                         "groupLevel":  0,
+                         "autoHeight":  false,
+                         "backColor":  "Transparent",
+                         "keepTogether":  false,
+                         "resetPageNumberOnNewGroup":  false,
+                         "keepHeaderWithFirstDetailRow":  false,
+                         "repeatOnNewPage":  true,
+                         "newPageBefore":  false
+                     },
+                     {
+                         "groupLevel":  1,
+                         "resetPageNumberOnNewGroup":  false,
+                         "elements":  [
+                                          {
+                                              "source":  "Region",
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "bold":  true,
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  11,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "RegionHead",
+                                              "bounds":  {
+                                                             "y":  0.1,
+                                                             "w":  8,
+                                                             "h":  0.6,
+                                                             "x":  0
+                                                         },
+                                              "type":  "field"
+                                          }
+                                      ],
+                         "type":  "groupHeader",
+                         "keepTogether":  false,
+                         "backColor":  "Transparent",
+                         "height":  0.8,
+                         "autoHeight":  false,
+                         "newPageBefore":  false,
+                         "groupSortDirection":  "asc",
+                         "keepHeaderWithFirstDetailRow":  true,
+                         "repeatOnNewPage":  true,
+                         "groupByColumns":  [
+                                                "Region"
+                                            ]
+                     },
+                     {
+                         "groupSortDirection":  "asc",
+                         "height":  0.65,
+                         "elements":  [
+                                          {
+                                              "source":  "CustomerName",
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top",
+                                                            "border":  {
+                                                                           "all":  {
+                                                                                       "color":  "#D8D8D8",
+                                                                                       "style":  "solid",
+                                                                                       "width":  0.5
+                                                                                   },
+                                                                           "uniform":  true
+                                                                       }
+                                                        },
+                                              "name":  "Customer",
+                                              "bounds":  {
+                                                             "y":  0,
+                                                             "w":  7.6,
+                                                             "h":  0.65,
+                                                             "x":  0.4
+                                                         },
+                                              "type":  "field"
+                                          },
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top",
+                                                            "border":  {
+                                                                           "all":  {
+                                                                                       "color":  "#D8D8D8",
+                                                                                       "style":  "solid",
+                                                                                       "width":  0.5
+                                                                                   },
+                                                                           "uniform":  true
+                                                                       }
+                                                        },
+                                              "source":  "OrderDate",
+                                              "type":  "field",
+                                              "format":  "dd/MM/yyyy",
+                                              "name":  "OrderDate",
+                                              "bounds":  {
+                                                             "y":  0,
+                                                             "w":  4,
+                                                             "h":  0.65,
+                                                             "x":  8
+                                                         }
+                                          },
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "right",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top",
+                                                            "border":  {
+                                                                           "all":  {
+                                                                                       "color":  "#D8D8D8",
+                                                                                       "style":  "solid",
+                                                                                       "width":  0.5
+                                                                                   },
+                                                                           "uniform":  true
+                                                                       }
+                                                        },
+                                              "source":  "Amount",
+                                              "type":  "field",
+                                              "format":  "#,##0.00",
+                                              "name":  "Amount",
+                                              "bounds":  {
+                                                             "y":  0,
+                                                             "w":  6,
+                                                             "h":  0.65,
+                                                             "x":  12
+                                                         }
+                                          }
+                                      ],
+                         "type":  "detail",
+                         "groupLevel":  0,
+                         "autoHeight":  false,
+                         "backColor":  "Transparent",
+                         "keepTogether":  false,
+                         "resetPageNumberOnNewGroup":  false,
+                         "keepHeaderWithFirstDetailRow":  false,
+                         "repeatOnNewPage":  true,
+                         "newPageBefore":  false
+                     },
+                     {
+                         "groupLevel":  1,
+                         "resetPageNumberOnNewGroup":  false,
+                         "elements":  [
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "bold":  true,
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "RegionLabel",
+                                              "bounds":  {
+                                                             "y":  0.1,
+                                                             "w":  7.6,
+                                                             "h":  0.6,
+                                                             "x":  0.4
+                                                         },
+                                              "type":  "computed",
+                                              "expression":  "\"Total for \" + Region"
+                                          },
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "bold":  true,
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "right",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top",
+                                                            "border":  {
+                                                                           "uniform":  false,
+                                                                           "top":  {
+                                                                                       "color":  "#000000",
+                                                                                       "style":  "solid",
+                                                                                       "width":  1
+                                                                                   }
+                                                                       }
+                                                        },
+                                              "type":  "computed",
+                                              "format":  "#,##0.00",
+                                              "name":  "RegionTotal",
+                                              "bounds":  {
+                                                             "y":  0.1,
+                                                             "w":  6,
+                                                             "h":  0.6,
+                                                             "x":  12
+                                                         },
+                                              "expression":  "Sum(Amount for group 1)"
+                                          }
+                                      ],
+                         "type":  "groupFooter",
+                         "keepTogether":  false,
+                         "backColor":  "Transparent",
+                         "height":  0.9,
+                         "autoHeight":  false,
+                         "newPageBefore":  false,
+                         "groupSortDirection":  "asc",
+                         "keepHeaderWithFirstDetailRow":  false,
+                         "repeatOnNewPage":  true
+                     },
+                     {
+                         "groupSortDirection":  "asc",
+                         "height":  1.1,
+                         "elements":  [
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "bold":  true,
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "left",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  11,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "GrandLabel",
+                                              "bounds":  {
+                                                             "y":  0.2,
+                                                             "w":  7.6,
+                                                             "h":  0.6,
+                                                             "x":  0.4
+                                                         },
+                                              "type":  "label",
+                                              "text":  "Grand total"
+                                          },
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "bold":  true,
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "right",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  11,
+                                                            "vAlign":  "top",
+                                                            "border":  {
+                                                                           "uniform":  false,
+                                                                           "top":  {
+                                                                                       "color":  "#000000",
+                                                                                       "style":  "solid",
+                                                                                       "width":  1
+                                                                                   }
+                                                                       }
+                                                        },
+                                              "type":  "computed",
+                                              "format":  "#,##0.00",
+                                              "name":  "GrandTotal",
+                                              "bounds":  {
+                                                             "y":  0.2,
+                                                             "w":  6,
+                                                             "h":  0.6,
+                                                             "x":  12
+                                                         },
+                                              "expression":  "Sum(Amount for all)"
+                                          }
+                                      ],
+                         "type":  "reportFooter",
+                         "groupLevel":  0,
+                         "autoHeight":  false,
+                         "backColor":  "Transparent",
+                         "keepTogether":  false,
+                         "resetPageNumberOnNewGroup":  false,
+                         "keepHeaderWithFirstDetailRow":  false,
+                         "repeatOnNewPage":  true,
+                         "newPageBefore":  false
+                     },
+                     {
+                         "groupSortDirection":  "asc",
+                         "height":  0.8,
+                         "elements":  [
+                                          {
+                                              "style":  {
+                                                            "paddingRight":  0.05,
+                                                            "paddingLeft":  0.1,
+                                                            "fontFamily":  "Tahoma",
+                                                            "backColor":  "Transparent",
+                                                            "hAlign":  "right",
+                                                            "foreColor":  "#000000",
+                                                            "fontSize":  10,
+                                                            "vAlign":  "top"
+                                                        },
+                                              "name":  "PageInfo",
+                                              "bounds":  {
+                                                             "y":  0.1,
+                                                             "w":  6,
+                                                             "h":  0.6,
+                                                             "x":  12
+                                                         },
+                                              "type":  "computed",
+                                              "expression":  "\"Page \" + Page() + \" of \" + TotalPages()"
+                                          }
+                                      ],
+                         "type":  "pageFooter",
+                         "groupLevel":  0,
+                         "autoHeight":  false,
+                         "backColor":  "Transparent",
+                         "keepTogether":  false,
+                         "resetPageNumberOnNewGroup":  false,
+                         "keepHeaderWithFirstDetailRow":  false,
+                         "repeatOnNewPage":  true,
+                         "newPageBefore":  false
+                     }
+                 ]
+}

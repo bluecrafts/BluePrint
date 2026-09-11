@@ -1,0 +1,45 @@
+{
+  "version": "1.2",
+  "metadata": {
+    "name": "Hello Report",
+    "description": "Smallest report that renders: one line of text in the report header.",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": { "name": "A4", "widthMm": 210, "heightMm": 297 },
+      "orientation": "portrait",
+      "margins": { "top": 1.5, "bottom": 1.5, "left": 1.5, "right": 1.5 },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 2,
+      "elements": [
+        {
+          "name": "Title",
+          "type": "label",
+          "text": "Hello from BluePrint",
+          "bounds": { "x": 0, "y": 0.4, "w": 10, "h": 1 },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 16,
+            "bold": true,
+            "foreColor": "#2E8BD0",
+            "hAlign": "left",
+            "vAlign": "top"
+          }
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0,
+      "elements": []
+    }
+  ]
+}

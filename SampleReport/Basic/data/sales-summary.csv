@@ -1,0 +1,57 @@
+﻿Region,CustomerName,OrderDate,Amount
+North,Acme Engineering,2026-03-08,1589.81
+North,Acme Engineering,2026-05-04,2602.11
+North,Acme Engineering,2026-07-24,3104.53
+North,Acme Engineering,2026-11-15,2983.48
+North,Britewire Ltd,2026-02-23,1040.33
+North,Britewire Ltd,2026-04-04,1395.49
+North,Britewire Ltd,2026-07-21,1548.48
+North,Britewire Ltd,2026-11-12,3697.32
+North,Northgate Supplies,2026-02-14,1165.94
+North,Northgate Supplies,2026-06-14,3231.54
+North,Northgate Supplies,2026-08-23,1970.5
+North,Northgate Supplies,2026-11-01,893.32
+North,Pinehurst Trading,2026-01-05,1805.25
+North,Pinehurst Trading,2026-04-25,1037.94
+North,Pinehurst Trading,2026-09-27,1227.6
+North,Pinehurst Trading,2026-12-16,1868.97
+South,Corvid Systems,2026-03-01,2175.81
+South,Corvid Systems,2026-04-17,969.34
+South,Corvid Systems,2026-07-15,3483.74
+South,Corvid Systems,2026-12-02,3538.39
+South,Southbank Metals,2026-02-19,669.77
+South,Southbank Metals,2026-04-17,2631.16
+South,Southbank Metals,2026-07-13,1051.33
+South,Southbank Metals,2026-10-05,3216.42
+South,Thornbury Works,2026-02-20,1572.08
+South,Thornbury Works,2026-05-03,1545.54
+South,Thornbury Works,2026-07-08,1597.82
+South,Thornbury Works,2026-12-26,679.33
+East,Eastvale Plastics,2026-01-05,643.18
+East,Eastvale Plastics,2026-05-02,2810.21
+East,Eastvale Plastics,2026-08-01,2952.56
+East,Eastvale Plastics,2026-11-10,3280.52
+East,Harbour Components,2026-03-04,3206.03
+East,Harbour Components,2026-06-14,2338.53
+East,Harbour Components,2026-08-18,1712.57
+East,Harbour Components,2026-10-02,2104.94
+East,Kestrel Tooling,2026-02-07,2980.79
+East,Kestrel Tooling,2026-04-20,1434.26
+East,Kestrel Tooling,2026-07-02,715.06
+East,Kestrel Tooling,2026-10-13,3775.99
+East,Meridian Parts,2026-02-13,3327.56
+East,Meridian Parts,2026-04-04,1138.16
+East,Meridian Parts,2026-08-14,3018.65
+East,Meridian Parts,2026-11-26,462.96
+West,Westford Cables,2026-02-11,1929.21
+West,Westford Cables,2026-05-21,3028.54
+West,Westford Cables,2026-09-13,3584.01
+West,Westford Cables,2026-11-03,1180.51
+West,Quarry Lane Supply,2026-02-20,1475.34
+West,Quarry Lane Supply,2026-04-17,1174.21
+West,Quarry Lane Supply,2026-07-05,2043.54
+West,Quarry Lane Supply,2026-12-13,2757.9
+West,Ridgeway Fabrication,2026-01-22,3518.7
+West,Ridgeway Fabrication,2026-04-23,735.75
+West,Ridgeway Fabrication,2026-09-23,648.95
+West,Ridgeway Fabrication,2026-10-15,985.18
