@@ -16,6 +16,11 @@ control you can embed in your own application.*
 This repository is where BluePrint is distributed and documented. It carries the
 released binaries, the sample projects, and the place to report a problem.
 
+## Document
+
+Documentation with worked examples for reports, expressions, and data sources lives on the
+[BluePrint wiki](https://github.com/bluecrafts/BluePrint/wiki).
+
 ## Packages
 
 | Package | What it gives you |
@@ -71,12 +76,13 @@ with `icu-data-full`, because `icu-data-en` omits the Thai dictionary.
 | A security vulnerability | see `SECURITY.md` - do not open a public issue |
 | Improving the docs or the samples | see `CONTRIBUTING.md` |
 
-## Support this project
+## Buy me a coffee
 
-BluePrint is developed and maintained independently. If it saves you time, a donation helps keep it
-that way.
+BluePrint is built and maintained independently, and everything here is free to use. If it saved you
+an afternoon of work, you are welcome to buy me a coffee. It is a thank you, nothing more - any
+amount is fine, and none of it unlocks anything.
 
-### Bitcoin (BTC)
+The coffee fund runs on Bitcoin:
 
 <img src="media/readme-donate-btc.png" alt="QR code for the Bitcoin address below" width="200" align="left" hspace="20" vspace="6">
 
@@ -93,8 +99,8 @@ first and last few characters against the text before you send anything.
 > chat, or issue comment, and we never ask you to send funds to a different address. If you see one
 > anywhere else, it is not ours - come back here and check.
 
-Donations are voluntary gifts. They do not create a support contract, a warranty, or any commitment
-to build a particular feature. For commercial support, please get in touch directly.
+A coffee is a gift, not a purchase: it does not create a support contract, a warranty, or a promise
+to build a particular feature. If you need any of those, get in touch about a commercial license.
 
 ## License
 
