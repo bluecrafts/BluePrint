@@ -104,6 +104,13 @@ to build a particular feature. If you need any of those, get in touch about a co
 
 ## License
 
-BluePrint ships under a community license for individuals and small teams.
-Enterprise-scale deployments require a commercial license. The full text is in
-`LICENSE.txt`, and a copy is included in every package.
+BluePrint is free to use, including for commercial work. Build it into your
+applications, your internal tools, and the products and services you sell, and ship
+it to your customers - no fee and no registration.
+
+Only enterprises (annual revenue above USD 10 million, counting affiliates) need a
+commercial license, and only for production use. Evaluation, development, and
+testing stay free.
+
+The full text is in `LICENSE.txt`, and a copy is included in every package.
+Commercial licenses and questions: craftman@bluecrafts.co
