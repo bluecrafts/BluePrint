@@ -1,5 +1,5 @@
 {
-  "version": "1.2",
+  "version": "1.0",
   "metadata": {
     "name": "Orders with Lines",
     "description": "Each order prints its own lines underneath, from a second query",
@@ -110,6 +110,13 @@
           "text": "Orders with Lines"
         }
       ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
     },
     {
       "type": "detail",
@@ -370,6 +377,13 @@
           "penStyle": "solid"
         }
       ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
     },
     {
       "type": "pageFooter",

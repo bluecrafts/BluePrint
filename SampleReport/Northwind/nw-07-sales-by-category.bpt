@@ -1,5 +1,5 @@
 {
-  "version": "1.2",
+  "version": "1.0",
   "metadata": {
     "name": "Sales by Category",
     "description": "Total sales per product, grouped by category, with a share of each total",

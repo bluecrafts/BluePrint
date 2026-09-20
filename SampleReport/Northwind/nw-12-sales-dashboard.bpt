@@ -1,5 +1,5 @@
 {
-  "version": "1.2",
+  "version": "1.0",
   "metadata": {
     "name": "Sales Dashboard",
     "description": "Three chart types over one set of rows",
@@ -73,6 +73,13 @@
           "text": "Sales Dashboard"
         }
       ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
     },
     {
       "type": "detail",
