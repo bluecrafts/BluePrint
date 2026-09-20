@@ -51,12 +51,38 @@ The standalone report designer ships as a binary, attached to each release. It
 hosts the designer and the preview together, and reads and writes the same
 `.bpt` files the libraries do.
 
+## Barcodes
+
+`BlueCrafts.BluePrint.Barcode` is the symbol generator the report engine uses,
+and it stands on its own. There is no third party barcode library behind it, and
+no graphics dependency at all until you ask for pixels.
+
+| Family | Symbologies |
+| --- | --- |
+| Linear | Code 39, Code 128, ITF, Codabar |
+| Retail | EAN-13, EAN-8, UPC-A, UPC-E |
+| GS1 | GS1-128, GS1 DataMatrix |
+| 2D | QR Code, DataMatrix, PDF417, Aztec |
+
+Encoding returns a grid of modules with no unit attached to it, which you can
+write straight out as SVG, or draw as a bitmap through `BluePrint.Barcode.Render`.
+A value the symbology cannot carry comes back as a reason instead: a bad check
+digit, a character outside its set, more data than it holds.
+
+<p align="center">
+  <img src="media/blueprint-barcode.png" alt="The Demo.Barcode.Wpf sample showing EAN-13, EAN-8, UPC-A, UPC-E, GS1-128, GS1 DataMatrix, QR Code and DataMatrix symbols side by side, each with the number of modules it uses" width="800">
+</p>
+
+*`Demo/Demo.Barcode.Wpf` - every symbology on screen, re-encoded as you type and
+drawn as vector geometry by about a hundred lines of WPF.*
+
 ## Samples
 
 `Demo/` holds small, self-contained projects: the smallest thing that renders a
-report, the preview control in a WPF window, and the designer embedded in a host
-application. Each one builds against the published packages, so what you read is
-what you would write.
+report, the preview control in a WPF window, the designer embedded in a host
+application, and two that use the barcode package on its own - one writing every
+symbology out as SVG and PNG, one drawing them on screen with WPF. Each builds
+against the published packages, so what you read is what you would write.
 
 [`SampleReport/`](SampleReport/) holds finished `.bpt` report templates you can open
 in Studio directly: five that need nothing at all, and twelve more built on the

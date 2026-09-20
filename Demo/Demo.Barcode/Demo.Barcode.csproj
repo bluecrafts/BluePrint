@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Demo.Barcode</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BlueCrafts.BluePrint.Barcode" Version="1.0.46" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      Drawing a PNG goes through SkiaSharp, and SkiaSharp needs a native
+      library for the machine it runs on. The Windows and macOS ones arrive
+      with the package; on Linux add the matching native package as well:
+
+        dotnet add package SkiaSharp.NativeAssets.Linux
+
+      Encoding and SVG need none of this: BluePrint.Barcode is on its own.
+    -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- One sample list shared with Demo.Barcode.Wpf. -->
+    <Compile Include="..\BarcodeSamples.cs" Link="BarcodeSamples.cs" />
+  </ItemGroup>
+
+</Project>

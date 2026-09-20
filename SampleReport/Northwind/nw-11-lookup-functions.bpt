@@ -1,5 +1,5 @@
 {
-  "version": "1.2",
+  "version": "1.0",
   "metadata": {
     "name": "Lookup Functions",
     "description": "Values pulled from other queries with Lookup, LookupSet and Join",

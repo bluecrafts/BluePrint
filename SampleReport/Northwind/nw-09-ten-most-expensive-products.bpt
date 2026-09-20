@@ -1,5 +1,5 @@
 {
-  "version": "1.2",
+  "version": "1.0",
   "metadata": {
     "name": "Ten Most Expensive Products",
     "description": "The ten highest priced products, ranked",
@@ -263,6 +263,13 @@
           "format": "#,##0.00"
         }
       ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
     },
     {
       "type": "pageFooter",

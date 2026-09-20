@@ -1,5 +1,5 @@
 {
-  "version": "1.2",
+  "version": "1.0",
   "metadata": {
     "name": "Catalog",
     "description": "A product catalogue, one section per category, with pictures",
@@ -106,6 +106,13 @@
           "text": "Northwind Traders"
         }
       ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
     },
     {
       "type": "groupHeader",
@@ -356,6 +363,13 @@
           "format": "#,##0.00"
         }
       ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
     },
     {
       "type": "pageFooter",

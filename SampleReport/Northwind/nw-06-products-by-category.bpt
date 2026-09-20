@@ -1,5 +1,5 @@
 {
-  "version": "1.2",
+  "version": "1.0",
   "metadata": {
     "name": "Products by Category",
     "description": "Stock levels per category. Rows below the reorder level are marked",
@@ -498,6 +498,13 @@
           "format": "#,##0"
         }
       ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
     },
     {
       "type": "pageFooter",

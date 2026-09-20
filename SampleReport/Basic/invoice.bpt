@@ -46,7 +46,7 @@
                      "name":  "Invoice",
                      "author":  "BluePrint"
                  },
-    "version":  "1.2",
+    "version":  "1.0",
     "paddingFullPage":  true,
     "report":  {
                    "layoutUnit":  "cm",

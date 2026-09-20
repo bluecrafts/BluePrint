@@ -31,7 +31,7 @@
                      "name":  "Chart Showcase",
                      "author":  "BluePrint"
                  },
-    "version":  "1.2",
+    "version":  "1.0",
     "paddingFullPage":  false,
     "report":  {
                    "layoutUnit":  "cm",
@@ -93,6 +93,13 @@
                          "keepHeaderWithFirstDetailRow":  false,
                          "repeatOnNewPage":  true,
                          "newPageBefore":  false
+                     },
+                     {
+                         "height":  0,
+                         "elements":  [
+
+                                      ],
+                         "type":  "pageHeader"
                      },
                      {
                          "groupSortDirection":  "asc",
