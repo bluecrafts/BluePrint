@@ -1,0 +1,746 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Order Settlement Slip",
+    "description": "One slip per order: goods charged on the left, discounts given on the right",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT * FROM (\nSELECT o.OrderID AS OrderID,\n       c.CompanyName AS CustomerName,\n       {bp:DateText(o.OrderDate)} AS OrderDate,\n       'C' AS Kind,\n       p.ProductName AS ProductName,\n       od.Quantity AS Quantity,\n       CAST(od.UnitPrice * od.Quantity AS REAL) AS Amount\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nWHERE o.OrderID BETWEEN 10248 AND 10254\nUNION ALL\nSELECT o.OrderID,\n       c.CompanyName,\n       {bp:DateText(o.OrderDate)},\n       'D',\n       p.ProductName,\n       od.Quantity,\n       CAST(-1 * od.UnitPrice * od.Quantity * od.Discount AS REAL)\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nWHERE o.OrderID BETWEEN 10248 AND 10254\n  AND od.Discount > 0\n) slip\nORDER BY OrderID, Kind, ProductName",
+    "columns": [
+      {
+        "name": "OrderID",
+        "dbType": "int64"
+      },
+      {
+        "name": "CustomerName",
+        "dbType": "string"
+      },
+      {
+        "name": "OrderDate",
+        "dbType": "string"
+      },
+      {
+        "name": "Kind",
+        "dbType": "string"
+      },
+      {
+        "name": "ProductName",
+        "dbType": "string"
+      },
+      {
+        "name": "Quantity",
+        "dbType": "int64"
+      },
+      {
+        "name": "Amount",
+        "dbType": "double"
+      }
+    ]
+  },
+  "sortColumns": [],
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 2.4,
+      "repeatOnNewPage": false,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Title",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.9
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 16,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Order Settlement Slips"
+        },
+        {
+          "name": "Subtitle",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.95,
+            "w": 18,
+            "h": 1.3
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "wrapText": true,
+          "text": "Two lists of the same order, printed side by side: every line at its full price on the left, the discounts given on the right. Both columns come from one query - the report splits its rows into slots. Freight is not part of this slip."
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 1,
+      "groupByColumns": [
+        "OrderID"
+      ],
+      "keepHeaderWithFirstDetailRow": true,
+      "height": 3.2,
+      "newPageBefore": true,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "OrderNo",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.1,
+            "w": 6,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 14,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Order \" + OrderID"
+        },
+        {
+          "name": "Customer",
+          "type": "field",
+          "bounds": {
+            "x": 6,
+            "y": 0.2,
+            "w": 8.5,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 12,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "source": "CustomerName"
+        },
+        {
+          "name": "Ordered",
+          "type": "field",
+          "bounds": {
+            "x": 14.5,
+            "y": 0.2,
+            "w": 3.5,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 12,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "source": "OrderDate"
+        },
+        {
+          "name": "LeftHead",
+          "type": "label",
+          "bounds": {
+            "x": 0.3,
+            "y": 1.4,
+            "w": 8.5,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 11,
+            "bold": true,
+            "foreColor": "#1F6F3C",
+            "backColor": "#EAF3EC",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.15,
+            "paddingRight": 0.05
+          },
+          "text": "Goods charged"
+        },
+        {
+          "name": "RightHead",
+          "type": "label",
+          "bounds": {
+            "x": 9.3,
+            "y": 1.4,
+            "w": 8.7,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 11,
+            "bold": true,
+            "foreColor": "#8A2B2B",
+            "backColor": "#F7ECEC",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.15,
+            "paddingRight": 0.05
+          },
+          "text": "Discount given"
+        },
+        {
+          "name": "LeftCols",
+          "type": "label",
+          "bounds": {
+            "x": 0.3,
+            "y": 2.2,
+            "w": 8.5,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Product / Qty / Amount"
+        },
+        {
+          "name": "RightCols",
+          "type": "label",
+          "bounds": {
+            "x": 9.3,
+            "y": 2.2,
+            "w": 8.7,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Product / Amount"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0.65,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "LeftProduct",
+          "type": "field",
+          "bounds": {
+            "x": 0.3,
+            "y": 0,
+            "w": 5.6,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "source": "ProductName",
+          "slotNo": 1
+        },
+        {
+          "name": "LeftQty",
+          "type": "field",
+          "bounds": {
+            "x": 5.9,
+            "y": 0,
+            "w": 0.9,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "source": "Quantity",
+          "format": "#,##0",
+          "slotNo": 1
+        },
+        {
+          "name": "LeftAmount",
+          "type": "field",
+          "bounds": {
+            "x": 6.8,
+            "y": 0,
+            "w": 2.0,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "source": "Amount",
+          "format": "#,##0.00",
+          "slotNo": 1
+        },
+        {
+          "name": "Divider",
+          "type": "line",
+          "bounds": {
+            "x": 9,
+            "y": 0,
+            "w": 0.02,
+            "h": 0.65
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "x1": 9,
+          "y1": 0,
+          "x2": 9,
+          "y2": 0.65,
+          "penWidth": 0.5,
+          "penColor": "#D8D8D8",
+          "penStyle": "solid"
+        },
+        {
+          "name": "RightProduct",
+          "type": "field",
+          "bounds": {
+            "x": 9.3,
+            "y": 0,
+            "w": 5.7,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "source": "ProductName",
+          "slotNo": 2
+        },
+        {
+          "name": "RightAmount",
+          "type": "field",
+          "bounds": {
+            "x": 15.3,
+            "y": 0,
+            "w": 2.7,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#8A2B2B",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "source": "Amount",
+          "format": "#,##0.00",
+          "slotNo": 2
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 1,
+      "height": 2.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "ChargedLabel",
+          "type": "label",
+          "bounds": {
+            "x": 0.3,
+            "y": 0.2,
+            "w": 4,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Charged"
+        },
+        {
+          "name": "ChargedTotal",
+          "type": "computed",
+          "bounds": {
+            "x": 4.6,
+            "y": 0.2,
+            "w": 4.2,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 1
+              }
+            }
+          },
+          "expression": "Sum(Iif(Kind = \"C\", Amount, 0) for group 1)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "DiscountLabel",
+          "type": "label",
+          "bounds": {
+            "x": 9.3,
+            "y": 0.2,
+            "w": 4,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Discount given"
+        },
+        {
+          "name": "DiscountTotal",
+          "type": "computed",
+          "bounds": {
+            "x": 13.8,
+            "y": 0.2,
+            "w": 4.2,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#8A2B2B",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 1
+              }
+            }
+          },
+          "expression": "Sum(Iif(Kind = \"D\", Amount, 0) for group 1)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "NetLabel",
+          "type": "label",
+          "bounds": {
+            "x": 9.3,
+            "y": 1.2,
+            "w": 4,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 13,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Net for the goods"
+        },
+        {
+          "name": "NetTotal",
+          "type": "computed",
+          "bounds": {
+            "x": 13.8,
+            "y": 1.2,
+            "w": 4.2,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 13,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 1
+              },
+              "bottom": {
+                "style": "double",
+                "color": "#000000",
+                "width": 1
+              }
+            }
+          },
+          "expression": "Sum(Amount for group 1)",
+          "format": "#,##0.00"
+        }
+      ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 2.6,
+      "repeatOnNewPage": false,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "GrandLabel",
+          "type": "computed",
+          "bounds": {
+            "x": 0.3,
+            "y": 0.2,
+            "w": 9,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 12,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"All slips - \" + Count(OrderID for all) + \" lines on 7 orders\""
+        },
+        {
+          "name": "GrandNet",
+          "type": "computed",
+          "bounds": {
+            "x": 13.8,
+            "y": 0.2,
+            "w": 4.2,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 12,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 1
+              }
+            }
+          },
+          "expression": "Sum(Amount for all)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "Note",
+          "type": "label",
+          "bounds": {
+            "x": 0.3,
+            "y": 1.1,
+            "w": 17.7,
+            "h": 1.2
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "wrapText": true,
+          "text": "Order 10248 has nothing on the right because none of its lines were discounted. Where one side is shorter, as on order 10250, the band still prints as many rows as the longer side needs and leaves the rest of the short side blank. Neither column knows how long the other one is."
+        }
+      ]
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "PageInfo",
+          "type": "computed",
+          "bounds": {
+            "x": 12,
+            "y": 0.1,
+            "w": 6,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages()"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": [
+    {
+      "slotNo": 1,
+      "expression": "Kind = \"C\""
+    },
+    {
+      "slotNo": 2,
+      "expression": "Kind = \"D\""
+    }
+  ]
+}

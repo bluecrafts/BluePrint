@@ -1,0 +1,463 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Sales by Country",
+    "description": "A crosstab of shipping countries down the side and years across the top",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "crosstab",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    },
+    "crosstabDefinition": {
+      "rows": [
+        {
+          "field": "ShipCountry",
+          "sort": "asc",
+          "subtotal": false
+        }
+      ],
+      "columns": [
+        {
+          "field": "OrderYear",
+          "sort": "asc",
+          "subtotal": false
+        }
+      ],
+      "values": [
+        {
+          "source": "Sales",
+          "aggregate": "sum",
+          "format": "#,##0"
+        }
+      ],
+      "totals": {
+        "rowGrand": true,
+        "colGrand": true,
+        "grand": true
+      },
+      "emptyCell": "-",
+      "columnGuard": {
+        "maxColumns": 256,
+        "maxPages": 10,
+        "onExceed": "warn"
+      }
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT o.ShipCountry,\n       {bp:ToText(Year(o.OrderDate), 4)} AS OrderYear,\n       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS Sales\nFROM Orders o\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nGROUP BY o.ShipCountry, {bp:ToText(Year(o.OrderDate), 4)}\nORDER BY o.ShipCountry, OrderYear",
+    "columns": [
+      {
+        "name": "ShipCountry",
+        "dbType": "string"
+      },
+      {
+        "name": "OrderYear",
+        "dbType": "string"
+      },
+      {
+        "name": "Sales",
+        "dbType": "double"
+      }
+    ]
+  },
+  "sortColumns": [],
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 1.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Title",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.9
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 16,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Sales by Country"
+        },
+        {
+          "name": "Subtitle",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.9,
+            "w": 18,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Where the orders shipped to, year by year. Columns appear as the data has them."
+        }
+      ]
+    },
+    {
+      "type": "crosstabColumnHeader",
+      "height": 0.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "xtab_corner_0_0",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 5,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#EFEFEF",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Ship country"
+        },
+        {
+          "name": "xtab_colvalue_0",
+          "type": "field",
+          "bounds": {
+            "x": 5,
+            "y": 0,
+            "w": 3,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#EFEFEF",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "",
+          "source": "OrderYear"
+        },
+        {
+          "name": "xtab_coltotal",
+          "type": "label",
+          "bounds": {
+            "x": 8,
+            "y": 0,
+            "w": 3,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#EFEFEF",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Grand Total"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0.7,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "xtab_row_0",
+          "type": "field",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 5,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "",
+          "source": "ShipCountry"
+        },
+        {
+          "name": "xtab_value_0",
+          "type": "field",
+          "bounds": {
+            "x": 5,
+            "y": 0,
+            "w": 3,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "",
+          "source": "Sales",
+          "format": "#,##0"
+        },
+        {
+          "name": "xtab_rowtotal_0",
+          "type": "field",
+          "bounds": {
+            "x": 8,
+            "y": 0,
+            "w": 3,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "",
+          "source": "Sales",
+          "format": "#,##0"
+        }
+      ]
+    },
+    {
+      "type": "crosstabGrandTotal",
+      "height": 0.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "xtab_grand_label",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 5,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#EFEFEF",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Grand Total"
+        },
+        {
+          "name": "xtab_grand_value_0",
+          "type": "field",
+          "bounds": {
+            "x": 5,
+            "y": 0,
+            "w": 3,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#EFEFEF",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "",
+          "source": "Sales",
+          "format": "#,##0"
+        },
+        {
+          "name": "xtab_grand_total",
+          "type": "field",
+          "bounds": {
+            "x": 8,
+            "y": 0,
+            "w": 3,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#EFEFEF",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "",
+          "source": "Sales",
+          "format": "#,##0"
+        }
+      ]
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "PageInfo",
+          "type": "computed",
+          "bounds": {
+            "x": 12,
+            "y": 0.1,
+            "w": 6,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages()"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}

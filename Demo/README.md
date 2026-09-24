@@ -3,16 +3,19 @@
 Five small projects, each the smallest thing that shows one way of using
 BluePrint.
 
-The three report samples share one report definition, `HelloReport.bpt`: a
-single line of text in the report header, with no data source, so nothing there
-depends on a database being available. The two barcode samples share one list of
+The three report samples share one report definition, [`nw-05-invoice.bpt`](../NorthwindBpt/nw-05-invoice.bpt):
+an invoice for a single order, picked by the order number the report declares as
+a retrieval argument. It reads the SQLite copy of Northwind in
+[`NorthwindDB`](../NorthwindDB), a single file already in this repository, so there
+is nothing to install or start. `Demo.Render` and `Demo.Preview` also share the
+query that fills it, `InvoiceQuery.cs`. The two barcode samples share one list of
 values, `BarcodeSamples.cs`, so the page one writes and the window the other
 shows always hold the same symbols.
 
 | Project | Shows |
 | --- | --- |
-| `Demo.Render` | load a `.bpt` and export it to PDF, with no UI at all |
-| `Demo.Preview` | `BluePrintPreviewControl` in a WPF window |
+| `Demo.Render` | load a `.bpt`, fill it three different ways, export each to PDF, with no UI at all |
+| `Demo.Preview` | `BluePrintPreviewControl` in a WPF window, with those three ways on buttons |
 | `Demo.Designer` | `BluePrintDesignerControl` embedded in a host application |
 | `Demo.Barcode` | every symbology written out as SVG and PNG, plus one page showing them all |
 | `Demo.Barcode.Wpf` | the same symbologies on screen, re-encoded as you type, drawn by WPF |
@@ -27,10 +30,11 @@ dotnet run --project Demo.Barcode
 dotnet run --project Demo.Barcode.Wpf
 ```
 
-`Demo.Render` writes `HelloReport.pdf` next to its executable and prints the
-path. `Demo.Barcode` writes a `barcodes` folder next to its own, holding an SVG
-and a PNG for each symbology and an `index.html` that shows them together. The
-rest open a window.
+`Demo.Render` writes one PDF next to its executable for each of the three ways
+of getting the rows described below, and prints what each one did.
+`Demo.Barcode` writes a `barcodes` folder next to its own, holding an SVG and a
+PNG for each symbology and an `index.html` that shows them together. The rest
+open a window.
 
 `Demo.Preview`, `Demo.Designer` and `Demo.Barcode.Wpf` are WPF applications and
 need Windows. `Demo.Render` and `Demo.Barcode` do not.
@@ -49,9 +53,55 @@ change the `Version` in the `.csproj`.
 | `BlueCrafts.BluePrint.Render` | `Demo.Render` directly, and it brings the barcode package |
 | `BlueCrafts.BluePrint.Render.WPF` | `Demo.Preview` directly, and it brings `BlueCrafts.BluePrint.Render` |
 | `BlueCrafts.BluePrint.Designer` | `Demo.Designer` directly, and it brings the whole chain |
+| `Microsoft.Data.Sqlite` | `Demo.Render` and `Demo.Preview` directly - see below |
 
-Installing the one package that matches what you are building is enough; the
-rest of the chain comes with it.
+Installing the one BlueCrafts package that matches what you are building is
+enough; the rest of that chain comes with it.
+
+## The three report samples
+
+No BlueCrafts package references a database driver, and none of them opens a
+connection. A report definition carries its query; the host runs it and hands
+the rows back. That is why `Demo.Render` and `Demo.Preview` reference
+`Microsoft.Data.Sqlite` themselves, and it is the same everywhere: point a
+report at Oracle and the driver is the host's to choose.
+
+Once `InvoiceQuery.cs` has the rows, that is the whole of it:
+
+```csharp
+var report = BluePrintDocument.Load(InvoiceQuery.ReportPath);
+report.SetExternalData(rows);
+report.SetArgumentValues(new Dictionary<string, object?> { ["OrderId"] = 11077L });
+report.ExportToPdf(outputPath);
+```
+
+The argument values go in beside the rows because the report prints them: an
+invoice heading that says which order this is reads `@OrderId`, and it has no
+other way to know what was retrieved.
+
+`Demo.Designer` opens the same definition and reads no data at all: editing a
+report needs no connection.
+
+### Three ways to get the rows
+
+Where those rows come from is the host's decision, and there is more than one
+reasonable answer. `Demo.Preview` puts all three on buttons across the top of
+the window, and `Demo.Render`, which has nothing to click, runs all three and
+writes a PDF for each. They are written once, in `InvoiceQuery.cs`.
+
+| | What it does |
+| --- | --- |
+| **Retrieve** | Runs the query the `.bpt` already carries, as it is written. That query contains `{bp:...}` calls - the things that let one report run on all six supported databases - and `ReportQueryService` renders them for whatever the connection points at. Nothing in the sample knows or cares that the answer happens to be SQLite. |
+| **Set SQL query before retrieve** | `report.SetSql(...)` replaces the query with SQLite SQL of our own, and BluePrint still runs it. Use this shape when the host builds the statement itself. `SetSql` does not rebuild the report's columns, so the replacement has to return the same ones in the same order. |
+| **Set DataTable before retrieve** | No BluePrint data layer at all: the sample queries with `Microsoft.Data.Sqlite` directly and hands over a `DataTable`. This is the shape for a host that already has its own data access, or whose rows never came from a database in the first place. |
+
+All three end in the same `SetExternalData`, and the three PDFs `Demo.Render`
+writes come out byte for byte identical apart from the document id PDF gives
+each file. That is the point worth taking away: the engine takes rows, and how
+they were fetched is not its business.
+
+`Demo.Preview` wraps the rows in a `CachedDataProvider` before handing them to
+the control, so paging and zoom never go back to the database.
 
 ## The two barcode samples
 

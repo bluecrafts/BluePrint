@@ -1,0 +1,510 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Chart Gallery",
+    "description": "Area, stacked bar, 100 per cent stacked and scatter over one set of rows",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT c.CategoryName,\n       {bp:ToText(Year(o.OrderDate), 4)} AS OrderYear,\n       p.ProductName,\n       CAST(p.UnitPrice AS REAL) AS UnitPrice,\n       SUM(od.Quantity) AS Units,\n       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS Sales\nFROM Orders o\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nJOIN Categories c ON c.CategoryID = p.CategoryID\nGROUP BY c.CategoryName, {bp:ToText(Year(o.OrderDate), 4)}, p.ProductName, p.UnitPrice\nORDER BY c.CategoryName, OrderYear, p.ProductName",
+    "columns": [
+      {
+        "name": "CategoryName",
+        "dbType": "string"
+      },
+      {
+        "name": "OrderYear",
+        "dbType": "string"
+      },
+      {
+        "name": "ProductName",
+        "dbType": "string"
+      },
+      {
+        "name": "UnitPrice",
+        "dbType": "double"
+      },
+      {
+        "name": "Units",
+        "dbType": "int64"
+      },
+      {
+        "name": "Sales",
+        "dbType": "double"
+      }
+    ]
+  },
+  "sortColumns": [],
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 23.8,
+      "repeatOnNewPage": false,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Title",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.9
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 16,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Chart Gallery"
+        },
+        {
+          "name": "Subtitle",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.9,
+            "w": 18,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Four chart types over the same rows - product sales per category and year"
+        },
+        {
+          "name": "AreaChart",
+          "type": "chart",
+          "bounds": {
+            "x": 0,
+            "y": 1.7,
+            "w": 17.5,
+            "h": 10.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "chart": {
+            "chartType": "area",
+            "title": "Area - sales per category, one band per year",
+            "dataSet": "",
+            "category": [
+              {
+                "expression": "CategoryName"
+              }
+            ],
+            "seriesGroup": [
+              {
+                "expression": "OrderYear"
+              }
+            ],
+            "values": [
+              {
+                "expression": "Sales",
+                "aggregate": "sum",
+                "name": "Sales",
+                "format": "#,##0",
+                "axisIndex": 0
+              }
+            ],
+            "reduction": {
+              "maxCategories": 24,
+              "onExceed": "warn",
+              "othersLabel": "Other",
+              "sort": "categoryAsc",
+              "hardLimit": 5000,
+              "downsample": false,
+              "downsampleTarget": 0
+            },
+            "categoryAxis": {
+              "title": "Category",
+              "scaleType": "auto",
+              "visible": true,
+              "showGridLines": false,
+              "labelInterval": 0,
+              "labelAngle": 0
+            },
+            "valueAxis": {
+              "title": "Sales",
+              "scaleType": "auto",
+              "format": "#,##0",
+              "visible": true,
+              "showGridLines": true,
+              "labelInterval": 0,
+              "labelAngle": 0
+            },
+            "legend": {
+              "visible": true,
+              "position": "bottom"
+            },
+            "style": {
+              "palette": "office",
+              "fontFamily": "Tahoma",
+              "titleFontPt": 12,
+              "labelFontPt": 8,
+              "foreColor": "#000000",
+              "gridLineColor": "#D9D9D9",
+              "axisLineColor": "#808080",
+              "plotBackColor": "Transparent",
+              "showDataLabels": false,
+              "barGapRatio": 0.2,
+              "doughnutHoleRatio": 0.5
+            }
+          }
+        },
+        {
+          "name": "ScatterChart",
+          "type": "chart",
+          "bounds": {
+            "x": 0,
+            "y": 12.6,
+            "w": 17.5,
+            "h": 10.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "chart": {
+            "chartType": "scatter",
+            "title": "Scatter - unit price against units sold, one point per price",
+            "dataSet": "",
+            "category": [
+              {
+                "expression": "UnitPrice"
+              }
+            ],
+            "seriesGroup": [],
+            "values": [
+              {
+                "expression": "Units",
+                "aggregate": "sum",
+                "name": "Units",
+                "format": "#,##0",
+                "axisIndex": 0
+              }
+            ],
+            "reduction": {
+              "maxCategories": 100,
+              "onExceed": "warn",
+              "othersLabel": "Other",
+              "sort": "categoryAsc",
+              "hardLimit": 5000,
+              "downsample": false,
+              "downsampleTarget": 0
+            },
+            "categoryAxis": {
+              "title": "Unit price",
+              "scaleType": "numeric",
+              "format": "#,##0",
+              "visible": true,
+              "showGridLines": true,
+              "labelInterval": 0,
+              "labelAngle": 0
+            },
+            "valueAxis": {
+              "title": "Units sold",
+              "scaleType": "auto",
+              "format": "#,##0",
+              "visible": true,
+              "showGridLines": true,
+              "labelInterval": 0,
+              "labelAngle": 0
+            },
+            "legend": {
+              "visible": false,
+              "position": "bottom"
+            },
+            "style": {
+              "palette": "office",
+              "fontFamily": "Tahoma",
+              "titleFontPt": 12,
+              "labelFontPt": 8,
+              "foreColor": "#000000",
+              "gridLineColor": "#D9D9D9",
+              "axisLineColor": "#808080",
+              "plotBackColor": "Transparent",
+              "showDataLabels": false,
+              "barGapRatio": 0.2,
+              "doughnutHoleRatio": 0.5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
+    },
+    {
+      "type": "detail",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
+    },
+    {
+      "type": "reportFooter",
+      "height": 23.8,
+      "repeatOnNewPage": false,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "StackedBarChart",
+          "type": "chart",
+          "bounds": {
+            "x": 0,
+            "y": 0.2,
+            "w": 17.5,
+            "h": 11.3
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "chart": {
+            "chartType": "stackedBar",
+            "title": "Stacked bar - the same totals, laid on their side",
+            "dataSet": "",
+            "category": [
+              {
+                "expression": "CategoryName"
+              }
+            ],
+            "seriesGroup": [
+              {
+                "expression": "OrderYear"
+              }
+            ],
+            "values": [
+              {
+                "expression": "Sales",
+                "aggregate": "sum",
+                "name": "Sales",
+                "format": "#,##0",
+                "axisIndex": 0
+              }
+            ],
+            "reduction": {
+              "maxCategories": 24,
+              "onExceed": "warn",
+              "othersLabel": "Other",
+              "sort": "categoryAsc",
+              "hardLimit": 5000,
+              "downsample": false,
+              "downsampleTarget": 0
+            },
+            "categoryAxis": {
+              "title": "Category",
+              "scaleType": "auto",
+              "visible": true,
+              "showGridLines": false,
+              "labelInterval": 0,
+              "labelAngle": 0
+            },
+            "valueAxis": {
+              "title": "Sales",
+              "scaleType": "auto",
+              "format": "#,##0",
+              "visible": true,
+              "showGridLines": true,
+              "labelInterval": 0,
+              "labelAngle": 0
+            },
+            "legend": {
+              "visible": true,
+              "position": "bottom"
+            },
+            "style": {
+              "palette": "office",
+              "fontFamily": "Tahoma",
+              "titleFontPt": 12,
+              "labelFontPt": 8,
+              "foreColor": "#000000",
+              "gridLineColor": "#D9D9D9",
+              "axisLineColor": "#808080",
+              "plotBackColor": "Transparent",
+              "showDataLabels": false,
+              "barGapRatio": 0.2,
+              "doughnutHoleRatio": 0.5
+            }
+          }
+        },
+        {
+          "name": "Stacked100Chart",
+          "type": "chart",
+          "bounds": {
+            "x": 0,
+            "y": 11.9,
+            "w": 17.5,
+            "h": 11.3
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "chart": {
+            "chartType": "stackedColumn100",
+            "title": "100 per cent stacked - share of each year within a category",
+            "dataSet": "",
+            "category": [
+              {
+                "expression": "CategoryName"
+              }
+            ],
+            "seriesGroup": [
+              {
+                "expression": "OrderYear"
+              }
+            ],
+            "values": [
+              {
+                "expression": "Sales",
+                "aggregate": "sum",
+                "name": "Sales",
+                "format": "#,##0",
+                "axisIndex": 0
+              }
+            ],
+            "reduction": {
+              "maxCategories": 24,
+              "onExceed": "warn",
+              "othersLabel": "Other",
+              "sort": "categoryAsc",
+              "hardLimit": 5000,
+              "downsample": false,
+              "downsampleTarget": 0
+            },
+            "categoryAxis": {
+              "title": "Category",
+              "scaleType": "auto",
+              "visible": true,
+              "showGridLines": false,
+              "labelInterval": 0,
+              "labelAngle": 0
+            },
+            "valueAxis": {
+              "title": "Share",
+              "scaleType": "auto",
+              "format": "#,##0",
+              "visible": true,
+              "showGridLines": true,
+              "labelInterval": 0,
+              "labelAngle": 0
+            },
+            "legend": {
+              "visible": true,
+              "position": "bottom"
+            },
+            "style": {
+              "palette": "office",
+              "fontFamily": "Tahoma",
+              "titleFontPt": 12,
+              "labelFontPt": 8,
+              "foreColor": "#000000",
+              "gridLineColor": "#D9D9D9",
+              "axisLineColor": "#808080",
+              "plotBackColor": "Transparent",
+              "showDataLabels": false,
+              "barGapRatio": 0.2,
+              "doughnutHoleRatio": 0.5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "PageInfo",
+          "type": "computed",
+          "bounds": {
+            "x": 12,
+            "y": 0.1,
+            "w": 6,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages()"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}

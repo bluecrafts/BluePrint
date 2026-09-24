@@ -9,12 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlueCrafts.BluePrint.Designer" Version="1.0.50" />
+    <PackageReference Include="BlueCrafts.BluePrint.Designer" Version="1.0.56" />
   </ItemGroup>
 
   <ItemGroup>
-    <!-- One definition shared by all three samples. -->
-    <None Include="..\HelloReport.bpt" Link="HelloReport.bpt" CopyToOutputDirectory="PreserveNewest" />
+    <!--
+      The same report the other two samples render. Editing a definition needs
+      no database, so this sample references no driver: the query is text on the
+      data source page until a host wires up a connection.
+    -->
+    <None Include="..\..\NorthwindBpt\nw-05-invoice.bpt" Link="nw-05-invoice.bpt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

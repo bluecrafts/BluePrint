@@ -81,12 +81,22 @@ drawn as vector geometry by about a hundred lines of WPF.*
 `Demo/` holds small, self-contained projects: the smallest thing that renders a
 report, the preview control in a WPF window, the designer embedded in a host
 application, and two that use the barcode package on its own - one writing every
-symbology out as SVG and PNG, one drawing them on screen with WPF. Each builds
-against the published packages, so what you read is what you would write.
+symbology out as SVG and PNG, one drawing them on screen with WPF. The three
+report samples all open the same report, an invoice from the Northwind database
+below, so the same output can be followed from the designer to the preview to
+the PDF. Each builds against the published packages, so what you read is what
+you would write.
 
 [`SampleReport/`](SampleReport/) holds finished `.bpt` report templates you can open
-in Studio directly: five that need nothing at all, and twelve more built on the
-classic Northwind database running from a single file with no server.
+in Studio directly, five of which need no data source at all.
+
+[`NorthwindBpt/`](NorthwindBpt/) holds twenty-nine more built on the classic
+Northwind database - real queries, retrieval arguments, lookup datasets,
+subbands, crosstabs, charts and barcodes.
+
+[`NorthwindDB/`](NorthwindDB/) holds that database - a SQLite file that runs with no
+server, plus the same tables and rows as a SQL script for SQL Server, PostgreSQL,
+MySQL, Oracle and Firebird, so the samples can be pointed at a real server instead.
 
 ## Text rendering
 

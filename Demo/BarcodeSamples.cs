@@ -1,7 +1,7 @@
 // One set of sample values, shared by both barcode samples.
 //
 // Demo.Barcode links this file, and so does Demo.Barcode.Wpf, the same way all
-// three report samples share HelloReport.bpt. Keeping the list in one place
+// three report samples share nw-05-invoice.bpt. Keeping the list in one place
 // means the console sheet and the on-screen gallery always show the same
 // symbols, and each entry can say in one line what makes that symbology
 // different from the one above it.
