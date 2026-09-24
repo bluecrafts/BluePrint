@@ -1,12 +1,12 @@
 {
   "version": "1.0",
   "metadata": {
-    "name": "Sales by Year",
-    "description": "A crosstab: categories down the side, year and quarter across the top",
+    "name": "Client-Side Filter",
+    "description": "The query returns every product; the report keeps only the rows worth printing",
     "author": "BluePrint"
   },
   "report": {
-    "type": "crosstab",
+    "type": "canvas",
     "layoutUnit": "cm",
     "page": {
       "paperSize": {
@@ -14,7 +14,7 @@
         "widthMm": 210,
         "heightMm": 297
       },
-      "orientation": "landscape",
+      "orientation": "portrait",
       "margins": {
         "top": 1.5,
         "bottom": 1.5,
@@ -22,74 +22,48 @@
         "right": 1.5
       },
       "backgroundColor": "#FFFFFF"
-    },
-    "crosstabDefinition": {
-      "rows": [
-        {
-          "field": "CategoryName",
-          "sort": "asc",
-          "subtotal": false
-        }
-      ],
-      "columns": [
-        {
-          "field": "OrderYear",
-          "sort": "asc",
-          "subtotal": false
-        },
-        {
-          "field": "Quarter",
-          "sort": "asc",
-          "subtotal": false
-        }
-      ],
-      "values": [
-        {
-          "source": "Sales",
-          "aggregate": "sum",
-          "format": "#,##0"
-        }
-      ],
-      "totals": {
-        "rowGrand": true,
-        "colGrand": true,
-        "grand": true
-      },
-      "emptyCell": "-",
-      "columnGuard": {
-        "maxColumns": 256,
-        "maxPages": 10,
-        "onExceed": "warn"
-      }
     }
   },
   "dataSource": {
     "dataSourceType": "dbsql",
-    "sql": "SELECT STRFTIME('%Y', o.OrderDate) AS OrderYear,\n       'Q' || ((CAST(STRFTIME('%m', o.OrderDate) AS INTEGER) + 2) / 3) AS Quarter,\n       c.CategoryName,\n       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS Sales\nFROM Orders o\nJOIN \"Order Details\" od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nJOIN Categories c ON c.CategoryID = p.CategoryID\nGROUP BY OrderYear, Quarter, c.CategoryName",
+    "sql": "SELECT c.CategoryName,\n       p.ProductName,\n       p.UnitsInStock,\n       p.UnitsOnOrder,\n       p.ReorderLevel,\n       CASE WHEN p.Discontinued = 0 THEN 0 ELSE 1 END AS Discontinued,\n       CAST(p.UnitPrice AS REAL) AS UnitPrice\nFROM Products p\nJOIN Categories c ON c.CategoryID = p.CategoryID\nORDER BY c.CategoryName, p.ProductName",
     "columns": [
-      {
-        "name": "OrderYear",
-        "dbType": "string"
-      },
-      {
-        "name": "Quarter",
-        "dbType": "string"
-      },
       {
         "name": "CategoryName",
         "dbType": "string"
       },
       {
-        "name": "Sales",
+        "name": "ProductName",
+        "dbType": "string"
+      },
+      {
+        "name": "UnitsInStock",
+        "dbType": "int64"
+      },
+      {
+        "name": "UnitsOnOrder",
+        "dbType": "int64"
+      },
+      {
+        "name": "ReorderLevel",
+        "dbType": "int64"
+      },
+      {
+        "name": "Discontinued",
+        "dbType": "int64"
+      },
+      {
+        "name": "UnitPrice",
         "dbType": "double"
       }
     ]
   },
+  "filters": "Discontinued = 0 && UnitsInStock <= ReorderLevel",
   "sortColumns": [],
   "sections": [
     {
       "type": "reportHeader",
-      "height": 1.2,
+      "height": 2.4,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
@@ -99,7 +73,7 @@
           "bounds": {
             "x": 0,
             "y": 0,
-            "w": 26,
+            "w": 18,
             "h": 0.9
           },
           "style": {
@@ -113,183 +87,204 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "text": "Sales by Year"
+          "text": "Client-Side Filter"
+        },
+        {
+          "name": "Subtitle",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.95,
+            "w": 18,
+            "h": 1.3
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "wrapText": true,
+          "text": "The query has no WHERE clause - it returns all 77 products. What you see is what the report's filter kept: Discontinued = 0 && UnitsInStock <= ReorderLevel. Open Design > Rows > Filter to change it without touching the SQL."
         }
       ]
     },
     {
-      "type": "crosstabColumnHeader",
-      "height": 0.8,
+      "type": "pageHeader",
+      "height": 0.7,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
         {
-          "name": "xtab_corner_0_0",
+          "name": "H1",
           "type": "label",
           "bounds": {
-            "x": 0,
+            "x": 0.5,
             "y": 0,
-            "w": 3,
-            "h": 0.8
+            "w": 7,
+            "h": 0.7
           },
           "style": {
             "fontFamily": "Tahoma",
             "fontSize": 10,
             "bold": true,
             "foreColor": "#000000",
-            "backColor": "#EFEFEF",
+            "backColor": "#E8EDF2",
             "hAlign": "left",
-            "vAlign": "middle",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
             "border": {
               "uniform": true,
               "all": {
                 "style": "solid",
-                "color": "#9A9A9A",
+                "color": "#AABCCE",
                 "width": 0.5
               }
             }
           },
-          "text": ""
+          "text": "Product"
         },
         {
-          "name": "xtab_colvalue_0",
-          "type": "field",
-          "bounds": {
-            "x": 3,
-            "y": 0,
-            "w": 2.5,
-            "h": 0.8
-          },
-          "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#EFEFEF",
-            "hAlign": "center",
-            "vAlign": "middle",
-            "border": {
-              "uniform": true,
-              "all": {
-                "style": "solid",
-                "color": "#9A9A9A",
-                "width": 0.5
-              }
-            }
-          },
-          "text": "",
-          "source": "OrderYear"
-        },
-        {
-          "name": "xtab_coltotal",
+          "name": "H2",
           "type": "label",
           "bounds": {
-            "x": 5.5,
+            "x": 7.7,
             "y": 0,
-            "w": 2.5,
-            "h": 0.8
+            "w": 4,
+            "h": 0.7
           },
           "style": {
             "fontFamily": "Tahoma",
             "fontSize": 10,
             "bold": true,
             "foreColor": "#000000",
-            "backColor": "#EFEFEF",
-            "hAlign": "center",
-            "vAlign": "middle",
-            "border": {
-              "uniform": true,
-              "all": {
-                "style": "solid",
-                "color": "#9A9A9A",
-                "width": 0.5
-              }
-            }
-          },
-          "text": "Grand Total"
-        }
-      ]
-    },
-    {
-      "type": "crosstabColumnHeader",
-      "groupLevel": 1,
-      "height": 0.8,
-      "repeatOnNewPage": true,
-      "backColor": "Transparent",
-      "elements": [
-        {
-          "name": "xtab_corner_1_0",
-          "type": "label",
-          "bounds": {
-            "x": 0,
-            "y": 0,
-            "w": 3,
-            "h": 0.8
-          },
-          "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#EFEFEF",
+            "backColor": "#E8EDF2",
             "hAlign": "left",
-            "vAlign": "middle",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
             "border": {
               "uniform": true,
               "all": {
                 "style": "solid",
-                "color": "#9A9A9A",
+                "color": "#AABCCE",
                 "width": 0.5
               }
             }
           },
-          "text": "CategoryName"
+          "text": "Category"
         },
         {
-          "name": "xtab_colvalue_1",
-          "type": "field",
+          "name": "H3",
+          "type": "label",
           "bounds": {
-            "x": 3,
+            "x": 11.9,
             "y": 0,
-            "w": 2.5,
-            "h": 0.8
+            "w": 2,
+            "h": 0.7
           },
           "style": {
             "fontFamily": "Tahoma",
             "fontSize": 10,
             "bold": true,
             "foreColor": "#000000",
-            "backColor": "#EFEFEF",
-            "hAlign": "center",
-            "vAlign": "middle",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
             "border": {
               "uniform": true,
               "all": {
                 "style": "solid",
-                "color": "#9A9A9A",
+                "color": "#AABCCE",
                 "width": 0.5
               }
             }
           },
-          "text": "",
-          "source": "Quarter"
+          "text": "In stock"
+        },
+        {
+          "name": "H4",
+          "type": "label",
+          "bounds": {
+            "x": 14.1,
+            "y": 0,
+            "w": 2,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "On order"
+        },
+        {
+          "name": "H5",
+          "type": "label",
+          "bounds": {
+            "x": 16.3,
+            "y": 0,
+            "w": 1.7,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Reorder"
         }
       ]
     },
     {
       "type": "detail",
-      "height": 0.8,
+      "height": 0.6,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
         {
-          "name": "xtab_row_0",
+          "name": "Product",
           "type": "field",
           "bounds": {
-            "x": 0,
+            "x": 0.5,
             "y": 0,
-            "w": 3,
-            "h": 0.8
+            "w": 7,
+            "h": 0.6
           },
           "style": {
             "fontFamily": "Tahoma",
@@ -297,173 +292,191 @@
             "foreColor": "#000000",
             "backColor": "Transparent",
             "hAlign": "left",
-            "vAlign": "middle",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
             "border": {
               "uniform": true,
               "all": {
                 "style": "solid",
-                "color": "#9A9A9A",
+                "color": "#D8D8D8",
                 "width": 0.5
               }
             }
           },
-          "text": "",
+          "source": "ProductName"
+        },
+        {
+          "name": "Category",
+          "type": "field",
+          "bounds": {
+            "x": 7.7,
+            "y": 0,
+            "w": 4,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#D8D8D8",
+                "width": 0.5
+              }
+            }
+          },
           "source": "CategoryName"
         },
         {
-          "name": "xtab_value_0",
+          "name": "Stock",
           "type": "field",
           "bounds": {
-            "x": 3,
+            "x": 11.9,
             "y": 0,
-            "w": 2.5,
-            "h": 0.8
+            "w": 2,
+            "h": 0.6
           },
           "style": {
             "fontFamily": "Tahoma",
             "fontSize": 10,
             "foreColor": "#000000",
             "backColor": "Transparent",
+            "foreColorExpression": "Iif(UnitsInStock = 0, \"#B00000\", \"#000000\")",
             "hAlign": "right",
-            "vAlign": "middle",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
             "border": {
               "uniform": true,
               "all": {
                 "style": "solid",
-                "color": "#9A9A9A",
+                "color": "#D8D8D8",
                 "width": 0.5
               }
             }
           },
-          "text": "",
-          "source": "Sales",
+          "source": "UnitsInStock",
           "format": "#,##0"
         },
         {
-          "name": "xtab_rowtotal_0",
+          "name": "OnOrder",
           "type": "field",
           "bounds": {
-            "x": 5.5,
+            "x": 14.1,
             "y": 0,
-            "w": 2.5,
-            "h": 0.8
+            "w": 2,
+            "h": 0.6
           },
           "style": {
             "fontFamily": "Tahoma",
             "fontSize": 10,
-            "bold": true,
             "foreColor": "#000000",
             "backColor": "Transparent",
             "hAlign": "right",
-            "vAlign": "middle",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
             "border": {
               "uniform": true,
               "all": {
                 "style": "solid",
-                "color": "#9A9A9A",
+                "color": "#D8D8D8",
                 "width": 0.5
               }
             }
           },
-          "text": "",
-          "source": "Sales",
+          "source": "UnitsOnOrder",
+          "format": "#,##0"
+        },
+        {
+          "name": "Reorder",
+          "type": "field",
+          "bounds": {
+            "x": 16.3,
+            "y": 0,
+            "w": 1.7,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#D8D8D8",
+                "width": 0.5
+              }
+            }
+          },
+          "source": "ReorderLevel",
           "format": "#,##0"
         }
       ]
     },
     {
-      "type": "crosstabGrandTotal",
-      "height": 0.8,
+      "type": "reportFooter",
+      "height": 1.8,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
         {
-          "name": "xtab_grand_label",
+          "name": "Kept",
+          "type": "computed",
+          "bounds": {
+            "x": 0.5,
+            "y": 0.2,
+            "w": 17.5,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 12,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "Count(ProductName for all) + \" rows kept out of the 77 the query returned\""
+        },
+        {
+          "name": "Note",
           "type": "label",
           "bounds": {
-            "x": 0,
-            "y": 0,
-            "w": 3,
+            "x": 0.5,
+            "y": 0.9,
+            "w": 17.5,
             "h": 0.8
           },
           "style": {
             "fontFamily": "Tahoma",
             "fontSize": 10,
-            "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#EFEFEF",
+            "foreColor": "#555555",
+            "backColor": "Transparent",
             "hAlign": "left",
-            "vAlign": "middle",
-            "border": {
-              "uniform": true,
-              "all": {
-                "style": "solid",
-                "color": "#9A9A9A",
-                "width": 0.5
-              }
-            }
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
           },
-          "text": "Grand Total"
-        },
-        {
-          "name": "xtab_grand_value_0",
-          "type": "field",
-          "bounds": {
-            "x": 3,
-            "y": 0,
-            "w": 2.5,
-            "h": 0.8
-          },
-          "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#EFEFEF",
-            "hAlign": "right",
-            "vAlign": "middle",
-            "border": {
-              "uniform": true,
-              "all": {
-                "style": "solid",
-                "color": "#9A9A9A",
-                "width": 0.5
-              }
-            }
-          },
-          "text": "",
-          "source": "Sales",
-          "format": "#,##0"
-        },
-        {
-          "name": "xtab_grand_total_0",
-          "type": "field",
-          "bounds": {
-            "x": 5.5,
-            "y": 0,
-            "w": 2.5,
-            "h": 0.8
-          },
-          "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#EFEFEF",
-            "hAlign": "right",
-            "vAlign": "middle",
-            "border": {
-              "uniform": true,
-              "all": {
-                "style": "solid",
-                "color": "#9A9A9A",
-                "width": 0.5
-              }
-            }
-          },
-          "text": "",
-          "source": "Sales",
-          "format": "#,##0"
+          "wrapText": true,
+          "text": "Aggregates count the rows that survive the filter, not the rows the query returned. Filtering in the report costs a round trip of rows you will not print - put the condition in the SQL when the data is large, and here when you want to change it without touching the query."
         }
       ]
     },

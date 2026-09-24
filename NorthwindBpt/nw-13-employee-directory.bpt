@@ -1,0 +1,347 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Employee Directory",
+    "description": "Every employee with the photo stored in the database, and one query that runs unchanged on all six databases",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT e.EmployeeID,\n       {bp:Concat(e.FirstName, ' ', e.LastName)} AS EmployeeName,\n       e.TitleOfCourtesy, e.Title,\n       {bp:Year(e.HireDate)} AS HireYear,\n       e.City, e.Country, e.Extension, e.Notes, e.Photo,\n       {bp:Concat(m.FirstName, ' ', m.LastName)} AS ReportsToName\nFROM Employees e\nLEFT JOIN Employees m ON m.EmployeeID = e.ReportsTo\nORDER BY e.LastName, e.FirstName",
+    "columns": [
+      {
+        "name": "EmployeeID",
+        "dbType": "int64"
+      },
+      {
+        "name": "EmployeeName",
+        "dbType": "string"
+      },
+      {
+        "name": "TitleOfCourtesy",
+        "dbType": "string"
+      },
+      {
+        "name": "Title",
+        "dbType": "string"
+      },
+      {
+        "name": "HireYear",
+        "dbType": "int64"
+      },
+      {
+        "name": "City",
+        "dbType": "string"
+      },
+      {
+        "name": "Country",
+        "dbType": "string"
+      },
+      {
+        "name": "Extension",
+        "dbType": "string"
+      },
+      {
+        "name": "Notes",
+        "dbType": "string"
+      },
+      {
+        "name": "Photo",
+        "dbType": "binary"
+      },
+      {
+        "name": "ReportsToName",
+        "dbType": "string"
+      }
+    ]
+  },
+  "sortColumns": [],
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 2.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Title",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.4,
+            "w": 18,
+            "h": 1.3
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 24,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Employee Directory"
+        },
+        {
+          "name": "Sub",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 1.8,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 13,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Northwind Traders"
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
+    },
+    {
+      "type": "detail",
+      "height": 4.6,
+      "autoHeight": true,
+      "keepTogether": true,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Rule",
+          "type": "line",
+          "bounds": {
+            "x": 0,
+            "y": 0.1,
+            "w": 18,
+            "h": 0.02
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "x1": 0,
+          "y1": 0.1,
+          "x2": 18,
+          "y2": 0.1,
+          "penWidth": 0.5,
+          "penColor": "#B0B0B0",
+          "penStyle": "solid"
+        },
+        {
+          "name": "EmployeePhoto",
+          "type": "image",
+          "bounds": {
+            "x": 0,
+            "y": 0.4,
+            "w": 3.2,
+            "h": 4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top",
+            "paddingLeft": 0,
+            "paddingRight": 0
+          },
+          "expression": "Photo",
+          "sizeMode": "zoom",
+          "imageDpi": 96,
+          "grayscale": false,
+          "showErrorImage": true
+        },
+        {
+          "name": "EmployeeName",
+          "type": "computed",
+          "bounds": {
+            "x": 3.6,
+            "y": 0.4,
+            "w": 14.4,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 14,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "TitleOfCourtesy + \" \" + EmployeeName"
+        },
+        {
+          "name": "JobTitle",
+          "type": "field",
+          "bounds": {
+            "x": 3.6,
+            "y": 1.2,
+            "w": 14.4,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 11,
+            "foreColor": "#404040",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "source": "Title"
+        },
+        {
+          "name": "Facts",
+          "type": "computed",
+          "bounds": {
+            "x": 3.6,
+            "y": 1.9,
+            "w": 14.4,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Joined \" + HireYear + \"   |   \" + City + \", \" + Country + \"   |   Ext. \" + Extension"
+        },
+        {
+          "name": "ReportsTo",
+          "type": "computed",
+          "bounds": {
+            "x": 3.6,
+            "y": 2.5,
+            "w": 14.4,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Reports to \" + Coalesce(ReportsToName, \"no one - head of the company\")"
+        },
+        {
+          "name": "Notes",
+          "type": "field",
+          "bounds": {
+            "x": 3.6,
+            "y": 3.2,
+            "w": 14.4,
+            "h": 1.2
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "foreColor": "#303030",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "source": "Notes",
+          "wrapText": true,
+          "autoHeight": true
+        }
+      ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "PageInfo",
+          "type": "computed",
+          "bounds": {
+            "x": 12,
+            "y": 0.1,
+            "w": 6,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages()"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}

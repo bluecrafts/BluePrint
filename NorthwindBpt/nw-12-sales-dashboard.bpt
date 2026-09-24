@@ -26,7 +26,7 @@
   },
   "dataSource": {
     "dataSourceType": "dbsql",
-    "sql": "SELECT c.CategoryName,\n       STRFTIME('%Y', o.OrderDate) AS OrderYear,\n       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS Sales\nFROM Orders o\nJOIN \"Order Details\" od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nJOIN Categories c ON c.CategoryID = p.CategoryID\nGROUP BY c.CategoryName, OrderYear\nORDER BY c.CategoryName, OrderYear",
+    "sql": "SELECT c.CategoryName,\n       {bp:ToText(Year(o.OrderDate), 4)} AS OrderYear,\n       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS Sales\nFROM Orders o\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nJOIN Categories c ON c.CategoryID = p.CategoryID\nGROUP BY c.CategoryName, {bp:ToText(Year(o.OrderDate), 4)}\nORDER BY c.CategoryName, {bp:ToText(Year(o.OrderDate), 4)}",
     "columns": [
       {
         "name": "CategoryName",

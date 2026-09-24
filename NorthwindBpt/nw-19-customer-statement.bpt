@@ -1,8 +1,8 @@
 {
   "version": "1.0",
   "metadata": {
-    "name": "Sales by Category",
-    "description": "Total sales per product, grouped by category, with a share of each total",
+    "name": "Customer Statement",
+    "description": "One page per customer, with a running balance down the orders",
     "author": "BluePrint"
   },
   "report": {
@@ -26,18 +26,40 @@
   },
   "dataSource": {
     "dataSourceType": "dbsql",
-    "sql": "SELECT c.CategoryName, p.ProductName,\n       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS ProductSales\nFROM Categories c\nJOIN Products p ON p.CategoryID = c.CategoryID\nJOIN \"Order Details\" od ON od.ProductID = p.ProductID\nJOIN Orders o ON o.OrderID = od.OrderID\nGROUP BY c.CategoryName, p.ProductName\nORDER BY c.CategoryName, p.ProductName",
+    "sql": "SELECT c.CompanyName AS CustomerName,\n       c.ContactName, c.City, c.Country,\n       o.OrderID,\n       {bp:DateText(o.OrderDate)} AS OrderDate,\n       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS OrderTotal\nFROM Customers c\nJOIN Orders o ON o.CustomerID = c.CustomerID\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nWHERE c.Country = @Country\nGROUP BY c.CompanyName, c.ContactName, c.City, c.Country, o.OrderID, o.OrderDate\nORDER BY CustomerName, o.OrderID",
+    "arguments": [
+      {
+        "name": "Country",
+        "argType": "string"
+      }
+    ],
     "columns": [
       {
-        "name": "CategoryName",
+        "name": "CustomerName",
         "dbType": "string"
       },
       {
-        "name": "ProductName",
+        "name": "ContactName",
         "dbType": "string"
       },
       {
-        "name": "ProductSales",
+        "name": "City",
+        "dbType": "string"
+      },
+      {
+        "name": "Country",
+        "dbType": "string"
+      },
+      {
+        "name": "OrderID",
+        "dbType": "int64"
+      },
+      {
+        "name": "OrderDate",
+        "dbType": "string"
+      },
+      {
+        "name": "OrderTotal",
         "dbType": "double"
       }
     ]
@@ -46,8 +68,8 @@
   "sections": [
     {
       "type": "reportHeader",
-      "height": 1.4,
-      "repeatOnNewPage": true,
+      "height": 1.8,
+      "repeatOnNewPage": false,
       "backColor": "Transparent",
       "elements": [
         {
@@ -70,7 +92,28 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "text": "Sales by Category"
+          "text": "Customer Statements"
+        },
+        {
+          "name": "Subtitle",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.95,
+            "w": 18,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Every customer in \" + @Country + \", one page each\""
         }
       ]
     },
@@ -86,7 +129,7 @@
           "bounds": {
             "x": 0.5,
             "y": 0,
-            "w": 10,
+            "w": 3,
             "h": 0.7
           },
           "style": {
@@ -108,13 +151,43 @@
               }
             }
           },
-          "text": "Product"
+          "text": "Order"
         },
         {
           "name": "H2",
           "type": "label",
           "bounds": {
-            "x": 11,
+            "x": 3.7,
+            "y": 0,
+            "w": 5.3,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Ordered"
+        },
+        {
+          "name": "H3",
+          "type": "label",
+          "bounds": {
+            "x": 9,
             "y": 0,
             "w": 4,
             "h": 0.7
@@ -138,15 +211,15 @@
               }
             }
           },
-          "text": "Sales"
+          "text": "Order total"
         },
         {
-          "name": "H3",
+          "name": "H4",
           "type": "label",
           "bounds": {
-            "x": 15,
+            "x": 13.5,
             "y": 0,
-            "w": 3,
+            "w": 4.5,
             "h": 0.7
           },
           "style": {
@@ -168,7 +241,7 @@
               }
             }
           },
-          "text": "Share"
+          "text": "Running balance"
         }
       ]
     },
@@ -176,25 +249,26 @@
       "type": "groupHeader",
       "groupLevel": 1,
       "groupByColumns": [
-        "CategoryName"
+        "CustomerName"
       ],
       "keepHeaderWithFirstDetailRow": true,
-      "height": 0.9,
+      "height": 2,
+      "newPageBefore": true,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
         {
-          "name": "CatHead",
+          "name": "CustHead",
           "type": "field",
           "bounds": {
             "x": 0,
             "y": 0.15,
-            "w": 10,
-            "h": 0.7
+            "w": 12,
+            "h": 0.8
           },
           "style": {
             "fontFamily": "Tahoma",
-            "fontSize": 13,
+            "fontSize": 14,
             "bold": true,
             "foreColor": "#000000",
             "backColor": "Transparent",
@@ -203,7 +277,28 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "source": "CategoryName"
+          "source": "CustomerName"
+        },
+        {
+          "name": "CustAddress",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 1,
+            "w": 12,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "TextJoin(\" - \", ContactName, City, Country)"
         }
       ]
     },
@@ -214,12 +309,12 @@
       "backColor": "Transparent",
       "elements": [
         {
-          "name": "Product",
+          "name": "OrderNo",
           "type": "field",
           "bounds": {
             "x": 0.5,
             "y": 0,
-            "w": 10,
+            "w": 3,
             "h": 0.6
           },
           "style": {
@@ -240,13 +335,42 @@
               }
             }
           },
-          "source": "ProductName"
+          "source": "OrderID"
         },
         {
-          "name": "Sales",
+          "name": "Ordered",
           "type": "field",
           "bounds": {
-            "x": 11,
+            "x": 3.7,
+            "y": 0,
+            "w": 5.3,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#D8D8D8",
+                "width": 0.5
+              }
+            }
+          },
+          "source": "OrderDate"
+        },
+        {
+          "name": "Total",
+          "type": "field",
+          "bounds": {
+            "x": 9,
             "y": 0,
             "w": 4,
             "h": 0.6
@@ -269,16 +393,16 @@
               }
             }
           },
-          "source": "ProductSales",
+          "source": "OrderTotal",
           "format": "#,##0.00"
         },
         {
-          "name": "Share",
+          "name": "Balance",
           "type": "computed",
           "bounds": {
-            "x": 15,
+            "x": 13.5,
             "y": 0,
-            "w": 3,
+            "w": 4.5,
             "h": 0.6
           },
           "style": {
@@ -299,25 +423,25 @@
               }
             }
           },
-          "expression": "ProductSales / Sum(ProductSales for group 1) * 100",
-          "format": "#,##0.0\"%\""
+          "expression": "RunningTotal(OrderTotal for group 1)",
+          "format": "#,##0.00"
         }
       ]
     },
     {
       "type": "groupFooter",
       "groupLevel": 1,
-      "height": 0.9,
+      "height": 1.2,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
         {
-          "name": "CatLabel",
+          "name": "CustLabel",
           "type": "computed",
           "bounds": {
             "x": 0.5,
             "y": 0.1,
-            "w": 10,
+            "w": 8,
             "h": 0.6
           },
           "style": {
@@ -331,20 +455,20 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "\"Total for \" + CategoryName"
+          "expression": "Count(OrderID for group 1) + \" orders\""
         },
         {
-          "name": "CatTotal",
+          "name": "CustTotal",
           "type": "computed",
           "bounds": {
-            "x": 11,
+            "x": 13.5,
             "y": 0.1,
-            "w": 4,
+            "w": 4.5,
             "h": 0.6
           },
           "style": {
             "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontSize": 11,
             "bold": true,
             "foreColor": "#000000",
             "backColor": "Transparent",
@@ -361,24 +485,24 @@
               }
             }
           },
-          "expression": "Sum(ProductSales for group 1)",
+          "expression": "Sum(OrderTotal for group 1)",
           "format": "#,##0.00"
         }
       ]
     },
     {
       "type": "reportFooter",
-      "height": 1,
+      "height": 1.2,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
         {
           "name": "GrandLabel",
-          "type": "label",
+          "type": "computed",
           "bounds": {
             "x": 0.5,
             "y": 0.2,
-            "w": 10,
+            "w": 12,
             "h": 0.6
           },
           "style": {
@@ -392,15 +516,15 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "text": "Grand total"
+          "expression": "\"All customers in \" + @Country"
         },
         {
           "name": "GrandTotal",
           "type": "computed",
           "bounds": {
-            "x": 11,
+            "x": 13.5,
             "y": 0.2,
-            "w": 4,
+            "w": 4.5,
             "h": 0.6
           },
           "style": {
@@ -422,7 +546,7 @@
               }
             }
           },
-          "expression": "Sum(ProductSales for all)",
+          "expression": "Sum(OrderTotal for all)",
           "format": "#,##0.00"
         }
       ]

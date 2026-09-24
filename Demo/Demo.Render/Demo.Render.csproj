@@ -8,12 +8,29 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlueCrafts.BluePrint.Render" Version="1.0.50" />
+    <PackageReference Include="BlueCrafts.BluePrint.Render" Version="1.0.56" />
   </ItemGroup>
 
   <ItemGroup>
-    <!-- One definition shared by all three samples. -->
-    <None Include="..\HelloReport.bpt" Link="HelloReport.bpt" CopyToOutputDirectory="PreserveNewest" />
+    <!--
+      BluePrint ships no database driver. The host picks one and references it,
+      which for the Northwind file in this repository is SQLite.
+
+      SQLitePCLRaw.bundle_e_sqlite3 is pinned on purpose: without it
+      Microsoft.Data.Sqlite brings in 2.1.11, which has a published
+      vulnerability (GHSA-2m69-gcr7-jv3q).
+    -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- One query shared with Demo.Preview. -->
+    <Compile Include="..\InvoiceQuery.cs" Link="InvoiceQuery.cs" />
+
+    <!-- The report, and the database it reads. Both shared with Demo.Preview. -->
+    <None Include="..\..\NorthwindBpt\nw-05-invoice.bpt" Link="nw-05-invoice.bpt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\NorthwindDB\SQLite\northwind.db" Link="northwind.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

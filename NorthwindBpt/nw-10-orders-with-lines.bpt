@@ -26,7 +26,7 @@
   },
   "dataSource": {
     "dataSourceType": "dbsql",
-    "sql": "SELECT o.OrderID, o.OrderDate, c.CompanyName AS CustomerName,\n       o.ShipCountry, CAST(o.Freight AS REAL) AS Freight\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nWHERE o.OrderID BETWEEN 10248 AND 10267\nORDER BY o.OrderID",
+    "sql": "SELECT o.OrderID, {bp:DateText(o.OrderDate)} AS OrderDate, c.CompanyName AS CustomerName,\n       o.ShipCountry, CAST(o.Freight AS REAL) AS Freight\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nWHERE o.OrderID BETWEEN 10248 AND 10267\nORDER BY o.OrderID",
     "columns": [
       {
         "name": "OrderID",
@@ -54,7 +54,7 @@
     {
       "name": "OrderLines",
       "dataSourceType": "dbsql",
-      "sql": "SELECT od.OrderID, p.ProductName, od.Quantity,\n       CAST(od.UnitPrice AS REAL) AS UnitPrice,\n       od.UnitPrice * od.Quantity * (1 - od.Discount) AS LineTotal\nFROM \"Order Details\" od\nJOIN Products p ON p.ProductID = od.ProductID\nORDER BY od.OrderID, p.ProductName",
+      "sql": "SELECT od.OrderID, p.ProductName, od.Quantity,\n       CAST(od.UnitPrice AS REAL) AS UnitPrice,\n       od.UnitPrice * od.Quantity * (1 - od.Discount) AS LineTotal\nFROM {bp:Name(Order Details)} od\nJOIN Products p ON p.ProductID = od.ProductID\nORDER BY od.OrderID, p.ProductName",
       "columns": [
         {
           "name": "OrderID",

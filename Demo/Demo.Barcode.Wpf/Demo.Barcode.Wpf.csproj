@@ -15,7 +15,7 @@
       unchanged: the encoder knows nothing about WPF, which is exactly what
       makes it drawable by WPF.
     -->
-    <PackageReference Include="BlueCrafts.BluePrint.Barcode" Version="1.0.50" />
+    <PackageReference Include="BlueCrafts.BluePrint.Barcode" Version="1.0.56" />
   </ItemGroup>
 
   <ItemGroup>

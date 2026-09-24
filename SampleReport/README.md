@@ -5,7 +5,7 @@ Two sets, for two different first questions.
 | Set | Needs | Best for |
 |---|---|---|
 | **[These five](#what-is-here)** | Nothing at all | Your first hour. Open, import a file, print |
-| **[Northwind](Northwind/)** | A one-off setup, still no server | Everything that needs a real query: parameters, lookups, subbands |
+| **[Northwind](../NorthwindBpt/)** | A one-off setup, still no server | Everything that needs a real query: parameters, lookups, subbands |
 
 Start here. Move to Northwind when you want to see how a report works against a database.
 
@@ -119,11 +119,11 @@ makes sense against a database:
 
 | | Where to see it |
 |---|---|
-| A real query, and the Data Source dialog | [Northwind 01](Northwind/) |
-| A value entered when you retrieve | [Northwind 05](Northwind/) |
-| **Lookup datasets and subbands** | [Northwind 10 and 11](Northwind/) |
-| Images stored in the database | [Northwind 02](Northwind/) |
-| Colours driven by an expression on live values | [Northwind 06](Northwind/) |
+| A real query, and the Data Source dialog | [Northwind 01](../NorthwindBpt/) |
+| A value entered when you retrieve | [Northwind 05](../NorthwindBpt/) |
+| **Lookup datasets and subbands** | [Northwind 10 and 11](../NorthwindBpt/) |
+| Images stored in the database | [Northwind 02](../NorthwindBpt/) |
+| Colours driven by an expression on live values | [Northwind 06](../NorthwindBpt/) |
 
-The [`Northwind/`](Northwind/) folder covers all of it, and still needs no database server - the
+The [`NorthwindBpt/`](../NorthwindBpt/) folder covers all of it, and still needs no database server - the
 whole database is one file.

@@ -9,12 +9,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.0.50" />
+    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.0.56" />
   </ItemGroup>
 
   <ItemGroup>
-    <!-- One definition shared by all three samples. -->
-    <None Include="..\HelloReport.bpt" Link="HelloReport.bpt" CopyToOutputDirectory="PreserveNewest" />
+    <!-- The driver for the Northwind file. See the note in Demo.Render.csproj. -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- One query shared with Demo.Render. -->
+    <Compile Include="..\InvoiceQuery.cs" Link="InvoiceQuery.cs" />
+
+    <!-- The report, and the database it reads. Both shared with Demo.Render. -->
+    <None Include="..\..\NorthwindBpt\nw-05-invoice.bpt" Link="nw-05-invoice.bpt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\NorthwindDB\SQLite\northwind.db" Link="northwind.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

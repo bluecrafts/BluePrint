@@ -1,0 +1,532 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Barcode Symbologies",
+    "description": "The same product code drawn as Code128, DataMatrix, PDF417, Aztec and QR",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT p.ProductID, p.ProductName, p.QuantityPerUnit, p.UnitPrice\nFROM Products p\nWHERE p.Discontinued = 0\nORDER BY p.ProductID\n{bp:Limit(6)}",
+    "columns": [
+      {
+        "name": "ProductID",
+        "dbType": "int64"
+      },
+      {
+        "name": "ProductName",
+        "dbType": "string"
+      },
+      {
+        "name": "QuantityPerUnit",
+        "dbType": "string"
+      },
+      {
+        "name": "UnitPrice",
+        "dbType": "double"
+      }
+    ]
+  },
+  "sortColumns": [],
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 1.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Title",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.9
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 16,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Barcode Symbologies"
+        },
+        {
+          "name": "Subtitle",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.95,
+            "w": 18,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Every code below carries the same text for its row. All of them are drawn in-house - no barcode library."
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0.7,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "H1",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 4,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Product"
+        },
+        {
+          "name": "H2",
+          "type": "label",
+          "bounds": {
+            "x": 4.2,
+            "y": 0,
+            "w": 4.6,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "center",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Code128 (1D)"
+        },
+        {
+          "name": "H3",
+          "type": "label",
+          "bounds": {
+            "x": 9,
+            "y": 0,
+            "w": 2.6,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "center",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "DataMatrix"
+        },
+        {
+          "name": "H4",
+          "type": "label",
+          "bounds": {
+            "x": 11.8,
+            "y": 0,
+            "w": 3.4,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "center",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "PDF417"
+        },
+        {
+          "name": "H5",
+          "type": "label",
+          "bounds": {
+            "x": 15.4,
+            "y": 0,
+            "w": 2.6,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "center",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Aztec"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 3.2,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Product",
+          "type": "field",
+          "bounds": {
+            "x": 0,
+            "y": 0.2,
+            "w": 4,
+            "h": 1.2
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "wrapText": true,
+          "source": "ProductName"
+        },
+        {
+          "name": "CodeText",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 1.5,
+            "w": 4,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"NWP-\" + String(ProductID, \"000\")"
+        },
+        {
+          "name": "Code128",
+          "type": "barcode",
+          "bounds": {
+            "x": 4.2,
+            "y": 0.2,
+            "w": 4.6,
+            "h": 2.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0,
+            "paddingRight": 0
+          },
+          "expression": "\"NWP-\" + String(ProductID, \"000\")",
+          "barcode": {
+            "symbology": "code128",
+            "showText": true,
+            "rotation": "none",
+            "dpi": 300,
+            "encoding": "auto",
+            "narrowToWideRatio": 2,
+            "qrEcLevel": "m",
+            "includeChecksum": false,
+            "aztecEcPercent": 23,
+            "dataMatrixRectangular": false
+          }
+        },
+        {
+          "name": "DataMatrix",
+          "type": "barcode",
+          "bounds": {
+            "x": 9,
+            "y": 0.2,
+            "w": 2.6,
+            "h": 2.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0,
+            "paddingRight": 0
+          },
+          "expression": "\"NWP-\" + String(ProductID, \"000\")",
+          "barcode": {
+            "symbology": "dataMatrix",
+            "showText": false,
+            "rotation": "none",
+            "dpi": 300,
+            "encoding": "auto",
+            "narrowToWideRatio": 2,
+            "qrEcLevel": "m",
+            "includeChecksum": false,
+            "aztecEcPercent": 23,
+            "dataMatrixRectangular": false
+          }
+        },
+        {
+          "name": "Pdf417",
+          "type": "barcode",
+          "bounds": {
+            "x": 11.8,
+            "y": 0.2,
+            "w": 3.4,
+            "h": 2.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0,
+            "paddingRight": 0
+          },
+          "expression": "\"NWP-\" + String(ProductID, \"000\") + \" \" + ProductName",
+          "barcode": {
+            "symbology": "pdf417",
+            "showText": false,
+            "rotation": "none",
+            "dpi": 300,
+            "encoding": "auto",
+            "narrowToWideRatio": 2,
+            "qrEcLevel": "m",
+            "includeChecksum": false,
+            "aztecEcPercent": 23,
+            "dataMatrixRectangular": false
+          }
+        },
+        {
+          "name": "Aztec",
+          "type": "barcode",
+          "bounds": {
+            "x": 15.4,
+            "y": 0.2,
+            "w": 2.6,
+            "h": 2.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0,
+            "paddingRight": 0
+          },
+          "expression": "\"NWP-\" + String(ProductID, \"000\")",
+          "barcode": {
+            "symbology": "aztec",
+            "showText": false,
+            "rotation": "none",
+            "dpi": 300,
+            "encoding": "auto",
+            "narrowToWideRatio": 2,
+            "qrEcLevel": "m",
+            "includeChecksum": false,
+            "aztecEcPercent": 23,
+            "dataMatrixRectangular": false
+          }
+        },
+        {
+          "name": "RowRule",
+          "type": "line",
+          "bounds": {
+            "x": 0,
+            "y": 3.1,
+            "w": 18,
+            "h": 0.02
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "x1": 0,
+          "y1": 3.1,
+          "x2": 18,
+          "y2": 3.1,
+          "penWidth": 0.5,
+          "penColor": "#D8D8D8",
+          "penStyle": "solid"
+        }
+      ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 2,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Note",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.2,
+            "w": 18,
+            "h": 1.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "wrapText": true,
+          "text": "PDF417 carries the product name as well, which is why it is wider than the rest. A 2D code grows with the text you put in it, so keep it short unless the extra size is worth it. Code39, ITF, Codabar, EAN, UPC, GS1-128 and GS1 DataMatrix are supported too."
+        }
+      ]
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "PageInfo",
+          "type": "computed",
+          "bounds": {
+            "x": 12,
+            "y": 0.1,
+            "w": 6,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages()"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}
