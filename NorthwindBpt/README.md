@@ -13,7 +13,7 @@ arguments, lookup datasets, and subbands.
 | | |
 |---|---|
 | **1** | Copy the `DataProvider` folder from the release next to `BluePrint.Studio.exe` |
-| **2** | Start Studio, and check **Database > Data Provider Library...** shows **SQLite** as ready |
+| **2** | Start Studio, and check **Database > Database Profile...** shows **SQLite** with its driver name, not *unavailable* |
 | **3** | **Database > Database Profile...** and add a profile pointing at `NorthwindDB/SQLite/northwind.db` |
 
 The connection string is just the path to the file:
