@@ -1,10 +1,12 @@
+
 # BluePrint
 
-Add reporting to your .NET application: design a report once, then render it to
-PDF, Excel, HTML, a printer, or a live preview control inside your own WPF
-application. Drop in `BluePrint.Render` to render existing `.bpt` reports, or add
-`BluePrint.Designer` to let your users build and edit reports themselves, right
-inside your app.
+**Fast, free, and flexible reporting for .NET.** Design once. Render anywhere.
+
+BluePrint is an open reporting library for .NET. Design a report once, then
+render it to PDF, Excel, HTML, a printer, or a live preview inside your own WPF
+application - straight from your code, with no report server and no extra
+infrastructure to run.
 
 <p align="center">
   <img src="media/blueprint-studio.png" alt="BluePrint Studio, the standalone report designer, showing a report open in the designer with its property panel" width="800">
@@ -12,6 +14,44 @@ inside your app.
 
 *BluePrint Studio - the standalone designer built on the same `BluePrint.Designer`
 control you can embed in your own application.*
+
+## Why BluePrint
+
+- **Open and free** - free to use, including in the commercial products you
+  sell. No per-report fees, no runtime license, no registration.
+- **Fast to use** - a report is one `.bpt` file and a few lines of C#. Load it,
+  retrieve the data, export or print. Nothing to deploy beside your application.
+- **Reports in minutes** - lay a report out visually, drag fields in from the
+  query, and start from finished templates instead of a blank page.
+- **Embed it in your WPF app** - put the preview, or the complete report
+  designer, inside your own C# WPF window, so your users never leave your
+  application to view or change a report.
+- **A designer application included** - **BluePrint Studio** designs, previews
+  and saves `.bpt` reports on its own, connected to your database.
+
+### One report, many outputs
+
+| Design it in | Save it as | Render it to |
+| --- | --- | --- |
+| BluePrint Studio, or the designer inside your own app | one `.bpt` file | PDF, Excel, HTML, CSV, image, a printer, or the WPF preview |
+
+The same definition drives every target, so the PDF you send matches the page
+your user previewed.
+
+### The designer, inside your application
+
+`BluePrintDesignerControl` is the designer from Studio as a WPF control: put it
+in a window, a dialog, or a tab of your own application. Ship reports with your
+software, and let your users adjust a layout or build a new one without a change
+to your source code - a natural fit for ERP, POS, accounting, inventory and other
+line-of-business software. [`Demo.Designer`](Demo/Demo.Designer) shows it hosted
+in a small application.
+
+### What you can build
+
+Invoices, receipts, purchase orders, customer statements, sales and financial
+reports, grouped reports with totals, crosstabs, charts, label sheets, barcode
+and QR documents, and business forms.
 
 This repository is where BluePrint is distributed and documented. It carries the
 released binaries, the sample projects, and the place to report a problem.
@@ -200,3 +240,10 @@ testing stay free.
 
 The full text is in `LICENSE.txt`, and a copy is included in every package.
 Commercial licenses and questions: craftman@bluecrafts.co
+
+---
+
+<p align="center">
+  <strong>BluePrint</strong> - fast, free, and flexible reporting for .NET.<br>
+  If it is useful to you, a star on GitHub helps others find it.
+</p>
