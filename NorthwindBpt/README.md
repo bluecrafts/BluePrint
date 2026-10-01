@@ -1,6 +1,6 @@
 # Northwind Reports
 
-Twenty-nine reports built on the classic **Northwind** sample database, running on **SQLite** - a
+Thirty reports built on the classic **Northwind** sample database, running on **SQLite** - a
 single file, no server, nothing to install.
 
 These cover the things the [external-data samples](../SampleReport/README.md) cannot: real queries, retrieval
@@ -69,7 +69,7 @@ After that, open any report and press **Retrieve**.
 | [`nw-23-customer-address-book.bpt`](nw-23-customer-address-book.bpt) | Customers in alphabetical sections, **grouped on a letter the query works out** |
 | [`nw-24-sales-by-country-crosstab.bpt`](nw-24-sales-by-country-crosstab.bpt) | A second crosstab: countries down the side, years across the top |
 
-## Five that fill in the rest of what BluePrint draws
+## Six that fill in the rest of what BluePrint draws
 
 | Report | Shows |
 |---|---|
@@ -78,6 +78,7 @@ After that, open any report and press **Retrieve**.
 | [`nw-27-client-side-filter.bpt`](nw-27-client-side-filter.bpt) | A query with **no WHERE clause** - the report decides which rows to keep |
 | [`nw-28-sales-and-orders-crosstab.bpt`](nw-28-sales-and-orders-crosstab.bpt) | A crosstab with **two measures in every cell** |
 | [`nw-29-order-settlement-slip.bpt`](nw-29-order-settlement-slip.bpt) | **Slots** - the goods on the left and the discounts on the right, from one query, line beside line |
+| [`nw-30-lookup-across-tables.bpt`](nw-30-lookup-across-tables.bpt) | **Lookups that join several tables** - customer, salesperson and shipper from a four-table query, and each order's lines from a three-table one, with no `AS` on the table columns |
 
 ---
 
@@ -130,6 +131,7 @@ day of the range is included rather than dropped at midnight.
 | Filtering in the report instead of the query | 27 |
 | Two measures in one crosstab cell | 28 |
 | Two lists side by side in one band | 29 |
+| Lookups from queries that join several tables | 30 |
 
 ---
 
@@ -263,8 +265,8 @@ look at **Text colour** and **Fill colour** in the property panel: each has an `
 it, and each holds an expression rather than a colour.
 
 ```
-Text colour   Iif(UnitsInStock <= ReorderLevel, "#B00000", "#000000")
-Fill colour   Iif(UnitsInStock <= ReorderLevel, "#FFE0E0", "Transparent")
+Text colour   Iif(Products_UnitsInStock <= Products_ReorderLevel, "#B00000", "#000000")
+Fill colour   Iif(Products_UnitsInStock <= Products_ReorderLevel, "#FFE0E0", "Transparent")
 ```
 
 The expression is worked out for every row, so the colour follows the data.
@@ -290,16 +292,30 @@ options.
 ## Using these from code
 
 ```csharp
+using System.IO;
 using BluePrint.DataSources;
 using BluePrint.Render;
 
 BpStandardDrivers.Register(sqlite: Microsoft.Data.Sqlite.SqliteFactory.Instance);
 
-var report = BluePrintDocument.Load(@"NorthwindBpt\nw-05-invoice.bpt");
-report.OverrideConnection("Northwind", @"Data Source=NorthwindDB\SQLite\northwind.db");
+var report = new BluePrintDocument();
+report.LoadBpt(File.ReadAllText(@"NorthwindBpt\nw-05-invoice.bpt"));
 
-report.ExportToPdf(@"out\invoice-10250.pdf", provider);
+var profile = new ConnectionProfile
+{
+    ProviderType = DatabaseProviderType.SQLite,
+    DataSource   = @"NorthwindDB\SQLite\northwind.db",
+};
+
+// runs the report's query and every lookup query, with the argument it asks for,
+// and keeps the rows in the report
+await report.RetrieveAsync(profile, new Dictionary<string, object?> { ["OrderId"] = 10250 });
+
+report.ExportToPdf(@"out\invoice-10250.pdf");
 ```
+
+Already holding an open connection (and perhaps a transaction)? Pass it in place of the profile:
+`await report.RetrieveAsync(connection, args, new DbQueryOptions { Transaction = tx })`.
 
 Your application references `Microsoft.Data.Sqlite` and `SQLitePCLRaw.bundle_e_sqlite3` as NuGet
 packages - the `DataProvider` folder is only for Studio. See **Connecting to a Database** in the

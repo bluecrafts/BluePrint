@@ -6,25 +6,31 @@
 
     <DockPanel>
 
-        <!-- The same report, filled three different ways. Each button retrieves
-             again and hands the result to the control; the page that comes out
-             is the same whichever one is pressed. -->
+        <!-- The same report, filled through four ways of reaching the database.
+             Each button does the whole job on its own - load the report, put the
+             rows in it, show it - and the page that comes out is the same
+             whichever one is pressed. -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="8">
-            <Button x:Name="RetrieveButton"
-                    Content="Retrieve"
-                    Click="Retrieve_Click"
+            <Button x:Name="OwnConnectionButton"
+                    Content="Own DbConnection"
+                    Click="OwnConnection_Click"
                     Margin="0,0,8,0" Padding="12,4"
-                    ToolTip="Run the query the .bpt carries. Its {bp:...} calls are rendered for whichever database the connection points at." />
-            <Button x:Name="SetSqlButton"
-                    Content="Set SQL query before retrieve"
-                    Click="SetSql_Click"
+                    ToolTip="We give the report a connection. It runs the query in the .bpt on it: report.RetrieveAsync(connection)." />
+            <Button x:Name="ProfileButton"
+                    Content="Connection Profile"
+                    Click="Profile_Click"
                     Margin="0,0,8,0" Padding="12,4"
-                    ToolTip="Replace the query with SQLite SQL of our own, then let BluePrint retrieve it." />
-            <Button x:Name="SetDataTableButton"
-                    Content="Set DataTable before retrieve"
-                    Click="SetDataTable_Click"
+                    ToolTip="We describe the database. The report connects, runs the query in the .bpt, and disconnects: report.RetrieveAsync(profile)." />
+            <Button x:Name="OwnConnectionSetSqlButton"
+                    Content="Own DbConnection + SetSql"
+                    Click="OwnConnectionSetSql_Click"
+                    Margin="0,0,8,0" Padding="12,4"
+                    ToolTip="As Own DbConnection, but the query is our own SQLite SQL, set on the report first: report.SetSql(...)." />
+            <Button x:Name="OwnQueryButton"
+                    Content="Own Query + List"
+                    Click="OwnQuery_Click"
                     Padding="12,4"
-                    ToolTip="Query with Microsoft.Data.Sqlite directly and hand the rows over as a DataTable." />
+                    ToolTip="We query with the driver ourselves and give the report a List of objects: report.SetData(list)." />
         </StackPanel>
 
         <StatusBar DockPanel.Dock="Bottom">
@@ -32,7 +38,7 @@
         </StatusBar>
 
         <!-- The control renders, paginates, zooms and prints on its own. Hand it
-             a report definition and a data provider and it does the rest. -->
+             the report - Preview.ReportDocument = report - and it does the rest. -->
         <bp:BluePrintPreviewControl x:Name="Preview" />
 
     </DockPanel>

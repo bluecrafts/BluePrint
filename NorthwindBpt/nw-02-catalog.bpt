@@ -29,23 +29,23 @@
     "sql": "SELECT c.CategoryName, c.Description, c.Picture,\n       p.ProductName, p.QuantityPerUnit, CAST(p.UnitPrice AS REAL) AS UnitPrice\nFROM Categories c\nJOIN Products p ON p.CategoryID = c.CategoryID\nORDER BY c.CategoryName, p.ProductName",
     "columns": [
       {
-        "name": "CategoryName",
+        "name": "Categories_CategoryName",
         "dbType": "string"
       },
       {
-        "name": "Description",
+        "name": "Categories_Description",
         "dbType": "string"
       },
       {
-        "name": "Picture",
+        "name": "Categories_Picture",
         "dbType": "binary"
       },
       {
-        "name": "ProductName",
+        "name": "Products_ProductName",
         "dbType": "string"
       },
       {
-        "name": "QuantityPerUnit",
+        "name": "Products_QuantityPerUnit",
         "dbType": "string"
       },
       {
@@ -118,7 +118,7 @@
       "type": "groupHeader",
       "groupLevel": 1,
       "groupByColumns": [
-        "CategoryName"
+        "Categories_CategoryName"
       ],
       "keepHeaderWithFirstDetailRow": true,
       "height": 4.2,
@@ -145,7 +145,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "Picture",
+          "expression": "Categories_Picture",
           "sizeMode": "zoom",
           "imageDpi": 96,
           "grayscale": false,
@@ -171,7 +171,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "source": "CategoryName"
+          "source": "Categories_CategoryName"
         },
         {
           "name": "CategoryDesc",
@@ -191,7 +191,7 @@
             "vAlign": "top",
             "paddingLeft": 0.1
           },
-          "source": "Description"
+          "source": "Categories_Description"
         },
         {
           "name": "CatRule",
@@ -247,7 +247,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "source": "ProductName"
+          "source": "Products_ProductName"
         },
         {
           "name": "Pack",
@@ -268,7 +268,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "source": "QuantityPerUnit"
+          "source": "Products_QuantityPerUnit"
         },
         {
           "name": "Price",
@@ -329,7 +329,7 @@
               }
             }
           },
-          "expression": "\"  \" + Count(ProductName for group 1) + \" product(s)\""
+          "expression": "\"  \" + Count(Products_ProductName for group 1) + \" product(s)\""
         },
         {
           "name": "CatAvg",

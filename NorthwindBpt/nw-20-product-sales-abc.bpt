@@ -29,11 +29,11 @@
     "sql": "SELECT p.ProductName,\n       c.CategoryName,\n       SUM(od.Quantity) AS Units,\n       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS Sales\nFROM {bp:Name(Order Details)} od\nJOIN Products p ON p.ProductID = od.ProductID\nJOIN Categories c ON c.CategoryID = p.CategoryID\nGROUP BY p.ProductName, c.CategoryName\nORDER BY Sales DESC",
     "columns": [
       {
-        "name": "ProductName",
+        "name": "Products_ProductName",
         "dbType": "string"
       },
       {
-        "name": "CategoryName",
+        "name": "Categories_CategoryName",
         "dbType": "string"
       },
       {
@@ -349,7 +349,7 @@
               }
             }
           },
-          "source": "ProductName"
+          "source": "Products_ProductName"
         },
         {
           "name": "Category",
@@ -378,7 +378,7 @@
               }
             }
           },
-          "source": "CategoryName"
+          "source": "Categories_CategoryName"
         },
         {
           "name": "SalesValue",
@@ -499,7 +499,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "Count(ProductName for all) + \" products\""
+          "expression": "Count(Products_ProductName for all) + \" products\""
         },
         {
           "name": "GrandTotal",
@@ -557,7 +557,7 @@
             "dataSet": "",
             "category": [
               {
-                "expression": "CategoryName"
+                "expression": "Categories_CategoryName"
               }
             ],
             "seriesGroup": [],

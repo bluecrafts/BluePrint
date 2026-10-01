@@ -29,7 +29,7 @@
     "sql": "SELECT o.OrderID, {bp:DateText(o.OrderDate)} AS OrderDate, c.CompanyName AS CustomerName,\n       o.ShipCountry, CAST(o.Freight AS REAL) AS Freight\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nWHERE o.OrderID BETWEEN 10248 AND 10267\nORDER BY o.OrderID",
     "columns": [
       {
-        "name": "OrderID",
+        "name": "Orders_OrderID",
         "dbType": "int64"
       },
       {
@@ -41,7 +41,7 @@
         "dbType": "string"
       },
       {
-        "name": "ShipCountry",
+        "name": "Orders_ShipCountry",
         "dbType": "string"
       },
       {
@@ -54,18 +54,18 @@
     {
       "name": "OrderLines",
       "dataSourceType": "dbsql",
-      "sql": "SELECT od.OrderID, p.ProductName, od.Quantity,\n       CAST(od.UnitPrice AS REAL) AS UnitPrice,\n       od.UnitPrice * od.Quantity * (1 - od.Discount) AS LineTotal\nFROM {bp:Name(Order Details)} od\nJOIN Products p ON p.ProductID = od.ProductID\nORDER BY od.OrderID, p.ProductName",
+      "sql": "SELECT od.OrderID AS LineOrderID, p.ProductName AS LineProductName, od.Quantity AS LineQuantity,\n       CAST(od.UnitPrice AS REAL) AS UnitPrice,\n       od.UnitPrice * od.Quantity * (1 - od.Discount) AS LineTotal\nFROM {bp:Name(Order Details)} od\nJOIN Products p ON p.ProductID = od.ProductID\nORDER BY od.OrderID, p.ProductName",
       "columns": [
         {
-          "name": "OrderID",
+          "name": "LineOrderID",
           "dbType": "int64"
         },
         {
-          "name": "ProductName",
+          "name": "LineProductName",
           "dbType": "string"
         },
         {
-          "name": "Quantity",
+          "name": "LineQuantity",
           "dbType": "int64"
         },
         {
@@ -144,7 +144,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "source": "OrderID"
+          "source": "Orders_OrderID"
         },
         {
           "name": "CustName",
@@ -207,7 +207,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "source": "ShipCountry"
+          "source": "Orders_ShipCountry"
         },
         {
           "name": "LinesHdr",
@@ -253,8 +253,8 @@
           "autoHeight": true,
           "subBand": {
             "dataset": "OrderLines",
-            "linkKey": "OrderID",
-            "linkColumn": "OrderID",
+            "linkKey": "Orders_OrderID",
+            "linkColumn": "LineOrderID",
             "rowHeight": 0.55,
             "autoRowHeight": false,
             "rowSeparator": true,
@@ -278,7 +278,7 @@
                   "paddingLeft": 0.1,
                   "paddingRight": 0.05
                 },
-                "expression": "ProductName"
+                "expression": "LineProductName"
               },
               {
                 "name": "L_Qty",
@@ -299,7 +299,7 @@
                   "paddingLeft": 0.1,
                   "paddingRight": 0.05
                 },
-                "expression": "Quantity",
+                "expression": "LineQuantity",
                 "format": "#,##0"
               },
               {

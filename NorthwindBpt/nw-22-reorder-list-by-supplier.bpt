@@ -33,39 +33,39 @@
         "dbType": "string"
       },
       {
-        "name": "ContactName",
+        "name": "Suppliers_ContactName",
         "dbType": "string"
       },
       {
-        "name": "Phone",
+        "name": "Suppliers_Phone",
         "dbType": "string"
       },
       {
-        "name": "Country",
+        "name": "Suppliers_Country",
         "dbType": "string"
       },
       {
-        "name": "ProductName",
+        "name": "Products_ProductName",
         "dbType": "string"
       },
       {
-        "name": "QuantityPerUnit",
+        "name": "Products_QuantityPerUnit",
         "dbType": "string"
       },
       {
-        "name": "UnitsInStock",
+        "name": "Products_UnitsInStock",
         "dbType": "int64"
       },
       {
-        "name": "UnitsOnOrder",
+        "name": "Products_UnitsOnOrder",
         "dbType": "int64"
       },
       {
-        "name": "ReorderLevel",
+        "name": "Products_ReorderLevel",
         "dbType": "int64"
       },
       {
-        "name": "UnitPrice",
+        "name": "Products_UnitPrice",
         "dbType": "double"
       }
     ]
@@ -357,7 +357,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "TextJoin(\" - \", ContactName, Phone, Country)"
+          "expression": "TextJoin(\" - \", Suppliers_ContactName, Suppliers_Phone, Suppliers_Country)"
         },
         {
           "name": "ContactCode",
@@ -378,7 +378,7 @@
             "paddingLeft": 0,
             "paddingRight": 0
           },
-          "expression": "\"BEGIN:VCARD\" + Char(10) + \"VERSION:3.0\" + Char(10) + \"N:\" + ContactName + Char(10) + \"ORG:\" + SupplierName + Char(10) + \"TEL:\" + Phone + Char(10) + \"END:VCARD\"",
+          "expression": "\"BEGIN:VCARD\" + Char(10) + \"VERSION:3.0\" + Char(10) + \"N:\" + Suppliers_ContactName + Char(10) + \"ORG:\" + SupplierName + Char(10) + \"TEL:\" + Suppliers_Phone + Char(10) + \"END:VCARD\"",
           "barcode": {
             "symbology": "qrCode",
             "showText": false,
@@ -427,7 +427,7 @@
               }
             }
           },
-          "source": "ProductName"
+          "source": "Products_ProductName"
         },
         {
           "name": "Pack",
@@ -456,7 +456,7 @@
               }
             }
           },
-          "source": "QuantityPerUnit"
+          "source": "Products_QuantityPerUnit"
         },
         {
           "name": "Stock",
@@ -472,8 +472,8 @@
             "fontSize": 10,
             "foreColor": "#000000",
             "backColor": "Transparent",
-            "foreColorExpression": "Iif(UnitsInStock = 0, \"#B00000\", \"#000000\")",
-            "backColorExpression": "Iif(UnitsInStock = 0, \"#FFE0E0\", \"Transparent\")",
+            "foreColorExpression": "Iif(Products_UnitsInStock = 0, \"#B00000\", \"#000000\")",
+            "backColorExpression": "Iif(Products_UnitsInStock = 0, \"#FFE0E0\", \"Transparent\")",
             "hAlign": "right",
             "vAlign": "top",
             "paddingLeft": 0.1,
@@ -487,7 +487,7 @@
               }
             }
           },
-          "source": "UnitsInStock",
+          "source": "Products_UnitsInStock",
           "format": "#,##0"
         },
         {
@@ -517,7 +517,7 @@
               }
             }
           },
-          "source": "UnitsOnOrder",
+          "source": "Products_UnitsOnOrder",
           "format": "#,##0"
         },
         {
@@ -547,7 +547,7 @@
               }
             }
           },
-          "source": "ReorderLevel",
+          "source": "Products_ReorderLevel",
           "format": "#,##0"
         }
       ]
@@ -587,7 +587,7 @@
               }
             }
           },
-          "expression": "Count(ProductName for group 1) + Iif(Count(ProductName for group 1) = 1, \" product\", \" products\") + \" to reorder from this supplier\""
+          "expression": "Count(Products_ProductName for group 1) + Iif(Count(Products_ProductName for group 1) = 1, \" product\", \" products\") + \" to reorder from this supplier\""
         }
       ]
     },
@@ -617,7 +617,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "Count(ProductName for all) + \" products to reorder\""
+          "expression": "Count(Products_ProductName for all) + \" products to reorder\""
         }
       ]
     },

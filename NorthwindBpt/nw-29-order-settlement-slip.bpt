@@ -26,10 +26,10 @@
   },
   "dataSource": {
     "dataSourceType": "dbsql",
-    "sql": "SELECT * FROM (\nSELECT o.OrderID AS OrderID,\n       c.CompanyName AS CustomerName,\n       {bp:DateText(o.OrderDate)} AS OrderDate,\n       'C' AS Kind,\n       p.ProductName AS ProductName,\n       od.Quantity AS Quantity,\n       CAST(od.UnitPrice * od.Quantity AS REAL) AS Amount\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nWHERE o.OrderID BETWEEN 10248 AND 10254\nUNION ALL\nSELECT o.OrderID,\n       c.CompanyName,\n       {bp:DateText(o.OrderDate)},\n       'D',\n       p.ProductName,\n       od.Quantity,\n       CAST(-1 * od.UnitPrice * od.Quantity * od.Discount AS REAL)\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nWHERE o.OrderID BETWEEN 10248 AND 10254\n  AND od.Discount > 0\n) slip\nORDER BY OrderID, Kind, ProductName",
+    "sql": "SELECT * FROM (\nSELECT o.OrderID AS SlipOrderID,\n       c.CompanyName AS CustomerName,\n       {bp:DateText(o.OrderDate)} AS OrderDate,\n       'C' AS Kind,\n       p.ProductName AS SlipProductName,\n       od.Quantity AS SlipQuantity,\n       CAST(od.UnitPrice * od.Quantity AS REAL) AS Amount\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nWHERE o.OrderID BETWEEN 10248 AND 10254\nUNION ALL\nSELECT o.OrderID,\n       c.CompanyName,\n       {bp:DateText(o.OrderDate)},\n       'D',\n       p.ProductName,\n       od.Quantity,\n       CAST(-1 * od.UnitPrice * od.Quantity * od.Discount AS REAL)\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nWHERE o.OrderID BETWEEN 10248 AND 10254\n  AND od.Discount > 0\n) slip\nORDER BY SlipOrderID, Kind, SlipProductName",
     "columns": [
       {
-        "name": "OrderID",
+        "name": "SlipOrderID",
         "dbType": "int64"
       },
       {
@@ -45,11 +45,11 @@
         "dbType": "string"
       },
       {
-        "name": "ProductName",
+        "name": "SlipProductName",
         "dbType": "string"
       },
       {
-        "name": "Quantity",
+        "name": "SlipQuantity",
         "dbType": "int64"
       },
       {
@@ -123,7 +123,7 @@
       "type": "groupHeader",
       "groupLevel": 1,
       "groupByColumns": [
-        "OrderID"
+        "SlipOrderID"
       ],
       "keepHeaderWithFirstDetailRow": true,
       "height": 3.2,
@@ -151,7 +151,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "\"Order \" + OrderID"
+          "expression": "\"Order \" + SlipOrderID"
         },
         {
           "name": "Customer",
@@ -324,7 +324,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "source": "ProductName",
+          "source": "SlipProductName",
           "slotNo": 1
         },
         {
@@ -346,7 +346,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "source": "Quantity",
+          "source": "SlipQuantity",
           "format": "#,##0",
           "slotNo": 1
         },
@@ -417,7 +417,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "source": "ProductName",
+          "source": "SlipProductName",
           "slotNo": 2
         },
         {
@@ -644,7 +644,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "\"All slips - \" + Count(OrderID for all) + \" lines on 7 orders\""
+          "expression": "\"All slips - \" + Count(SlipOrderID for all) + \" lines on 7 orders\""
         },
         {
           "name": "GrandNet",

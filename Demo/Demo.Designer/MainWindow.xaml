@@ -4,9 +4,18 @@
         xmlns:bp="clr-namespace:BluePrint.Designer.Controls;assembly=BluePrint.Designer"
         Title="BluePrint designer" Height="800" Width="1200">
 
-    <!-- The design surface, property panel and the built-in dialogs come with
-         the control. A host only supplies the dialogs that reach outside the
-         report, such as a live connection or an application preference. -->
-    <bp:BluePrintDesignerControl x:Name="Designer" />
+    <DockPanel>
+        <!-- The menus belong to the host. The designer has no Retrieve button of
+             its own, because only the host knows where the rows come from. -->
+        <ToolBar DockPanel.Dock="Top">
+            <Button Content="Retrieve" Click="Retrieve_Click"
+                    ToolTip="Ask for the order number, then run the report's query against northwind.db" />
+        </ToolBar>
+
+        <!-- The design surface, property panel and the built-in dialogs come with
+             the control. A host only supplies the dialogs that reach outside the
+             report, such as a live connection or an application preference. -->
+        <bp:BluePrintDesignerControl x:Name="Designer" />
+    </DockPanel>
 
 </Window>

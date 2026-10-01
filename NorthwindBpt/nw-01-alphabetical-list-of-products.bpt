@@ -29,11 +29,11 @@
     "sql": "SELECT p.ProductName, c.CategoryName, s.CompanyName AS SupplierName,\n       p.QuantityPerUnit, CAST(p.UnitPrice AS REAL) AS UnitPrice\nFROM Products p\nJOIN Categories c ON c.CategoryID = p.CategoryID\nJOIN Suppliers  s ON s.SupplierID = p.SupplierID\nORDER BY p.ProductName",
     "columns": [
       {
-        "name": "ProductName",
+        "name": "Products_ProductName",
         "dbType": "string"
       },
       {
-        "name": "CategoryName",
+        "name": "Categories_CategoryName",
         "dbType": "string"
       },
       {
@@ -41,7 +41,7 @@
         "dbType": "string"
       },
       {
-        "name": "QuantityPerUnit",
+        "name": "Products_QuantityPerUnit",
         "dbType": "string"
       },
       {
@@ -273,7 +273,7 @@
               }
             }
           },
-          "source": "ProductName"
+          "source": "Products_ProductName"
         },
         {
           "name": "Category",
@@ -302,7 +302,7 @@
               }
             }
           },
-          "source": "CategoryName"
+          "source": "Categories_CategoryName"
         },
         {
           "name": "Supplier",
@@ -360,7 +360,7 @@
               }
             }
           },
-          "source": "QuantityPerUnit"
+          "source": "Products_QuantityPerUnit"
         },
         {
           "name": "Price",
@@ -420,7 +420,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "\"Products: \" + Count(ProductName for all)"
+          "expression": "\"Products: \" + Count(Products_ProductName for all)"
         }
       ]
     },

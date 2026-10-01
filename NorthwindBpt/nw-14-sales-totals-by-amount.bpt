@@ -33,7 +33,7 @@
         "dbType": "int64"
       },
       {
-        "name": "OrderID",
+        "name": "Orders_OrderID",
         "dbType": "int64"
       },
       {
@@ -299,7 +299,7 @@
               }
             }
           },
-          "source": "OrderID"
+          "source": "Orders_OrderID"
         },
         {
           "name": "Customer",
@@ -418,7 +418,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "Count(OrderID for group 1) + \" orders of \" + Switch(AmountBand = 1, \"10,000 and over\", AmountBand = 2, \"5,000 to 9,999\", \"2,500 to 4,999\")"
+          "expression": "Count(Orders_OrderID for group 1) + \" orders of \" + Switch(AmountBand = 1, \"10,000 and over\", AmountBand = 2, \"5,000 to 9,999\", \"2,500 to 4,999\")"
         },
         {
           "name": "BandTotal",
@@ -479,7 +479,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "\"All \" + Count(OrderID for all) + \" orders\""
+          "expression": "\"All \" + Count(Orders_OrderID for all) + \" orders\""
         },
         {
           "name": "GrandTotal",
