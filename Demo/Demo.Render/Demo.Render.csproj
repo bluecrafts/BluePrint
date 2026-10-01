@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlueCrafts.BluePrint.Render" Version="1.0.56" />
+    <PackageReference Include="BlueCrafts.BluePrint.Render" Version="1.1.60" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- One query shared with Demo.Preview. -->
-    <Compile Include="..\InvoiceQuery.cs" Link="InvoiceQuery.cs" />
-
-    <!-- The report, and the database it reads. Both shared with Demo.Preview. -->
+    <!-- The report, and the database it reads. Both shared with Demo.Preview.
+         The code that fills the report lives in Program.cs, one block per way. -->
     <None Include="..\..\NorthwindBpt\nw-05-invoice.bpt" Link="nw-05-invoice.bpt" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\NorthwindDB\SQLite\northwind.db" Link="northwind.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

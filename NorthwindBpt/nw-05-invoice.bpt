@@ -26,7 +26,7 @@
   },
   "dataSource": {
     "dataSourceType": "dbsql",
-    "sql": "SELECT o.OrderID, {bp:DateText(o.OrderDate)} AS OrderDate, {bp:DateText(o.ShippedDate)} AS ShippedDate,\n       c.CompanyName AS CustomerName, c.Address, c.City, c.PostalCode, c.Country,\n       {bp:Concat(e.LastName, ', ', e.FirstName)} AS Salesperson,\n       sh.CompanyName AS ShipperName, CAST(o.Freight AS REAL) AS Freight,\n       p.ProductName, CAST(od.UnitPrice AS REAL) AS UnitPrice,\n       od.Quantity, od.Discount,\n       od.UnitPrice * od.Quantity * (1 - od.Discount) AS ExtendedPrice\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nJOIN Employees e ON e.EmployeeID = o.EmployeeID\nJOIN Shippers sh ON sh.ShipperID = o.ShipVia\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nWHERE o.OrderID = @OrderId\nORDER BY p.ProductName",
+    "sql": "SELECT o.OrderID, {bp:DateText(o.OrderDate)} AS OrderDate, {bp:DateText(o.ShippedDate)} AS ShippedDate,\n       c.CompanyName AS CustomerName, c.Address, c.City, c.PostalCode, c.Country,\n       {bp:Concat(e.LastName, ', ', e.FirstName)} AS Salesperson,\n       sh.CompanyName AS ShipperName, CAST(o.Freight AS REAL) AS Freight,\n       p.ProductName, CAST(od.UnitPrice AS REAL) AS UnitPrice,\n       od.Quantity AS LineQuantity, od.Discount AS LineDiscount,\n       od.UnitPrice * od.Quantity * (1 - od.Discount) AS ExtendedPrice\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nJOIN Employees e ON e.EmployeeID = o.EmployeeID\nJOIN Shippers sh ON sh.ShipperID = o.ShipVia\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nWHERE o.OrderID = @OrderId\nORDER BY p.ProductName",
     "arguments": [
       {
         "name": "OrderId",
@@ -35,7 +35,7 @@
     ],
     "columns": [
       {
-        "name": "OrderID",
+        "name": "Orders_OrderID",
         "dbType": "int64"
       },
       {
@@ -51,19 +51,19 @@
         "dbType": "string"
       },
       {
-        "name": "Address",
+        "name": "Customers_Address",
         "dbType": "string"
       },
       {
-        "name": "City",
+        "name": "Customers_City",
         "dbType": "string"
       },
       {
-        "name": "PostalCode",
+        "name": "Customers_PostalCode",
         "dbType": "string"
       },
       {
-        "name": "Country",
+        "name": "Customers_Country",
         "dbType": "string"
       },
       {
@@ -79,7 +79,7 @@
         "dbType": "double"
       },
       {
-        "name": "ProductName",
+        "name": "Products_ProductName",
         "dbType": "string"
       },
       {
@@ -87,11 +87,11 @@
         "dbType": "double"
       },
       {
-        "name": "Quantity",
+        "name": "LineQuantity",
         "dbType": "int64"
       },
       {
-        "name": "Discount",
+        "name": "LineDiscount",
         "dbType": "double"
       },
       {
@@ -171,7 +171,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "\"Order no. \" + OrderID"
+          "expression": "\"Order no. \" + Orders_OrderID"
         },
         {
           "name": "InvDate",
@@ -277,7 +277,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "source": "Address"
+          "source": "Customers_Address"
         },
         {
           "name": "CustCity",
@@ -298,7 +298,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "TextJoin(\" \", City, PostalCode, Country)"
+          "expression": "TextJoin(\" \", Customers_City, Customers_PostalCode, Customers_Country)"
         },
         {
           "name": "SalesBy",
@@ -361,7 +361,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "String(OrderID)",
+          "expression": "String(Orders_OrderID)",
           "barcode": {
             "symbology": "code128",
             "showText": true,
@@ -595,7 +595,7 @@
               }
             }
           },
-          "source": "ProductName"
+          "source": "Products_ProductName"
         },
         {
           "name": "Price",
@@ -654,7 +654,7 @@
               }
             }
           },
-          "source": "Quantity",
+          "source": "LineQuantity",
           "format": "#,##0"
         },
         {
@@ -684,7 +684,7 @@
               }
             }
           },
-          "source": "Discount",
+          "source": "LineDiscount",
           "format": "0%"
         },
         {

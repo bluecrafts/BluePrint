@@ -29,11 +29,11 @@
     "sql": "SELECT c.CategoryName, p.ProductName,\n       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS ProductSales\nFROM Categories c\nJOIN Products p ON p.CategoryID = c.CategoryID\nJOIN {bp:Name(Order Details)} od ON od.ProductID = p.ProductID\nJOIN Orders o ON o.OrderID = od.OrderID\nGROUP BY c.CategoryName, p.ProductName\nORDER BY c.CategoryName, p.ProductName",
     "columns": [
       {
-        "name": "CategoryName",
+        "name": "Categories_CategoryName",
         "dbType": "string"
       },
       {
-        "name": "ProductName",
+        "name": "Products_ProductName",
         "dbType": "string"
       },
       {
@@ -176,7 +176,7 @@
       "type": "groupHeader",
       "groupLevel": 1,
       "groupByColumns": [
-        "CategoryName"
+        "Categories_CategoryName"
       ],
       "keepHeaderWithFirstDetailRow": true,
       "height": 0.9,
@@ -203,7 +203,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "source": "CategoryName"
+          "source": "Categories_CategoryName"
         }
       ]
     },
@@ -240,7 +240,7 @@
               }
             }
           },
-          "source": "ProductName"
+          "source": "Products_ProductName"
         },
         {
           "name": "Sales",
@@ -331,7 +331,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "\"Total for \" + CategoryName"
+          "expression": "\"Total for \" + Categories_CategoryName"
         },
         {
           "name": "CatTotal",

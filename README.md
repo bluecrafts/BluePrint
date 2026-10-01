@@ -16,6 +16,56 @@ control you can embed in your own application.*
 This repository is where BluePrint is distributed and documented. It carries the
 released binaries, the sample projects, and the place to report a problem.
 
+## Six lines to a printed report
+
+BluePrint is BluePrintDocument-centric: one `BluePrintDocument` does it all.
+Create it, load it, retrieve, print. That is the whole program - here for
+the invoice in [`NorthwindBpt`](NorthwindBpt), reading the SQLite copy of
+Northwind in [`NorthwindDB`](NorthwindDB):
+
+```csharp
+using System.IO;
+using BluePrint.Render;
+using BluePrint.Render.WPF;        // Print() - WPF, Windows only
+using Microsoft.Data.Sqlite;
+
+// 1. create the report
+var report = new BluePrintDocument();
+
+// 2. load the definition - LoadBpt takes the content of the .bpt, not its path
+report.LoadBpt(File.ReadAllText("nw-05-invoice.bpt"));
+
+// 3. connect to the database
+await using var connection = new SqliteConnection("Data Source=northwind.db");
+
+// 4. retrieve - runs the query in the .bpt, and keeps the rows in the report
+await report.RetrieveAsync(connection, new Dictionary<string, object?> { ["OrderId"] = 11077L });
+
+// 5. print - to the default printer
+report.Print();
+
+// 6. export to PDF
+report.ExportToPdf("invoice-11077.pdf");
+```
+
+### What happens underneath
+
+- `RetrieveAsync` runs the report's own query - the main one and every lookup,
+  with `@OrderId` bound for SQLite. The connection is opened for the retrieve and
+  closed again; an open one, or one inside a transaction, is used and left open.
+- Print and export use the rows the report holds, so there is nothing more to
+  pass. `ExportToExcel`, `ExportToHtml`, `ExportToCsv` and `ExportToImage` work
+  the same way, and every export can write to a stream instead of a file.
+- BluePrint ships no database driver: reference the one for your database
+  (here `Microsoft.Data.Sqlite`). `Print()` comes with
+  `BlueCrafts.BluePrint.Render.WPF`; without it, everything else runs on
+  `BlueCrafts.BluePrint.Render` alone, on Windows or Linux.
+- Rows you already have - a `List<T>` from Entity Framework or Dapper - go in
+  with `report.SetData(list)` instead of the retrieve.
+
+[`Demo.Render`](Demo/Demo.Render) and [`Demo.Preview`](Demo/Demo.Preview) run
+this same invoice four ways, ready to build.
+
 ## Document
 
 Documentation with worked examples for reports, expressions, and data sources lives on the

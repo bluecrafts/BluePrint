@@ -29,7 +29,7 @@
     "sql": "SELECT c.CategoryName,\n       {bp:ToText(Year(o.OrderDate), 4)} AS OrderYear,\n       p.ProductName,\n       CAST(p.UnitPrice AS REAL) AS UnitPrice,\n       SUM(od.Quantity) AS Units,\n       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS Sales\nFROM Orders o\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nJOIN Categories c ON c.CategoryID = p.CategoryID\nGROUP BY c.CategoryName, {bp:ToText(Year(o.OrderDate), 4)}, p.ProductName, p.UnitPrice\nORDER BY c.CategoryName, OrderYear, p.ProductName",
     "columns": [
       {
-        "name": "CategoryName",
+        "name": "Categories_CategoryName",
         "dbType": "string"
       },
       {
@@ -37,7 +37,7 @@
         "dbType": "string"
       },
       {
-        "name": "ProductName",
+        "name": "Products_ProductName",
         "dbType": "string"
       },
       {
@@ -130,7 +130,7 @@
             "dataSet": "",
             "category": [
               {
-                "expression": "CategoryName"
+                "expression": "Categories_CategoryName"
               }
             ],
             "seriesGroup": [
@@ -323,7 +323,7 @@
             "dataSet": "",
             "category": [
               {
-                "expression": "CategoryName"
+                "expression": "Categories_CategoryName"
               }
             ],
             "seriesGroup": [
@@ -410,7 +410,7 @@
             "dataSet": "",
             "category": [
               {
-                "expression": "CategoryName"
+                "expression": "Categories_CategoryName"
               }
             ],
             "seriesGroup": [

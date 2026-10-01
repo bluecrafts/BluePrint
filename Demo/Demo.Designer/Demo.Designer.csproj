@@ -9,16 +9,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlueCrafts.BluePrint.Designer" Version="1.0.56" />
+    <PackageReference Include="BlueCrafts.BluePrint.Designer" Version="1.1.60" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The driver for the Northwind file, used only by Retrieve. See the note in Demo.Render.csproj. -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
   </ItemGroup>
 
   <ItemGroup>
     <!--
-      The same report the other two samples render. Editing a definition needs
-      no database, so this sample references no driver: the query is text on the
-      data source page until a host wires up a connection.
+      The same report the other two samples render, and the database it reads.
+      Editing a definition needs no database - the query is text on the data
+      source page. Only Retrieve, which the host wires up in MainWindow.xaml.cs,
+      opens the file.
     -->
     <None Include="..\..\NorthwindBpt\nw-05-invoice.bpt" Link="nw-05-invoice.bpt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\NorthwindDB\SQLite\northwind.db" Link="northwind.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

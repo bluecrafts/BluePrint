@@ -29,27 +29,27 @@
     "sql": "SELECT c.CategoryName, p.ProductName, p.QuantityPerUnit,\n       p.UnitsInStock, p.UnitsOnOrder, p.ReorderLevel\nFROM Categories c\nJOIN Products p ON p.CategoryID = c.CategoryID\nWHERE p.Discontinued = 0\nORDER BY c.CategoryName, p.ProductName",
     "columns": [
       {
-        "name": "CategoryName",
+        "name": "Categories_CategoryName",
         "dbType": "string"
       },
       {
-        "name": "ProductName",
+        "name": "Products_ProductName",
         "dbType": "string"
       },
       {
-        "name": "QuantityPerUnit",
+        "name": "Products_QuantityPerUnit",
         "dbType": "string"
       },
       {
-        "name": "UnitsInStock",
+        "name": "Products_UnitsInStock",
         "dbType": "int64"
       },
       {
-        "name": "UnitsOnOrder",
+        "name": "Products_UnitsOnOrder",
         "dbType": "int64"
       },
       {
-        "name": "ReorderLevel",
+        "name": "Products_ReorderLevel",
         "dbType": "int64"
       }
     ]
@@ -248,7 +248,7 @@
       "type": "groupHeader",
       "groupLevel": 1,
       "groupByColumns": [
-        "CategoryName"
+        "Categories_CategoryName"
       ],
       "keepHeaderWithFirstDetailRow": true,
       "height": 0.9,
@@ -275,7 +275,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "source": "CategoryName"
+          "source": "Categories_CategoryName"
         }
       ]
     },
@@ -312,7 +312,7 @@
               }
             }
           },
-          "source": "ProductName"
+          "source": "Products_ProductName"
         },
         {
           "name": "Pack",
@@ -341,7 +341,7 @@
               }
             }
           },
-          "source": "QuantityPerUnit"
+          "source": "Products_QuantityPerUnit"
         },
         {
           "name": "Stock",
@@ -357,8 +357,8 @@
             "fontSize": 10,
             "foreColor": "#000000",
             "backColor": "Transparent",
-            "foreColorExpression": "Iif(UnitsInStock <= ReorderLevel, \"#B00000\", \"#000000\")",
-            "backColorExpression": "Iif(UnitsInStock <= ReorderLevel, \"#FFE0E0\", \"Transparent\")",
+            "foreColorExpression": "Iif(Products_UnitsInStock <= Products_ReorderLevel, \"#B00000\", \"#000000\")",
+            "backColorExpression": "Iif(Products_UnitsInStock <= Products_ReorderLevel, \"#FFE0E0\", \"Transparent\")",
             "hAlign": "right",
             "vAlign": "top",
             "paddingLeft": 0.1,
@@ -372,7 +372,7 @@
               }
             }
           },
-          "source": "UnitsInStock",
+          "source": "Products_UnitsInStock",
           "format": "#,##0"
         },
         {
@@ -402,7 +402,7 @@
               }
             }
           },
-          "source": "UnitsOnOrder",
+          "source": "Products_UnitsOnOrder",
           "format": "#,##0"
         },
         {
@@ -432,7 +432,7 @@
               }
             }
           },
-          "source": "ReorderLevel",
+          "source": "Products_ReorderLevel",
           "format": "#,##0"
         }
       ]
@@ -464,7 +464,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "Count(ProductName for group 1) + \" product(s)\""
+          "expression": "Count(Products_ProductName for group 1) + \" product(s)\""
         },
         {
           "name": "CatStock",
@@ -494,7 +494,7 @@
               }
             }
           },
-          "expression": "Sum(UnitsInStock for group 1)",
+          "expression": "Sum(Products_UnitsInStock for group 1)",
           "format": "#,##0"
         }
       ]

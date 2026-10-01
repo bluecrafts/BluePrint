@@ -7,16 +7,18 @@ The three report samples share one report definition, [`nw-05-invoice.bpt`](../N
 an invoice for a single order, picked by the order number the report declares as
 a retrieval argument. It reads the SQLite copy of Northwind in
 [`NorthwindDB`](../NorthwindDB), a single file already in this repository, so there
-is nothing to install or start. `Demo.Render` and `Demo.Preview` also share the
-query that fills it, `InvoiceQuery.cs`. The two barcode samples share one list of
+is nothing to install or start. `Demo.Render` fills it four ways, one block of
+`Program.cs` each; `Demo.Preview` puts the same four on buttons. Every block and
+every button does the whole job by itself, so each way can be read on its own.
+The two barcode samples share one list of
 values, `BarcodeSamples.cs`, so the page one writes and the window the other
 shows always hold the same symbols.
 
 | Project | Shows |
 | --- | --- |
-| `Demo.Render` | load a `.bpt`, fill it three different ways, export each to PDF, with no UI at all |
-| `Demo.Preview` | `BluePrintPreviewControl` in a WPF window, with those three ways on buttons |
-| `Demo.Designer` | `BluePrintDesignerControl` embedded in a host application |
+| `Demo.Render` | load a `.bpt`, fill it four different ways, export each to PDF, with no UI at all |
+| `Demo.Preview` | `BluePrintPreviewControl` in a WPF window, with those four ways on buttons |
+| `Demo.Designer` | `BluePrintDesignerControl` embedded in a host application, with Retrieve wired to the same database |
 | `Demo.Barcode` | every symbology written out as SVG and PNG, plus one page showing them all |
 | `Demo.Barcode.Wpf` | the same symbologies on screen, re-encoded as you type, drawn by WPF |
 
@@ -30,7 +32,7 @@ dotnet run --project Demo.Barcode
 dotnet run --project Demo.Barcode.Wpf
 ```
 
-`Demo.Render` writes one PDF next to its executable for each of the three ways
+`Demo.Render` writes one PDF next to its executable for each of the four ways
 of getting the rows described below, and prints what each one did.
 `Demo.Barcode` writes a `barcodes` folder next to its own, holding an SVG and a
 PNG for each symbology and an `index.html` that shows them together. The rest
@@ -62,46 +64,80 @@ enough; the rest of that chain comes with it.
 
 No BlueCrafts package references a database driver, and none of them opens a
 connection. A report definition carries its query; the host runs it and hands
-the rows back. That is why `Demo.Render` and `Demo.Preview` reference
-`Microsoft.Data.Sqlite` themselves, and it is the same everywhere: point a
+the rows back. That is why `Demo.Render`, `Demo.Preview` and `Demo.Designer`
+reference `Microsoft.Data.Sqlite` themselves, and it is the same everywhere: point a
 report at Oracle and the driver is the host's to choose.
 
-Once `InvoiceQuery.cs` has the rows, that is the whole of it:
+BluePrint is BluePrintDocument-centric: one `BluePrintDocument` is the centre of
+everything. Create it, load a definition into it, put the rows in it, then export
+it or show it. With a connection, that is the whole of it:
 
 ```csharp
-var report = BluePrintDocument.Load(InvoiceQuery.ReportPath);
-report.SetExternalData(rows);
-report.SetArgumentValues(new Dictionary<string, object?> { ["OrderId"] = 11077L });
-report.ExportToPdf(outputPath);
+var report = new BluePrintDocument();
+report.LoadBpt(File.ReadAllText("nw-05-invoice.bpt"));
+await report.RetrieveAsync(new SqliteConnection(connectionString),
+                           new Dictionary<string, object?> { ["OrderId"] = 11077L });
+report.ExportToPdf("invoice.pdf");      // or, in a window: Preview.ReportDocument = report;
 ```
 
-The argument values go in beside the rows because the report prints them: an
-invoice heading that says which order this is reads `@OrderId`, and it has no
-other way to know what was retrieved.
+`LoadBpt` takes the content of a `.bpt`, not its path, so the definition can
+come from a file, a database, an HTTP response or an embedded resource alike -
+reading it is the host's job. `new BluePrintDocument(bpt)` does both steps at
+once.
 
-`Demo.Designer` opens the same definition and reads no data at all: editing a
-report needs no connection.
+`RetrieveAsync` runs the query the `.bpt` carries - the main query and every
+lookup query - and the report keeps the rows it got, together with the argument
+values it retrieved with, so any expression in the report that prints
+`@OrderId` sees the same value the query used. Export and preview then use what
+the report holds, so there is nothing more to pass.
 
-### Three ways to get the rows
+`Demo.Designer` opens the same definition. Editing a report needs no
+connection; the data source page shows the query as text. Rows on the design
+surface are the one thing the host wires up itself, because the designer never
+opens a connection. The designer asks for `@OrderId`, then hands the host an
+empty `BluePrintDocument` for the report being designed, and the host fills it
+the same way as above:
+
+```csharp
+Designer.RetrieveReportFactory = async (report, args) =>
+{
+    await using var connection = new SqliteConnection(connectionString);
+    await report.RetrieveAsync(connection, args);
+    return true;      // false (or an exception) keeps the rows of the last retrieve
+};
+```
+
+### Four ways to fill the report
 
 Where those rows come from is the host's decision, and there is more than one
-reasonable answer. `Demo.Preview` puts all three on buttons across the top of
-the window, and `Demo.Render`, which has nothing to click, runs all three and
-writes a PDF for each. They are written once, in `InvoiceQuery.cs`.
+reasonable answer. `Demo.Preview` puts all four on buttons across the top of
+the window, and `Demo.Render`, which has nothing to click, runs the same four
+one after another and writes a PDF for each. Each button handler in
+`MainWindow.xaml.cs`, and each block in `Program.cs`, does the whole job by
+itself - load the report, put the rows in it, show or export it - so reading one
+is enough to copy that way into your own code.
 
-| | What it does |
+| Way | What it does |
 | --- | --- |
-| **Retrieve** | Runs the query the `.bpt` already carries, as it is written. That query contains `{bp:...}` calls - the things that let one report run on all six supported databases - and `ReportQueryService` renders them for whatever the connection points at. Nothing in the sample knows or cares that the answer happens to be SQLite. |
-| **Set SQL query before retrieve** | `report.SetSql(...)` replaces the query with SQLite SQL of our own, and BluePrint still runs it. Use this shape when the host builds the statement itself. `SetSql` does not rebuild the report's columns, so the replacement has to return the same ones in the same order. |
-| **Set DataTable before retrieve** | No BluePrint data layer at all: the sample queries with `Microsoft.Data.Sqlite` directly and hands over a `DataTable`. This is the shape for a host that already has its own data access, or whose rows never came from a database in the first place. |
+| **Own DbConnection** | `report.RetrieveAsync(connection, args)` runs the query the `.bpt` carries on a connection the host gives it - the main query and every lookup query, `{bp:...}` calls and `@arguments` included. A closed connection is opened for the retrieve and closed again; an open one is used and left open, which is the shape for an application that already holds a connection or a transaction (`new DbQueryOptions { Transaction = tx }`). Nothing to register: BluePrint works out the database from the connection. |
+| **Connection Profile** | The host describes the database in a `ConnectionProfile` and registers the driver it references; `report.RetrieveAsync(profile, args)` opens a connection, runs the query the `.bpt` carries, and closes it again. That query contains `{bp:...}` calls - the things that let one report run on all six supported databases - and they are rendered for whatever the profile points at. Nothing in the sample knows or cares that the answer happens to be SQLite. |
+| **Own DbConnection + SetSql** | As the first, but `report.SetSql(...)` first replaces the query with SQLite SQL of our own, and the report still runs it. Use this shape when the host builds the statement itself. `SetSql` does not rebuild the report's columns, so the replacement has to return the same ones in the same order. |
+| **Own Query + List** | No BluePrint data layer at all: the sample queries with `Microsoft.Data.Sqlite` directly - it could as well be Entity Framework or Dapper - and hands over a `List<InvoiceLine>` with `report.SetData(lines)`. Properties are matched to the report's column names, ignoring case; `report.SetArgumentValues(args)` supplies `@OrderId` to any expression that prints it, as a retrieve would. Do not run the `.bpt`'s own query this way: its `{bp:...}` calls are only translated when the report retrieves. |
 
-All three end in the same `SetExternalData`, and the three PDFs `Demo.Render`
-writes come out byte for byte identical apart from the document id PDF gives
-each file. That is the point worth taking away: the engine takes rows, and how
-they were fetched is not its business.
+A property is matched to the name of the report's column, not to the name in the
+database. This report was built from a query over several tables, so a column
+taken straight from a table carries the table's name - `Products_ProductName`,
+not `ProductName` - and `InvoiceLine` is written that way. Studio's Column List
+shows a report's column names.
 
-`Demo.Preview` wraps the rows in a `CachedDataProvider` before handing them to
-the control, so paging and zoom never go back to the database.
+All four end with the same rows, and the four PDFs `Demo.Render` writes come out
+byte for byte identical apart from the document id PDF gives each file. That is
+the point worth taking away: the engine takes rows, and how they were fetched is
+not its business.
+
+The report keeps its rows once it has them, so paging, zoom and printing in
+`Demo.Preview` never go back to the database. Retrieve again, and set
+`Preview.ReportDocument = report` again, to show new rows.
 
 ## The two barcode samples
 

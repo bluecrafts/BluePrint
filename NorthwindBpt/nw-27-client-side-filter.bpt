@@ -29,23 +29,23 @@
     "sql": "SELECT c.CategoryName,\n       p.ProductName,\n       p.UnitsInStock,\n       p.UnitsOnOrder,\n       p.ReorderLevel,\n       CASE WHEN p.Discontinued = 0 THEN 0 ELSE 1 END AS Discontinued,\n       CAST(p.UnitPrice AS REAL) AS UnitPrice\nFROM Products p\nJOIN Categories c ON c.CategoryID = p.CategoryID\nORDER BY c.CategoryName, p.ProductName",
     "columns": [
       {
-        "name": "CategoryName",
+        "name": "Categories_CategoryName",
         "dbType": "string"
       },
       {
-        "name": "ProductName",
+        "name": "Products_ProductName",
         "dbType": "string"
       },
       {
-        "name": "UnitsInStock",
+        "name": "Products_UnitsInStock",
         "dbType": "int64"
       },
       {
-        "name": "UnitsOnOrder",
+        "name": "Products_UnitsOnOrder",
         "dbType": "int64"
       },
       {
-        "name": "ReorderLevel",
+        "name": "Products_ReorderLevel",
         "dbType": "int64"
       },
       {
@@ -58,7 +58,7 @@
       }
     ]
   },
-  "filters": "Discontinued = 0 && UnitsInStock <= ReorderLevel",
+  "filters": "Discontinued = 0 && Products_UnitsInStock <= Products_ReorderLevel",
   "sortColumns": [],
   "sections": [
     {
@@ -304,7 +304,7 @@
               }
             }
           },
-          "source": "ProductName"
+          "source": "Products_ProductName"
         },
         {
           "name": "Category",
@@ -333,7 +333,7 @@
               }
             }
           },
-          "source": "CategoryName"
+          "source": "Categories_CategoryName"
         },
         {
           "name": "Stock",
@@ -349,7 +349,7 @@
             "fontSize": 10,
             "foreColor": "#000000",
             "backColor": "Transparent",
-            "foreColorExpression": "Iif(UnitsInStock = 0, \"#B00000\", \"#000000\")",
+            "foreColorExpression": "Iif(Products_UnitsInStock = 0, \"#B00000\", \"#000000\")",
             "hAlign": "right",
             "vAlign": "top",
             "paddingLeft": 0.1,
@@ -363,7 +363,7 @@
               }
             }
           },
-          "source": "UnitsInStock",
+          "source": "Products_UnitsInStock",
           "format": "#,##0"
         },
         {
@@ -393,7 +393,7 @@
               }
             }
           },
-          "source": "UnitsOnOrder",
+          "source": "Products_UnitsOnOrder",
           "format": "#,##0"
         },
         {
@@ -423,7 +423,7 @@
               }
             }
           },
-          "source": "ReorderLevel",
+          "source": "Products_ReorderLevel",
           "format": "#,##0"
         }
       ]
@@ -454,7 +454,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "Count(ProductName for all) + \" rows kept out of the 77 the query returned\""
+          "expression": "Count(Products_ProductName for all) + \" rows kept out of the 77 the query returned\""
         },
         {
           "name": "Note",

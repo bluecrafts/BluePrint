@@ -33,7 +33,7 @@
         "dbType": "string"
       },
       {
-        "name": "OrderID",
+        "name": "Orders_OrderID",
         "dbType": "int64"
       },
       {
@@ -333,7 +333,7 @@
               }
             }
           },
-          "source": "OrderID"
+          "source": "Orders_OrderID"
         },
         {
           "name": "Customer",
@@ -484,7 +484,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "ShipperName + \" - \" + Count(OrderID for group 1) + \" orders\""
+          "expression": "ShipperName + \" - \" + Count(Orders_OrderID for group 1) + \" orders\""
         },
         {
           "name": "AvgDays",
@@ -545,7 +545,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "Count(OrderID for all) + \" orders on this report\""
+          "expression": "Count(Orders_OrderID for all) + \" orders on this report\""
         },
         {
           "name": "Note",

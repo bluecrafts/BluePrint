@@ -29,7 +29,7 @@
     "sql": "SELECT e.Country, {bp:Concat(e.LastName, ', ', e.FirstName)} AS EmployeeName,\n       o.OrderID, {bp:DateText(o.OrderDate)} AS OrderDate,\n       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS OrderTotal\nFROM Employees e\nJOIN Orders o ON o.EmployeeID = e.EmployeeID\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nGROUP BY e.Country, e.LastName, e.FirstName, o.OrderID, o.OrderDate\nORDER BY e.Country, EmployeeName, o.OrderID",
     "columns": [
       {
-        "name": "Country",
+        "name": "Employees_Country",
         "dbType": "string"
       },
       {
@@ -37,7 +37,7 @@
         "dbType": "string"
       },
       {
-        "name": "OrderID",
+        "name": "Orders_OrderID",
         "dbType": "int64"
       },
       {
@@ -184,7 +184,7 @@
       "type": "groupHeader",
       "groupLevel": 1,
       "groupByColumns": [
-        "Country"
+        "Employees_Country"
       ],
       "keepHeaderWithFirstDetailRow": true,
       "height": 0.9,
@@ -211,7 +211,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "source": "Country"
+          "source": "Employees_Country"
         }
       ]
     },
@@ -283,7 +283,7 @@
               }
             }
           },
-          "source": "OrderID"
+          "source": "Orders_OrderID"
         },
         {
           "name": "OrderDate",
@@ -435,7 +435,7 @@
             "paddingLeft": 0.1,
             "paddingRight": 0.05
           },
-          "expression": "\"Total for \" + Country"
+          "expression": "\"Total for \" + Employees_Country"
         },
         {
           "name": "CountryTotal",
