@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.1.60" />
+    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.1.61" />
   </ItemGroup>
 
   <ItemGroup>
