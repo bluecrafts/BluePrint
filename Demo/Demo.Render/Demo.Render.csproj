@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlueCrafts.BluePrint.Render" Version="1.1.61" />
+    <PackageReference Include="BlueCrafts.BluePrint.Render" Version="1.2.101" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,7 +20,7 @@
       Microsoft.Data.Sqlite brings in 2.1.11, which has a published
       vulnerability (GHSA-2m69-gcr7-jv3q).
     -->
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.13" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
   </ItemGroup>
 

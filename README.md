@@ -204,9 +204,9 @@ with `icu-data-full`, because `icu-data-en` omits the Thai dictionary.
 
 ## Buy me a coffee
 
-BluePrint is built and maintained independently, and everything here is free to use. If it saved you
-an afternoon of work, you are welcome to buy me a coffee. It is a thank you, nothing more - any
-amount is fine, and none of it unlocks anything.
+BluePrint is built and maintained independently, and everything here is free to use. If it saved you 
+an afternoon of work, you are welcome to buy me a coffee. A $10 contribution is a nice way to say thanks, 
+but any amount is fine, and none of it unlocks anything.
 
 The coffee fund runs on Bitcoin:
 

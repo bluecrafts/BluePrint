@@ -370,6 +370,7 @@
       "type": "reportFooter",
       "height": 1,
       "repeatOnNewPage": true,
+      "printAtBottom": true,
       "backColor": "Transparent",
       "elements": [
         {

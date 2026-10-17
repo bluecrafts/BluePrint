@@ -1,6 +1,6 @@
 # Northwind Reports
 
-Thirty reports built on the classic **Northwind** sample database, running on **SQLite** - a
+Thirty-five reports built on the classic **Northwind** sample database, running on **SQLite** - a
 single file, no server, nothing to install.
 
 These cover the things the [external-data samples](../SampleReport/README.md) cannot: real queries, retrieval
@@ -80,6 +80,22 @@ After that, open any report and press **Retrieve**.
 | [`nw-29-order-settlement-slip.bpt`](nw-29-order-settlement-slip.bpt) | **Slots** - the goods on the left and the discounts on the right, from one query, line beside line |
 | [`nw-30-lookup-across-tables.bpt`](nw-30-lookup-across-tables.bpt) | **Lookups that join several tables** - customer, salesperson and shipper from a four-table query, and each order's lines from a three-table one, with no `AS` on the table columns |
 
+## Five that are three sheets wide
+
+Each of these is 54 cm wide, so it prints on **three sheets side by side** (A4 portrait, 18 cm of
+content per sheet). Every sheet has its own column headings and its own page footer, because headers
+and footers are placed where they are drawn - an element at x = 0 only appears on the first sheet.
+The footer shows `Page()`, `VPage()`, `HPage()`, `TotalVPages()` and `TotalHPages()` on every sheet,
+together with totals "for page", which are the same on all three sheets of one row of pages.
+
+| Report | Shows |
+|---|---|
+| [`nw-31-wide-order-register.bpt`](nw-31-wide-order-register.bpt) | **Row, group, page and report functions** - `Row()`, `GetRow()`, `RowCount()`, `GroupNumber()`, `ReportName()`, a four-step calculation, running totals and shares at every level, `First`/`Last`/`Min`/`Max` of a group, a country heading repeated on every page but a shipper heading that is not, and the report footer printed at the bottom |
+| [`nw-32-wide-product-text-and-math.bpt`](nw-32-wide-product-text-and-math.bpt) | **Text and number functions** - about twenty-five text functions and fifteen rounding and math functions, `conditionalFormats` on a stock status, and a colour built with `RGB()` |
+| [`nw-33-wide-order-calendar.bpt`](nw-33-wide-order-calendar.bpt) | **Date and time functions** in three group levels (year, quarter, month) - dates are built in the report with `Date(year, month, day)`, days to ship are counted three ways that must agree, and orders not yet shipped stay empty |
+| [`nw-34-wide-customer-aggregates.bpt`](nw-34-wide-customer-aggregates.bpt) | **Every aggregate** over order lines in three group levels - `distinct` counts and freight counted once per order (next to the wrong per-line total), running totals at every level, `Percent` and `CumulativePercent`, and lines sorted by a calculated amount |
+| [`nw-35-wide-report-options.bpt`](nw-35-wide-report-options.bpt) | **Report options** - a new page and new page numbers for each category with `GroupTotalPages()`, a German report culture, rows that grow with wrapped text, a badge shown only when a condition holds, empty rows that fill the page, a category footer at the bottom of the page and a summary on its own page |
+
 ---
 
 ## Running the invoice
@@ -132,6 +148,15 @@ day of the range is included rather than dropped at midnight.
 | Two measures in one crosstab cell | 28 |
 | Two lists side by side in one band | 29 |
 | Lookups from queries that join several tables | 30 |
+| A report wider than the paper, printed on several sheets | 31 to 35 |
+| Page numbers for every sheet, and totals for the page | 31 to 35 |
+| Text, math and conversion functions | 32 |
+| Styles that change with a condition (`conditionalFormats`) | 32, 33 |
+| Date and time functions | 33 |
+| Counting each order once in line-level data (`distinct`) | 34 |
+| Sorting in the report by a calculated value (`sortColumns`) | 31, 34, 35 |
+| Page numbers that restart for each group | 35 |
+| A report in another language's number and date format | 35 |
 
 ---
 
@@ -253,6 +278,20 @@ against depends on which row happened to come first.
 The cast belongs in the **query**, which is where the column list comes from. If you write your own
 SQL against SQLite, do the same for anything you will format as money or use in a total. Other
 databases declare their types properly and do not need it.
+
+**When cents must match exactly on every database, send whole cents instead.** `REAL` is a 64-bit
+number in SQLite, MySQL and Oracle, but only a **32-bit** one in SQL Server, PostgreSQL and Firebird -
+about seven digits. Sums look the same, but an average, a 7 per cent tax or a discount that lands on
+half a cent can round the other way. Reports 31, 32 and 34 therefore return money as whole numbers
+and divide in the report:
+
+```sql
+ROUND(od.UnitPrice * 100, 0) AS PriceCents      -- the query
+```
+
+```
+Long(PriceCents) / 100                          -- the report: an exact decimal on every database
+```
 
 ---
 

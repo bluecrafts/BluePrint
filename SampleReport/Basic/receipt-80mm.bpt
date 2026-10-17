@@ -1,0 +1,410 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Receipt 80 mm",
+    "description": "A till receipt on 80 mm roll paper: one page as long as the items. Export it as Monochrome (1-bit) to print.",
+    "author": ""
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "Roll 80 mm (72 mm printable)",
+        "widthMm": 72,
+        "heightMm": 200
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 0.2,
+        "bottom": 0.6,
+        "left": 0,
+        "right": 0
+      },
+      "backgroundColor": "#FFFFFF",
+      "heightMode": "continuous"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "external",
+    "columns": [
+      {
+        "name": "ProductName",
+        "dbType": "string",
+        "length": 40
+      },
+      {
+        "name": "Quantity",
+        "dbType": "int32"
+      },
+      {
+        "name": "UnitPrice",
+        "dbType": "decimal"
+      }
+    ]
+  },
+  "sortColumns": [],
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 2.2,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "shop",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 7.2,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 12,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top"
+          },
+          "text": "Northwind Corner Store"
+        },
+        {
+          "name": "address",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.75,
+            "w": 7.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top"
+          },
+          "text": "12 Market Street, Seattle WA"
+        },
+        {
+          "name": "receiptNo",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 1.3,
+            "w": 7.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top"
+          },
+          "text": "Receipt RC-000123"
+        },
+        {
+          "name": "hdrRule",
+          "type": "line",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "x1": 0,
+          "y1": 2,
+          "x2": 7.2,
+          "y2": 2,
+          "penWidth": 1,
+          "penColor": "#000000",
+          "penStyle": "solid"
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "hItem",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 3.9,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": "Item"
+        },
+        {
+          "name": "hQty",
+          "type": "label",
+          "bounds": {
+            "x": 3.9,
+            "y": 0,
+            "w": 1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "text": "Qty"
+        },
+        {
+          "name": "hAmt",
+          "type": "label",
+          "bounds": {
+            "x": 4.9,
+            "y": 0,
+            "w": 2.3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "text": "Amount"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0.5,
+      "autoHeight": true,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "item",
+          "type": "field",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 3.9,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "source": "ProductName",
+          "wrapText": true,
+          "autoHeight": true
+        },
+        {
+          "name": "qty",
+          "type": "computed",
+          "bounds": {
+            "x": 3.9,
+            "y": 0,
+            "w": 1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "expression": "Quantity"
+        },
+        {
+          "name": "amt",
+          "type": "computed",
+          "bounds": {
+            "x": 4.9,
+            "y": 0,
+            "w": 2.3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "expression": "String(Quantity * UnitPrice, \"#,##0.00\")"
+        }
+      ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 3.4,
+      "repeatOnNewPage": true,
+      "printAtBottom": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "ftrRule",
+          "type": "line",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "x1": 0,
+          "y1": 0.1,
+          "x2": 7.2,
+          "y2": 0.1,
+          "penWidth": 1,
+          "penColor": "#000000",
+          "penStyle": "solid"
+        },
+        {
+          "name": "totalLbl",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.25,
+            "w": 3.9,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 11,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": "Total"
+        },
+        {
+          "name": "total",
+          "type": "computed",
+          "bounds": {
+            "x": 3.9,
+            "y": 0.25,
+            "w": 3.3,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 11,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "expression": "String(Sum(Quantity * UnitPrice for all), \"#,##0.00\")"
+        },
+        {
+          "name": "barcode",
+          "type": "barcode",
+          "bounds": {
+            "x": 0.6,
+            "y": 1,
+            "w": 6,
+            "h": 1.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top"
+          },
+          "expression": "\"RC-000123\"",
+          "barcode": {
+            "symbology": "code128",
+            "showText": true,
+            "rotation": "none",
+            "dpi": 300,
+            "encoding": "auto",
+            "narrowToWideRatio": 2,
+            "qrEcLevel": "m",
+            "includeChecksum": false,
+            "aztecEcPercent": 23,
+            "dataMatrixRectangular": false
+          }
+        },
+        {
+          "name": "thanks",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 2.6,
+            "w": 7.2,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top"
+          },
+          "text": "Thank you for shopping with us"
+        }
+      ]
+    },
+    {
+      "type": "pageFooter",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}

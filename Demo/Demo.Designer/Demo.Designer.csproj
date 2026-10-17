@@ -9,12 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlueCrafts.BluePrint.Designer" Version="1.1.61" />
+    <PackageReference Include="BlueCrafts.BluePrint.Designer" Version="1.2.101" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- The driver for the Northwind file, used only by Retrieve. See the note in Demo.Render.csproj. -->
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.13" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
   </ItemGroup>
 

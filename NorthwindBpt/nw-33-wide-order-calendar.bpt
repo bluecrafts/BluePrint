@@ -1,0 +1,2635 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Order Calendar",
+    "description": "Orders from December 1997 to February 1998 with every date and time function, three sheets wide",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT o.OrderID AS OrderNo,\n       c.CompanyName AS CustomerName,\n       {bp:Year(o.OrderDate)} AS OrderYear,\n       {bp:Month(o.OrderDate)} AS OrderMonth,\n       {bp:Day(o.OrderDate)} AS OrderDay,\n       CASE WHEN {bp:Month(o.OrderDate)} <= 3 THEN 1\n            WHEN {bp:Month(o.OrderDate)} <= 6 THEN 2\n            WHEN {bp:Month(o.OrderDate)} <= 9 THEN 3\n            ELSE 4 END AS OrderQuarter,\n       {bp:Year(o.RequiredDate)} AS RequiredYear,\n       {bp:Month(o.RequiredDate)} AS RequiredMonth,\n       {bp:Day(o.RequiredDate)} AS RequiredDay,\n       {bp:Year(o.ShippedDate)} AS ShippedYear,\n       {bp:Month(o.ShippedDate)} AS ShippedMonth,\n       {bp:Day(o.ShippedDate)} AS ShippedDay,\n       {bp:DiffDays(o.OrderDate, o.ShippedDate)} AS SqlLeadDays,\n       CAST(o.Freight AS REAL) AS FreightAmount\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID",
+    "columns": [
+      {
+        "name": "OrderNo",
+        "dbType": "int64"
+      },
+      {
+        "name": "CustomerName",
+        "dbType": "string"
+      },
+      {
+        "name": "OrderYear",
+        "dbType": "int64"
+      },
+      {
+        "name": "OrderMonth",
+        "dbType": "int64"
+      },
+      {
+        "name": "OrderDay",
+        "dbType": "int64"
+      },
+      {
+        "name": "OrderQuarter",
+        "dbType": "int64"
+      },
+      {
+        "name": "RequiredYear",
+        "dbType": "int64"
+      },
+      {
+        "name": "RequiredMonth",
+        "dbType": "int64"
+      },
+      {
+        "name": "RequiredDay",
+        "dbType": "int64"
+      },
+      {
+        "name": "ShippedYear",
+        "dbType": "int64"
+      },
+      {
+        "name": "ShippedMonth",
+        "dbType": "int64"
+      },
+      {
+        "name": "ShippedDay",
+        "dbType": "int64"
+      },
+      {
+        "name": "SqlLeadDays",
+        "dbType": "int64"
+      },
+      {
+        "name": "FreightAmount",
+        "dbType": "double"
+      }
+    ]
+  },
+  "sortColumns": [
+    {
+      "rules": [
+        {
+          "field": "OrderYear",
+          "direction": "asc"
+        },
+        {
+          "field": "OrderQuarter",
+          "direction": "asc"
+        },
+        {
+          "field": "OrderMonth",
+          "direction": "asc"
+        },
+        {
+          "field": "OrderDay",
+          "direction": "asc"
+        },
+        {
+          "field": "OrderNo",
+          "direction": "asc"
+        }
+      ]
+    }
+  ],
+  "culture": "en-US",
+  "filters": "(OrderYear = 1997 && OrderMonth = 12) || (OrderYear = 1998 && OrderMonth <= 2)",
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 1.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "T1",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 15,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Order Calendar"
+        },
+        {
+          "name": "S1",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.85,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Sheet 1 of 3: December 1997 to February 1998 by year, quarter and month."
+        },
+        {
+          "name": "T2",
+          "type": "label",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 13,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Order Calendar (durations)"
+        },
+        {
+          "name": "S2",
+          "type": "label",
+          "bounds": {
+            "x": 18,
+            "y": 0.85,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Sheet 2 of 3: days to ship counted three ways must agree; dates moved forward."
+        },
+        {
+          "name": "T3",
+          "type": "label",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 13,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Order Calendar (status and time)"
+        },
+        {
+          "name": "S3",
+          "type": "label",
+          "bounds": {
+            "x": 36,
+            "y": 0.85,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Sheet 3 of 3: shipping status, time of day functions and freight to date."
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "H1a",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Order"
+        },
+        {
+          "name": "H1b",
+          "type": "label",
+          "bounds": {
+            "x": 1.2,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Ordered"
+        },
+        {
+          "name": "H1c",
+          "type": "label",
+          "bounds": {
+            "x": 3,
+            "y": 0,
+            "w": 1.9,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Day name"
+        },
+        {
+          "name": "H1d",
+          "type": "label",
+          "bounds": {
+            "x": 4.9,
+            "y": 0,
+            "w": 0.9,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "DoW"
+        },
+        {
+          "name": "H1e",
+          "type": "label",
+          "bounds": {
+            "x": 5.8,
+            "y": 0,
+            "w": 0.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Day"
+        },
+        {
+          "name": "H1f",
+          "type": "label",
+          "bounds": {
+            "x": 6.6,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Month"
+        },
+        {
+          "name": "H1g",
+          "type": "label",
+          "bounds": {
+            "x": 8.4,
+            "y": 0,
+            "w": 0.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Qtr"
+        },
+        {
+          "name": "H1h",
+          "type": "label",
+          "bounds": {
+            "x": 9.2,
+            "y": 0,
+            "w": 1.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Weekend"
+        },
+        {
+          "name": "H1i",
+          "type": "label",
+          "bounds": {
+            "x": 10.6,
+            "y": 0,
+            "w": 7.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Customer"
+        },
+        {
+          "name": "H2a",
+          "type": "label",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Required"
+        },
+        {
+          "name": "H2b",
+          "type": "label",
+          "bounds": {
+            "x": 19.8,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Shipped"
+        },
+        {
+          "name": "H2c",
+          "type": "label",
+          "bounds": {
+            "x": 21.6,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "DaysAfter"
+        },
+        {
+          "name": "H2d",
+          "type": "label",
+          "bounds": {
+            "x": 22.8,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "DateDiff"
+        },
+        {
+          "name": "H2e",
+          "type": "label",
+          "bounds": {
+            "x": 24,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "SQL"
+        },
+        {
+          "name": "H2f",
+          "type": "label",
+          "bounds": {
+            "x": 25.2,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Slack"
+        },
+        {
+          "name": "H2g",
+          "type": "label",
+          "bounds": {
+            "x": 26.4,
+            "y": 0,
+            "w": 1.9,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "+30 days"
+        },
+        {
+          "name": "H2h",
+          "type": "label",
+          "bounds": {
+            "x": 28.3,
+            "y": 0,
+            "w": 1.9,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "+1 month"
+        },
+        {
+          "name": "H2i",
+          "type": "label",
+          "bounds": {
+            "x": 30.2,
+            "y": 0,
+            "w": 1.9,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Month end"
+        },
+        {
+          "name": "H2j",
+          "type": "label",
+          "bounds": {
+            "x": 32.1,
+            "y": 0,
+            "w": 1.9,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Next month"
+        },
+        {
+          "name": "H2k",
+          "type": "label",
+          "bounds": {
+            "x": 34,
+            "y": 0,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "To required"
+        },
+        {
+          "name": "H3a",
+          "type": "label",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Status"
+        },
+        {
+          "name": "H3b",
+          "type": "label",
+          "bounds": {
+            "x": 37.6,
+            "y": 0,
+            "w": 2.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Cut-off"
+        },
+        {
+          "name": "H3c",
+          "type": "label",
+          "bounds": {
+            "x": 40.4,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "H:M:S"
+        },
+        {
+          "name": "H3d",
+          "type": "label",
+          "bounds": {
+            "x": 42,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "+1 hour"
+        },
+        {
+          "name": "H3e",
+          "type": "label",
+          "bounds": {
+            "x": 43.6,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Work secs"
+        },
+        {
+          "name": "H3f",
+          "type": "label",
+          "bounds": {
+            "x": 45.2,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "IsDate / IsTime"
+        },
+        {
+          "name": "H3g",
+          "type": "label",
+          "bounds": {
+            "x": 47.6,
+            "y": 0,
+            "w": 1.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "In month"
+        },
+        {
+          "name": "H3h",
+          "type": "label",
+          "bounds": {
+            "x": 49,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Day of run"
+        },
+        {
+          "name": "H3i",
+          "type": "label",
+          "bounds": {
+            "x": 50.6,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Freight"
+        },
+        {
+          "name": "H3j",
+          "type": "label",
+          "bounds": {
+            "x": 52.2,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Qtr to date"
+        }
+      ]
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 1,
+      "groupByColumns": [
+        "OrderYear"
+      ],
+      "keepHeaderWithFirstDetailRow": true,
+      "height": 0.55,
+      "repeatOnNewPage": true,
+      "backColor": "#DCE6F0",
+      "elements": [
+        {
+          "name": "G1A",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Year \" + OrderYear"
+        },
+        {
+          "name": "G1B",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Year \" + OrderYear + \" - \" + Count(OrderNo for group 1) + \" orders, first \" + String(Min([OrdDate] for group 1), \"yyyy-MM-dd\") + \", last \" + String(Max([OrdDate] for group 1), \"yyyy-MM-dd\")"
+        },
+        {
+          "name": "G1C",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Year \" + OrderYear + \" - open \" + Sum(If(IsNull([ShipDate]), 1, 0) for group 1) + \", late \" + Sum(If([ShipDate] > [ReqDate], 1, 0) for group 1)"
+        }
+      ]
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 2,
+      "groupByColumns": [
+        "OrderQuarter"
+      ],
+      "keepHeaderWithFirstDetailRow": true,
+      "height": 0.55,
+      "repeatOnNewPage": true,
+      "backColor": "#EEF3F8",
+      "elements": [
+        {
+          "name": "G2A",
+          "type": "computed",
+          "bounds": {
+            "x": 0.3,
+            "y": 0.05,
+            "w": 17.7,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Q\" + OrderQuarter + \" \" + OrderYear"
+        },
+        {
+          "name": "G2B",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Q\" + OrderQuarter + \" \" + OrderYear + \" - \" + Count(OrderNo for group 2) + \" orders, first \" + String(Min([OrdDate] for group 2), \"yyyy-MM-dd\") + \", last \" + String(Max([OrdDate] for group 2), \"yyyy-MM-dd\")"
+        },
+        {
+          "name": "G2C",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Q\" + OrderQuarter + \" \" + OrderYear + \" - open \" + Sum(If(IsNull([ShipDate]), 1, 0) for group 2) + \", late \" + Sum(If([ShipDate] > [ReqDate], 1, 0) for group 2)"
+        }
+      ]
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 3,
+      "groupByColumns": [
+        "OrderMonth"
+      ],
+      "keepHeaderWithFirstDetailRow": true,
+      "height": 0.55,
+      "repeatOnNewPage": true,
+      "backColor": "#F6F8FB",
+      "elements": [
+        {
+          "name": "G3A",
+          "type": "computed",
+          "bounds": {
+            "x": 0.6,
+            "y": 0.05,
+            "w": 17.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "MonthName(OrderMonth) + \" \" + OrderYear"
+        },
+        {
+          "name": "G3B",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "MonthName(OrderMonth) + \" \" + OrderYear + \" - \" + Count(OrderNo for group 3) + \" orders, first \" + String(Min([OrdDate] for group 3), \"yyyy-MM-dd\") + \", last \" + String(Max([OrdDate] for group 3), \"yyyy-MM-dd\")"
+        },
+        {
+          "name": "G3C",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "MonthName(OrderMonth) + \" \" + OrderYear + \" - open \" + Sum(If(IsNull([ShipDate]), 1, 0) for group 3) + \", late \" + Sum(If([ShipDate] > [ReqDate], 1, 0) for group 3)"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0.45,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "alternateBackColor": "#F7F9FB",
+      "elements": [
+        {
+          "name": "OrdDate",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 0.1,
+            "h": 0.1
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "visible": false,
+          "expression": "Date(OrderYear, OrderMonth, OrderDay)"
+        },
+        {
+          "name": "ReqDate",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 0.1,
+            "h": 0.1
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "visible": false,
+          "expression": "Date(RequiredYear, RequiredMonth, RequiredDay)"
+        },
+        {
+          "name": "ShipDate",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 0.1,
+            "h": 0.1
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "visible": false,
+          "expression": "Date(ShippedYear, ShippedMonth, ShippedDay)"
+        },
+        {
+          "name": "CutOff",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 0.1,
+            "h": 0.1
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "visible": false,
+          "expression": "DateTime([OrdDate], Time(\"17:30:00\"))"
+        },
+        {
+          "name": "OrdNoF",
+          "type": "field",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "OrderNo"
+        },
+        {
+          "name": "OrdDateF",
+          "type": "computed",
+          "bounds": {
+            "x": 1.2,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "[OrdDate]",
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "name": "DayNameF",
+          "type": "computed",
+          "bounds": {
+            "x": 3,
+            "y": 0,
+            "w": 1.9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "DayName([OrdDate])"
+        },
+        {
+          "name": "DayNumF",
+          "type": "computed",
+          "bounds": {
+            "x": 4.9,
+            "y": 0,
+            "w": 0.9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "DayNumber([OrdDate])"
+        },
+        {
+          "name": "DayF",
+          "type": "computed",
+          "bounds": {
+            "x": 5.8,
+            "y": 0,
+            "w": 0.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Day([OrdDate])"
+        },
+        {
+          "name": "MonthNameF",
+          "type": "computed",
+          "bounds": {
+            "x": 6.6,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "MonthName(OrderMonth)"
+        },
+        {
+          "name": "QuarterF",
+          "type": "computed",
+          "bounds": {
+            "x": 8.4,
+            "y": 0,
+            "w": 0.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Quarter([OrdDate])"
+        },
+        {
+          "name": "WeekendF",
+          "type": "computed",
+          "bounds": {
+            "x": 9.2,
+            "y": 0,
+            "w": 1.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "If(DayNumber([OrdDate]) = 1 || DayNumber([OrdDate]) = 7, \"weekend\", \"\")"
+        },
+        {
+          "name": "CustF",
+          "type": "field",
+          "bounds": {
+            "x": 10.6,
+            "y": 0,
+            "w": 7.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "CustomerName"
+        },
+        {
+          "name": "ReqF",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "[ReqDate]",
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "name": "ShipF",
+          "type": "computed",
+          "bounds": {
+            "x": 19.8,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "[ShipDate]",
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "name": "DaysAfterF",
+          "type": "computed",
+          "bounds": {
+            "x": 21.6,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "DaysAfter([OrdDate], [ShipDate])"
+        },
+        {
+          "name": "DateDiffF",
+          "type": "computed",
+          "bounds": {
+            "x": 22.8,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "DateDiff(\"day\", [OrdDate], [ShipDate])"
+        },
+        {
+          "name": "SqlDaysF",
+          "type": "field",
+          "bounds": {
+            "x": 24,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "SqlLeadDays"
+        },
+        {
+          "name": "SlackF",
+          "type": "computed",
+          "bounds": {
+            "x": 25.2,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "DaysAfter([ShipDate], [ReqDate])"
+        },
+        {
+          "name": "Plus30",
+          "type": "computed",
+          "bounds": {
+            "x": 26.4,
+            "y": 0,
+            "w": 1.9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "RelativeDate([OrdDate], 30)",
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "name": "PlusMonth",
+          "type": "computed",
+          "bounds": {
+            "x": 28.3,
+            "y": 0,
+            "w": 1.9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "DateAdd(\"month\", 1, [OrdDate])",
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "name": "MonthEnd",
+          "type": "computed",
+          "bounds": {
+            "x": 30.2,
+            "y": 0,
+            "w": 1.9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "EOMonth([OrdDate], 0)",
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "name": "NextStart",
+          "type": "computed",
+          "bounds": {
+            "x": 32.1,
+            "y": 0,
+            "w": 1.9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "BOMonth([OrdDate], 1)",
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "name": "WeeksF",
+          "type": "computed",
+          "bounds": {
+            "x": 34,
+            "y": 0,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "DateDiff(\"week\", [OrdDate], [ReqDate]) + \" wk / \" + DateDiff(\"month\", [OrdDate], [ReqDate]) + \" mo\""
+        },
+        {
+          "name": "State",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "conditionalFormats": [
+            {
+              "condition": "[State] = \"late\"",
+              "style": {
+                "fontFamily": "Tahoma",
+                "fontSize": 7,
+                "bold": true,
+                "foreColor": "#C00000",
+                "backColor": "#FDE9E9",
+                "hAlign": "center",
+                "vAlign": "middle",
+                "paddingLeft": 0.05,
+                "paddingRight": 0.05
+              }
+            },
+            {
+              "condition": "[State] = \"open\"",
+              "style": {
+                "fontFamily": "Tahoma",
+                "fontSize": 7,
+                "italic": true,
+                "foreColor": "#B36B00",
+                "backColor": "Transparent",
+                "hAlign": "center",
+                "vAlign": "middle",
+                "paddingLeft": 0.05,
+                "paddingRight": 0.05
+              }
+            }
+          ],
+          "expression": "If(IsNull([ShipDate]), \"open\", If([ShipDate] > [ReqDate], \"late\", \"on time\"))"
+        },
+        {
+          "name": "CutOffF",
+          "type": "computed",
+          "bounds": {
+            "x": 37.6,
+            "y": 0,
+            "w": 2.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "[CutOff]",
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        {
+          "name": "HmsF",
+          "type": "computed",
+          "bounds": {
+            "x": 40.4,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Hour([CutOff]) + \":\" + Minute([CutOff]) + \":\" + Second([CutOff])"
+        },
+        {
+          "name": "PlusHour",
+          "type": "computed",
+          "bounds": {
+            "x": 42,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "RelativeTime(Time(\"17:30:00\"), 3600)",
+          "format": "HH:mm:ss"
+        },
+        {
+          "name": "WorkSecs",
+          "type": "computed",
+          "bounds": {
+            "x": 43.6,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "SecondsAfter(Time(\"08:00:00\"), Time(\"17:30:00\"))",
+          "format": "#,##0"
+        },
+        {
+          "name": "Checks",
+          "type": "computed",
+          "bounds": {
+            "x": 45.2,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "If(IsDate(\"1998-02-30\"), \"bad\", \"no 30 Feb\") + \" / \" + If(IsTime(\"25:00\"), \"bad\", \"no 25h\")"
+        },
+        {
+          "name": "OrderInMonth",
+          "type": "computed",
+          "bounds": {
+            "x": 47.6,
+            "y": 0,
+            "w": 1.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativeSum(1 for group 3) + \" of \" + Count(OrderNo for group 3)"
+        },
+        {
+          "name": "DaysFromFirst",
+          "type": "computed",
+          "bounds": {
+            "x": 49,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "DaysAfter(Min([OrdDate] for group 3), [OrdDate])"
+        },
+        {
+          "name": "FreightF",
+          "type": "field",
+          "bounds": {
+            "x": 50.6,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "FreightAmount",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "FreightRun",
+          "type": "computed",
+          "bounds": {
+            "x": 52.2,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativeSum(FreightAmount for group 2)",
+          "format": "#,##0.00"
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 3,
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "#F6F8FB",
+      "elements": [
+        {
+          "name": "F3A",
+          "type": "computed",
+          "bounds": {
+            "x": 0.6,
+            "y": 0.04,
+            "w": 17.4,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Total \" + MonthName(OrderMonth) + \" - \" + Count(OrderNo for group 3) + \" orders on \" + Count([OrdDate] for group 3 distinct) + \" days\""
+        },
+        {
+          "name": "F3B",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.04,
+            "w": 18,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"average lead \" + String(Avg(DaysAfter([OrdDate], [ShipDate]) for group 3), \"0.0\") + \" days, longest \" + Max(DaysAfter([OrdDate], [ShipDate]) for group 3) + \", shortest \" + Min(DaysAfter([OrdDate], [ShipDate]) for group 3)"
+        },
+        {
+          "name": "F3Freight",
+          "type": "computed",
+          "bounds": {
+            "x": 50.6,
+            "y": 0.04,
+            "w": 1.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(FreightAmount for group 3)",
+          "format": "#,##0.00"
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 2,
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "#EEF3F8",
+      "elements": [
+        {
+          "name": "F2A",
+          "type": "computed",
+          "bounds": {
+            "x": 0.3,
+            "y": 0.04,
+            "w": 17.7,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Total \" + \"Q\" + OrderQuarter + \" - \" + Count(OrderNo for group 2) + \" orders on \" + Count([OrdDate] for group 2 distinct) + \" days\""
+        },
+        {
+          "name": "F2B",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.04,
+            "w": 18,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"average lead \" + String(Avg(DaysAfter([OrdDate], [ShipDate]) for group 2), \"0.0\") + \" days, longest \" + Max(DaysAfter([OrdDate], [ShipDate]) for group 2) + \", shortest \" + Min(DaysAfter([OrdDate], [ShipDate]) for group 2)"
+        },
+        {
+          "name": "F2Freight",
+          "type": "computed",
+          "bounds": {
+            "x": 50.6,
+            "y": 0.04,
+            "w": 1.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(FreightAmount for group 2)",
+          "format": "#,##0.00"
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 1,
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "#DCE6F0",
+      "elements": [
+        {
+          "name": "F1A",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.04,
+            "w": 18,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Total \" + \"Year \" + OrderYear + \" - \" + Count(OrderNo for group 1) + \" orders on \" + Count([OrdDate] for group 1 distinct) + \" days\""
+        },
+        {
+          "name": "F1B",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.04,
+            "w": 18,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"average lead \" + String(Avg(DaysAfter([OrdDate], [ShipDate]) for group 1), \"0.0\") + \" days, longest \" + Max(DaysAfter([OrdDate], [ShipDate]) for group 1) + \", shortest \" + Min(DaysAfter([OrdDate], [ShipDate]) for group 1)"
+        },
+        {
+          "name": "F1Freight",
+          "type": "computed",
+          "bounds": {
+            "x": 50.6,
+            "y": 0.04,
+            "w": 1.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(FreightAmount for group 1)",
+          "format": "#,##0.00"
+        }
+      ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 1.2,
+      "repeatOnNewPage": true,
+      "printAtBottom": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "AllA",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.2,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "\"All orders - \" + Count(OrderNo for all) + \" from \" + String(Min([OrdDate] for all), \"yyyy-MM-dd\") + \" to \" + String(Max([OrdDate] for all), \"yyyy-MM-dd\")"
+        },
+        {
+          "name": "AllB",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.2,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "\"open \" + Sum(If(IsNull([ShipDate]), 1, 0) for all) + \"  |  late \" + Sum(If([ShipDate] > [ReqDate], 1, 0) for all) + \"  |  three ways agree on \" + Sum(If(DaysAfter([OrdDate], [ShipDate]) = SqlLeadDays && DateDiff(\"day\", [OrdDate], [ShipDate]) = SqlLeadDays, 1, 0) for all) + \" shipped orders\""
+        },
+        {
+          "name": "AllFreight",
+          "type": "computed",
+          "bounds": {
+            "x": 50.6,
+            "y": 0.2,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "Sum(FreightAmount for all)",
+          "format": "#,##0.00"
+        }
+      ]
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.9,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "PgInfo1",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages() + \"  |  sheet \" + VPage() + \"-\" + HPage() + \"  (\" + TotalVPages() + \" rows x \" + TotalHPages() + \" columns)\""
+        },
+        {
+          "name": "PgAgg1",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.45,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"orders on this page \" + Count(OrderNo for page) + \"  |  freight on this page \" + String(Sum(FreightAmount for page), \"#,##0.00\")"
+        },
+        {
+          "name": "PgInfo2",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages() + \"  |  sheet \" + VPage() + \"-\" + HPage() + \"  (\" + TotalVPages() + \" rows x \" + TotalHPages() + \" columns)\""
+        },
+        {
+          "name": "PgAgg2",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.45,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"orders on this page \" + Count(OrderNo for page) + \"  |  freight on this page \" + String(Sum(FreightAmount for page), \"#,##0.00\")"
+        },
+        {
+          "name": "PgInfo3",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages() + \"  |  sheet \" + VPage() + \"-\" + HPage() + \"  (\" + TotalVPages() + \" rows x \" + TotalHPages() + \" columns)\""
+        },
+        {
+          "name": "PgAgg3",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.45,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"orders on this page \" + Count(OrderNo for page) + \"  |  freight on this page \" + String(Sum(FreightAmount for page), \"#,##0.00\")"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}
