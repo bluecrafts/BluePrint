@@ -583,6 +583,7 @@
     },
     {
       "type": "reportFooter",
+      "printAtBottom": true,
       "height": 0.8,
       "repeatOnNewPage": true,
       "backColor": "Transparent",

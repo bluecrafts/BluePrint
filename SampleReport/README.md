@@ -4,7 +4,7 @@ Two sets, for two different first questions.
 
 | Set | Needs | Best for |
 |---|---|---|
-| **[These five](#what-is-here)** | Nothing at all | Your first hour. Open, import a file, print |
+| **[These six](#what-is-here)** | Nothing at all | Your first hour. Open, import a file, print |
 | **[Northwind](../NorthwindBpt/)** | A one-off setup, still no server | Everything that needs a real query: parameters, lookups, subbands |
 
 Start here. Move to Northwind when you want to see how a report works against a database.
@@ -20,8 +20,9 @@ Start here. Move to Northwind when you want to see how a report works against a 
 | [`product-labels.bpt`](Basic/product-labels.bpt) | **Label** | A sheet of labels, three across, each with a barcode |
 | [`sales-by-region.bpt`](Basic/sales-by-region.bpt) | **Crosstab** | Regions down the side, quarters across the top, with totals |
 | [`chart-showcase.bpt`](Basic/chart-showcase.bpt) | Canvas | Column, line, and pie charts over one set of rows |
+| [`receipt-80mm.bpt`](Basic/receipt-80mm.bpt) | Canvas, **continuous** | A till receipt on 80 mm roll paper: one page as long as the items. Export it as **Monochrome (1-bit)** for a receipt printer |
 
-All five are built on **External data**, which means the template carries the column list but no
+All six are built on **External data**, which means the template carries the column list but no
 query. You supply the rows.
 
 ---
@@ -46,6 +47,7 @@ In [`data/`](Basic/data/), one file per template:
 | `sales-summary.json` | the same rows, as JSON | 56 |
 | `sales-by-region.csv` | `sales-by-region.bpt` | 56 |
 | `chart-showcase.csv` | `chart-showcase.bpt` | 56 |
+| `receipt-80mm.csv` | `receipt-80mm.bpt` | 8 |
 | `invoice.csv` | `invoice.bpt` | 7 |
 | `product-labels.csv` | `product-labels.bpt` | 9 |
 
@@ -107,12 +109,13 @@ The quickest way to start is to copy the nearest sample and change it:
 | Labels or badges | `product-labels.bpt` |
 | A matrix | `sales-by-region.bpt` |
 | Anything with a chart | `chart-showcase.bpt` |
+| A receipt for a thermal printer | `receipt-80mm.bpt` |
 
 Change the columns in **Design > Data Source** to match your own data, and the elements follow.
 
 ---
 
-## What these five do not cover
+## What these six do not cover
 
 They are built on external data, so there is no query in them. That leaves out everything that only
 makes sense against a database:

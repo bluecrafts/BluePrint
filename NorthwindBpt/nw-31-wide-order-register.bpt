@@ -1,0 +1,2351 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Wide Order Register",
+    "description": "Orders of January to April 1997 by country and shipper, printed three sheets wide",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT o.OrderID AS OrderNo,\n       c.CompanyName AS CustomerName,\n       c.Country AS CustomerCountry,\n       {bp:Concat(e.FirstName, ' ', e.LastName)} AS EmployeeName,\n       s.CompanyName AS ShipperName,\n       {bp:Year(o.OrderDate)} AS OrderYear,\n       {bp:Month(o.OrderDate)} AS OrderMonth,\n       {bp:DateText(o.OrderDate)} AS OrderDateText,\n       ROUND(o.Freight * 100, 0) AS FreightCents,\n       t.AmountUnits AS AmountUnits,\n       t.LineCount AS LineCount\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nJOIN Employees e ON e.EmployeeID = o.EmployeeID\nJOIN Shippers s ON s.ShipperID = o.ShipVia\nJOIN (SELECT od.OrderID AS OrderKey,\n             SUM(ROUND(od.UnitPrice * 100, 0) * od.Quantity * (100 - ROUND(od.Discount * 100, 0))) AS AmountUnits,\n             COUNT(*) AS LineCount\n      FROM {bp:Name(Order Details)} od\n      GROUP BY od.OrderID) t ON t.OrderKey = o.OrderID",
+    "columns": [
+      {
+        "name": "OrderNo",
+        "dbType": "int64"
+      },
+      {
+        "name": "CustomerName",
+        "dbType": "string"
+      },
+      {
+        "name": "CustomerCountry",
+        "dbType": "string"
+      },
+      {
+        "name": "EmployeeName",
+        "dbType": "string"
+      },
+      {
+        "name": "ShipperName",
+        "dbType": "string"
+      },
+      {
+        "name": "OrderYear",
+        "dbType": "int64"
+      },
+      {
+        "name": "OrderMonth",
+        "dbType": "int64"
+      },
+      {
+        "name": "OrderDateText",
+        "dbType": "string"
+      },
+      {
+        "name": "FreightCents",
+        "dbType": "int64"
+      },
+      {
+        "name": "AmountUnits",
+        "dbType": "int64"
+      },
+      {
+        "name": "LineCount",
+        "dbType": "int64"
+      }
+    ]
+  },
+  "sortColumns": [
+    {
+      "rules": [
+        {
+          "field": "CustomerCountry",
+          "direction": "asc"
+        },
+        {
+          "field": "ShipperName",
+          "direction": "desc"
+        },
+        {
+          "field": "OrderNo",
+          "direction": "asc"
+        }
+      ]
+    }
+  ],
+  "filters": "OrderYear = 1997 && OrderMonth <= 4",
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 1.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "Title1",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 15,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Wide Order Register - January to April 1997"
+        },
+        {
+          "name": "Sub1",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.85,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Sheet 1 of 3: who and when. Continues on sheets 2 and 3 to the right."
+        },
+        {
+          "name": "Title2",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 13,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "ReportName() + \" (amounts)\""
+        },
+        {
+          "name": "Sub2",
+          "type": "label",
+          "bounds": {
+            "x": 18,
+            "y": 0.85,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Sheet 2 of 3: amounts, a four-step calculation and running totals."
+        },
+        {
+          "name": "Title3",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 13,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "ReportName() + \" (shares)\""
+        },
+        {
+          "name": "Sub3",
+          "type": "label",
+          "bounds": {
+            "x": 36,
+            "y": 0.85,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Sheet 3 of 3: shares of the whole, markers and row positions."
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "H1Row",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Row"
+        },
+        {
+          "name": "H1Get",
+          "type": "label",
+          "bounds": {
+            "x": 1,
+            "y": 0,
+            "w": 1.1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "GetRow"
+        },
+        {
+          "name": "H1Ord",
+          "type": "label",
+          "bounds": {
+            "x": 2.1,
+            "y": 0,
+            "w": 1.3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Order"
+        },
+        {
+          "name": "H1Date",
+          "type": "label",
+          "bounds": {
+            "x": 3.4,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Date"
+        },
+        {
+          "name": "H1Cust",
+          "type": "label",
+          "bounds": {
+            "x": 5.2,
+            "y": 0,
+            "w": 7.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Customer"
+        },
+        {
+          "name": "H1Emp",
+          "type": "label",
+          "bounds": {
+            "x": 12.8,
+            "y": 0,
+            "w": 5.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Employee"
+        },
+        {
+          "name": "H2Lines",
+          "type": "label",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Lines"
+        },
+        {
+          "name": "H2Amt",
+          "type": "label",
+          "bounds": {
+            "x": 19,
+            "y": 0,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Amount"
+        },
+        {
+          "name": "H2Vat",
+          "type": "label",
+          "bounds": {
+            "x": 21,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "VAT 7%"
+        },
+        {
+          "name": "H2Frt",
+          "type": "label",
+          "bounds": {
+            "x": 22.6,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Freight"
+        },
+        {
+          "name": "H2Gross",
+          "type": "label",
+          "bounds": {
+            "x": 24.2,
+            "y": 0,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Gross"
+        },
+        {
+          "name": "H2Wt",
+          "type": "label",
+          "bounds": {
+            "x": 26.2,
+            "y": 0,
+            "w": 0.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Size"
+        },
+        {
+          "name": "H2Run",
+          "type": "label",
+          "bounds": {
+            "x": 27,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Country to date"
+        },
+        {
+          "name": "H2Seq",
+          "type": "label",
+          "bounds": {
+            "x": 29.4,
+            "y": 0,
+            "w": 1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "#"
+        },
+        {
+          "name": "H2Page",
+          "type": "label",
+          "bounds": {
+            "x": 30.4,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Page to date"
+        },
+        {
+          "name": "H2Share",
+          "type": "label",
+          "bounds": {
+            "x": 32.8,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "% ctry"
+        },
+        {
+          "name": "H3Share",
+          "type": "label",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "% all"
+        },
+        {
+          "name": "H3Cum",
+          "type": "label",
+          "bounds": {
+            "x": 37.6,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Cum %"
+        },
+        {
+          "name": "H3Run",
+          "type": "label",
+          "bounds": {
+            "x": 39.2,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Report to date"
+        },
+        {
+          "name": "H3Mark",
+          "type": "label",
+          "bounds": {
+            "x": 41.8,
+            "y": 0,
+            "w": 3.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Position"
+        },
+        {
+          "name": "H3Ext",
+          "type": "label",
+          "bounds": {
+            "x": 45.4,
+            "y": 0,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Extreme"
+        },
+        {
+          "name": "H3Row",
+          "type": "label",
+          "bounds": {
+            "x": 48.4,
+            "y": 0,
+            "w": 2.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Row of rows"
+        },
+        {
+          "name": "H3Ship",
+          "type": "label",
+          "bounds": {
+            "x": 51,
+            "y": 0,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Order in shipper"
+        }
+      ]
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 1,
+      "groupByColumns": [
+        "CustomerCountry"
+      ],
+      "keepHeaderWithFirstDetailRow": true,
+      "height": 0.65,
+      "repeatOnNewPage": true,
+      "backColor": "#DCE6F0",
+      "elements": [
+        {
+          "name": "G1Name",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CustomerCountry + \"  (group level \" + GroupNumber() + \")\""
+        },
+        {
+          "name": "G1Count",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CustomerCountry + \" - \" + Count(OrderNo for group 1) + \" orders from \" + Count(CustomerName for group 1 distinct) + \" customers\""
+        },
+        {
+          "name": "G1Range",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CustomerCountry + \" - first order \" + First(OrderNo for group 1) + \", last order \" + Last(OrderNo for group 1)"
+        }
+      ]
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 2,
+      "groupByColumns": [
+        "ShipperName"
+      ],
+      "keepHeaderWithFirstDetailRow": true,
+      "height": 0.5,
+      "repeatOnNewPage": false,
+      "backColor": "#EEF3F8",
+      "elements": [
+        {
+          "name": "G2Name",
+          "type": "computed",
+          "bounds": {
+            "x": 0.4,
+            "y": 0.03,
+            "w": 17.6,
+            "h": 0.44
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#1F3864",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Shipper: \" + ShipperName + \"  (group level \" + GroupNumber() + \")\""
+        },
+        {
+          "name": "G2Count",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.03,
+            "w": 18,
+            "h": 0.44
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#1F3864",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "ShipperName + \" - \" + Count(OrderNo for group 2) + \" orders\""
+        },
+        {
+          "name": "G2Avg",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.03,
+            "w": 18,
+            "h": 0.44
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#1F3864",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "ShipperName + \" - average gross \" + String(Avg([Gross] for group 2), \"#,##0.00\")"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0.45,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "alternateBackColor": "#F7F9FB",
+      "elements": [
+        {
+          "name": "RowNo",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Row()"
+        },
+        {
+          "name": "GetRowNo",
+          "type": "computed",
+          "bounds": {
+            "x": 1,
+            "y": 0,
+            "w": 1,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "GetRow()"
+        },
+        {
+          "name": "OrderNoF",
+          "type": "field",
+          "bounds": {
+            "x": 2.1,
+            "y": 0,
+            "w": 1.3,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "OrderNo"
+        },
+        {
+          "name": "OrderDateF",
+          "type": "field",
+          "bounds": {
+            "x": 3.4,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "OrderDateText"
+        },
+        {
+          "name": "CustomerF",
+          "type": "field",
+          "bounds": {
+            "x": 5.2,
+            "y": 0,
+            "w": 7.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "CustomerName"
+        },
+        {
+          "name": "EmployeeF",
+          "type": "field",
+          "bounds": {
+            "x": 12.8,
+            "y": 0,
+            "w": 5.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "EmployeeName"
+        },
+        {
+          "name": "LinesF",
+          "type": "field",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 1,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "LineCount",
+          "format": "#,##0"
+        },
+        {
+          "name": "OrderAmount",
+          "type": "computed",
+          "bounds": {
+            "x": 19,
+            "y": 0,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Long(AmountUnits) / 10000",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "Vat",
+          "type": "computed",
+          "bounds": {
+            "x": 21,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Round([OrderAmount] * 0.07, 2)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "FreightAmount",
+          "type": "computed",
+          "bounds": {
+            "x": 22.6,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Long(FreightCents) / 100",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "Gross",
+          "type": "computed",
+          "bounds": {
+            "x": 24.2,
+            "y": 0,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "[OrderAmount] + [Vat] + [FreightAmount]",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "GrossBand",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 0.1,
+            "h": 0.1
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "visible": false,
+          "expression": "Ceiling([Gross] / 500) * 500"
+        },
+        {
+          "name": "Weight",
+          "type": "computed",
+          "bounds": {
+            "x": 26.2,
+            "y": 0,
+            "w": 0.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Switch([GrossBand] <= 1000, \"S\", [GrossBand] <= 5000, \"M\", \"L\")"
+        },
+        {
+          "name": "CountryRun",
+          "type": "computed",
+          "bounds": {
+            "x": 27,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "RunningTotal([Gross] for group 1)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "ShipperSeq",
+          "type": "computed",
+          "bounds": {
+            "x": 29.4,
+            "y": 0,
+            "w": 1,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativeSum(1 for group 2)",
+          "format": "#,##0"
+        },
+        {
+          "name": "PageRun",
+          "type": "computed",
+          "bounds": {
+            "x": 30.4,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativeSum([Gross] for page)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "CountryShare",
+          "type": "computed",
+          "bounds": {
+            "x": 32.8,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Percent([Gross] for group 1)",
+          "format": "0.00"
+        },
+        {
+          "name": "ReportShare",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Percent([Gross] for all)",
+          "format": "0.000"
+        },
+        {
+          "name": "ReportCumPct",
+          "type": "computed",
+          "bounds": {
+            "x": 37.6,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativePercent([Gross] for all)",
+          "format": "0.0"
+        },
+        {
+          "name": "ReportRun",
+          "type": "computed",
+          "bounds": {
+            "x": 39.2,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativeSum([Gross] for all)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "Marker",
+          "type": "computed",
+          "bounds": {
+            "x": 41.8,
+            "y": 0,
+            "w": 3.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "If(CumulativeSum(1 for group 1) = 1, \"first in country\", If(Row() = Last(Row() for group 1), \"last in country\", \"\"))"
+        },
+        {
+          "name": "Extreme",
+          "type": "computed",
+          "bounds": {
+            "x": 45.4,
+            "y": 0,
+            "w": 3,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "If([Gross] = Max([Gross] for group 1), \"largest in country\", If([Gross] = Min([Gross] for group 1), \"smallest in country\", \"\"))"
+        },
+        {
+          "name": "RowOfCount",
+          "type": "computed",
+          "bounds": {
+            "x": 48.4,
+            "y": 0,
+            "w": 2.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"row \" + Row() + \" of \" + RowCount()"
+        },
+        {
+          "name": "ShipperOf",
+          "type": "computed",
+          "bounds": {
+            "x": 51,
+            "y": 0,
+            "w": 3,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "[ShipperSeq] + \" of \" + Count(OrderNo for group 2)"
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 2,
+      "height": 0.55,
+      "keepTogether": true,
+      "repeatOnNewPage": true,
+      "backColor": "#EEF3F8",
+      "elements": [
+        {
+          "name": "F2Lbl",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Total \" + ShipperName + \" - \" + Count(OrderNo for group 2) + \" orders\""
+        },
+        {
+          "name": "F2Lines",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 1,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(LineCount for group 2)",
+          "format": "#,##0"
+        },
+        {
+          "name": "F2Amount",
+          "type": "computed",
+          "bounds": {
+            "x": 19,
+            "y": 0.05,
+            "w": 2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(OrderAmount for group 2)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F2Vat",
+          "type": "computed",
+          "bounds": {
+            "x": 21,
+            "y": 0.05,
+            "w": 1.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum([Vat] for group 2)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F2Freight",
+          "type": "computed",
+          "bounds": {
+            "x": 22.6,
+            "y": 0.05,
+            "w": 1.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(FreightAmount for group 2)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F2Gross",
+          "type": "computed",
+          "bounds": {
+            "x": 24.2,
+            "y": 0.05,
+            "w": 2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum([Gross] for group 2)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F2Share",
+          "type": "computed",
+          "bounds": {
+            "x": 32.8,
+            "y": 0.05,
+            "w": 1.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum([Gross] for group 2) / Sum([Gross] for group 1) * 100",
+          "format": "0.00"
+        },
+        {
+          "name": "F2MinMax",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"min \" + String(Min([Gross] for group 2), \"#,##0.00\") + \"  |  max \" + String(Max([Gross] for group 2), \"#,##0.00\") + \"  |  avg \" + String(Avg([Gross] for group 2), \"#,##0.00\") + \"  |  level \" + GroupNumber()"
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 1,
+      "height": 0.6,
+      "repeatOnNewPage": true,
+      "backColor": "#DCE6F0",
+      "elements": [
+        {
+          "name": "F1Lbl",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Total \" + CustomerCountry + \" - \" + Count(OrderNo for group 1) + \" orders\""
+        },
+        {
+          "name": "F1Lines",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 1,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(LineCount for group 1)",
+          "format": "#,##0"
+        },
+        {
+          "name": "F1Amount",
+          "type": "computed",
+          "bounds": {
+            "x": 19,
+            "y": 0.05,
+            "w": 2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(OrderAmount for group 1)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F1Vat",
+          "type": "computed",
+          "bounds": {
+            "x": 21,
+            "y": 0.05,
+            "w": 1.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum([Vat] for group 1)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F1Freight",
+          "type": "computed",
+          "bounds": {
+            "x": 22.6,
+            "y": 0.05,
+            "w": 1.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(FreightAmount for group 1)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F1Gross",
+          "type": "computed",
+          "bounds": {
+            "x": 24.2,
+            "y": 0.05,
+            "w": 2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum([Gross] for group 1)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F1Share",
+          "type": "computed",
+          "bounds": {
+            "x": 32.8,
+            "y": 0.05,
+            "w": 1.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum([Gross] for group 1) / Sum([Gross] for all) * 100",
+          "format": "0.00"
+        },
+        {
+          "name": "F1MinMax",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"min \" + String(Min([Gross] for group 1), \"#,##0.00\") + \"  |  max \" + String(Max([Gross] for group 1), \"#,##0.00\") + \"  |  avg \" + String(Avg([Gross] for group 1), \"#,##0.00\") + \"  |  level \" + GroupNumber()"
+        }
+      ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 1.4,
+      "repeatOnNewPage": true,
+      "printAtBottom": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "AllLbl",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.2,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "\"All countries - \" + Count(OrderNo for all) + \" orders, \" + Count(CustomerCountry for all distinct) + \" countries, \" + RowCount() + \" rows\""
+        },
+        {
+          "name": "AllAmount",
+          "type": "computed",
+          "bounds": {
+            "x": 19,
+            "y": 0.2,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "Sum(OrderAmount for all)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "AllVat",
+          "type": "computed",
+          "bounds": {
+            "x": 21,
+            "y": 0.2,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "Sum([Vat] for all)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "AllFreight",
+          "type": "computed",
+          "bounds": {
+            "x": 22.6,
+            "y": 0.2,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "Sum(FreightAmount for all)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "AllGross",
+          "type": "computed",
+          "bounds": {
+            "x": 24.2,
+            "y": 0.2,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "Sum([Gross] for all)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "AllInfo",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.2,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "ReportName() + \" - \" + TotalHPages() + \" sheets wide, \" + TotalVPages() + \" sheets tall\""
+        },
+        {
+          "name": "AllExt",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.75,
+            "w": 18,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"largest order \" + String(Max([Gross] for all), \"#,##0.00\") + \"  |  smallest \" + String(Min([Gross] for all), \"#,##0.00\")"
+        }
+      ]
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.9,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "PgInfo1",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages() + \"  |  sheet \" + VPage() + \"-\" + HPage() + \"  (\" + TotalVPages() + \" rows x \" + TotalHPages() + \" columns)\""
+        },
+        {
+          "name": "PgAgg1",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.45,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"orders on this page \" + Count(OrderNo for page) + \"  |  gross on this page \" + String(Sum([Gross] for page), \"#,##0.00\")"
+        },
+        {
+          "name": "PgInfo2",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages() + \"  |  sheet \" + VPage() + \"-\" + HPage() + \"  (\" + TotalVPages() + \" rows x \" + TotalHPages() + \" columns)\""
+        },
+        {
+          "name": "PgAgg2",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.45,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"orders on this page \" + Count(OrderNo for page) + \"  |  gross on this page \" + String(Sum([Gross] for page), \"#,##0.00\")"
+        },
+        {
+          "name": "PgInfo3",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages() + \"  |  sheet \" + VPage() + \"-\" + HPage() + \"  (\" + TotalVPages() + \" rows x \" + TotalHPages() + \" columns)\""
+        },
+        {
+          "name": "PgAgg3",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.45,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"orders on this page \" + Count(OrderNo for page) + \"  |  gross on this page \" + String(Sum([Gross] for page), \"#,##0.00\")"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}

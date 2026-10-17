@@ -294,6 +294,7 @@
     },
     {
       "type": "reportFooter",
+      "printAtBottom": true,
       "height": 23.8,
       "repeatOnNewPage": false,
       "backColor": "Transparent",

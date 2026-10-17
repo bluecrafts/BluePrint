@@ -1,0 +1,2511 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Customer Aggregates",
+    "description": "Order lines of German customers in 1998 with every aggregate, three group levels, three sheets wide",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT od.OrderID AS OrderNo,\n       c.Country AS CustomerCountry,\n       c.CompanyName AS CustomerName,\n       p.ProductName AS ItemName,\n       od.Quantity AS LineQuantity,\n       ROUND(od.UnitPrice * 100, 0) AS PriceCents,\n       ROUND(od.Discount * 100, 0) AS DiscountPercent,\n       ROUND(o.Freight * 100, 0) AS FreightCents,\n       {bp:DateText(o.OrderDate)} AS OrderDateText,\n       {bp:Year(o.OrderDate)} AS OrderYear\nFROM {bp:Name(Order Details)} od\nJOIN Orders o ON o.OrderID = od.OrderID\nJOIN Customers c ON c.CustomerID = o.CustomerID\nJOIN Products p ON p.ProductID = od.ProductID",
+    "columns": [
+      {
+        "name": "OrderNo",
+        "dbType": "int64"
+      },
+      {
+        "name": "CustomerCountry",
+        "dbType": "string"
+      },
+      {
+        "name": "CustomerName",
+        "dbType": "string"
+      },
+      {
+        "name": "ItemName",
+        "dbType": "string"
+      },
+      {
+        "name": "LineQuantity",
+        "dbType": "int64"
+      },
+      {
+        "name": "PriceCents",
+        "dbType": "int64"
+      },
+      {
+        "name": "DiscountPercent",
+        "dbType": "int64"
+      },
+      {
+        "name": "FreightCents",
+        "dbType": "int64"
+      },
+      {
+        "name": "OrderDateText",
+        "dbType": "string"
+      },
+      {
+        "name": "OrderYear",
+        "dbType": "int64"
+      }
+    ]
+  },
+  "sortColumns": [
+    {
+      "rules": [
+        {
+          "field": "CustomerCountry",
+          "direction": "asc"
+        },
+        {
+          "field": "CustomerName",
+          "direction": "asc"
+        },
+        {
+          "field": "OrderNo",
+          "direction": "asc"
+        },
+        {
+          "field": "computeField:LineAmount",
+          "direction": "desc"
+        }
+      ]
+    }
+  ],
+  "filters": "CustomerCountry = \"Germany\" && OrderYear = 1998",
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 1.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "T1",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 15,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Customer Aggregates - Germany 1998"
+        },
+        {
+          "name": "S1",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.85,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Sheet 1 of 3: order lines, largest first within each order."
+        },
+        {
+          "name": "T2",
+          "type": "label",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 13,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Customer Aggregates (to date)"
+        },
+        {
+          "name": "S2",
+          "type": "label",
+          "bounds": {
+            "x": 18,
+            "y": 0.85,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Sheet 2 of 3: running totals at every level, freight counted once per order."
+        },
+        {
+          "name": "T3",
+          "type": "label",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 13,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Customer Aggregates (compared)"
+        },
+        {
+          "name": "S3",
+          "type": "label",
+          "bounds": {
+            "x": 36,
+            "y": 0.85,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Sheet 3 of 3: each line against the averages and extremes of its group."
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "H1a",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 0.9,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Row"
+        },
+        {
+          "name": "H1b",
+          "type": "label",
+          "bounds": {
+            "x": 0.9,
+            "y": 0,
+            "w": 6.5,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Product"
+        },
+        {
+          "name": "H1c",
+          "type": "label",
+          "bounds": {
+            "x": 7.4,
+            "y": 0,
+            "w": 1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Qty"
+        },
+        {
+          "name": "H1d",
+          "type": "label",
+          "bounds": {
+            "x": 8.4,
+            "y": 0,
+            "w": 1.5,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Price"
+        },
+        {
+          "name": "H1e",
+          "type": "label",
+          "bounds": {
+            "x": 9.9,
+            "y": 0,
+            "w": 1.1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Disc"
+        },
+        {
+          "name": "H1f",
+          "type": "label",
+          "bounds": {
+            "x": 11,
+            "y": 0,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Amount"
+        },
+        {
+          "name": "H1g",
+          "type": "label",
+          "bounds": {
+            "x": 13,
+            "y": 0,
+            "w": 1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Rank"
+        },
+        {
+          "name": "H1h",
+          "type": "label",
+          "bounds": {
+            "x": 14,
+            "y": 0,
+            "w": 4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Note"
+        },
+        {
+          "name": "H2a",
+          "type": "label",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Order to date"
+        },
+        {
+          "name": "H2b",
+          "type": "label",
+          "bounds": {
+            "x": 20,
+            "y": 0,
+            "w": 2.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Customer to date"
+        },
+        {
+          "name": "H2c",
+          "type": "label",
+          "bounds": {
+            "x": 22.2,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Order #"
+        },
+        {
+          "name": "H2d",
+          "type": "label",
+          "bounds": {
+            "x": 23.4,
+            "y": 0,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Freight to date"
+        },
+        {
+          "name": "H2e",
+          "type": "label",
+          "bounds": {
+            "x": 25.4,
+            "y": 0,
+            "w": 2.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Page to date"
+        },
+        {
+          "name": "H2f",
+          "type": "label",
+          "bounds": {
+            "x": 27.6,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Report to date"
+        },
+        {
+          "name": "H2g",
+          "type": "label",
+          "bounds": {
+            "x": 30,
+            "y": 0,
+            "w": 1.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Row check"
+        },
+        {
+          "name": "H2h",
+          "type": "label",
+          "bounds": {
+            "x": 31.4,
+            "y": 0,
+            "w": 1.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "% order"
+        },
+        {
+          "name": "H2i",
+          "type": "label",
+          "bounds": {
+            "x": 32.8,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Cum % cust"
+        },
+        {
+          "name": "H2j",
+          "type": "label",
+          "bounds": {
+            "x": 34.4,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "% all"
+        },
+        {
+          "name": "H3a",
+          "type": "label",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 1.7,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "vs cust avg"
+        },
+        {
+          "name": "H3b",
+          "type": "label",
+          "bounds": {
+            "x": 37.7,
+            "y": 0,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Extreme"
+        },
+        {
+          "name": "H3c",
+          "type": "label",
+          "bounds": {
+            "x": 39.7,
+            "y": 0,
+            "w": 7.3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "First .. last item of order"
+        },
+        {
+          "name": "H3d",
+          "type": "label",
+          "bounds": {
+            "x": 47,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Line of"
+        },
+        {
+          "name": "H3e",
+          "type": "label",
+          "bounds": {
+            "x": 48.2,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Avg disc"
+        },
+        {
+          "name": "H3f",
+          "type": "label",
+          "bounds": {
+            "x": 49.4,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Items"
+        },
+        {
+          "name": "H3g",
+          "type": "label",
+          "bounds": {
+            "x": 50.6,
+            "y": 0,
+            "w": 1.3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "% qty"
+        },
+        {
+          "name": "H3h",
+          "type": "label",
+          "bounds": {
+            "x": 51.9,
+            "y": 0,
+            "w": 2.1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Page line"
+        }
+      ]
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 1,
+      "groupByColumns": [
+        "CustomerCountry"
+      ],
+      "keepHeaderWithFirstDetailRow": true,
+      "height": 0.65,
+      "repeatOnNewPage": true,
+      "backColor": "#DCE6F0",
+      "elements": [
+        {
+          "name": "G1A",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CustomerCountry + \" - \" + Count(CustomerName for group 1 distinct) + \" customers, \" + Count(OrderNo for group 1 distinct) + \" orders, \" + Count(ItemName for group 1) + \" lines\""
+        },
+        {
+          "name": "G1B",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CustomerCountry + \" - sales \" + String(Sum([LineAmount] for group 1), \"#,##0.00\") + \", freight \" + String(Sum(FreightAmount for group 1 distinct OrderNo), \"#,##0.00\")"
+        },
+        {
+          "name": "G1C",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CustomerCountry + \" - first order \" + First(OrderNo for group 1) + \" on \" + First(OrderDateText for group 1)"
+        }
+      ]
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 2,
+      "groupByColumns": [
+        "CustomerName"
+      ],
+      "keepHeaderWithFirstDetailRow": true,
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "#EEF3F8",
+      "elements": [
+        {
+          "name": "G2A",
+          "type": "computed",
+          "bounds": {
+            "x": 0.3,
+            "y": 0.03,
+            "w": 17.7,
+            "h": 0.44
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#1F3864",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CustomerName + \" - \" + Count(OrderNo for group 2 distinct) + \" orders\""
+        },
+        {
+          "name": "G2B",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.03,
+            "w": 18,
+            "h": 0.44
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#1F3864",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CustomerName + \" - first \" + Min(OrderDateText for group 2) + \", last \" + Max(OrderDateText for group 2)"
+        },
+        {
+          "name": "G2C",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.03,
+            "w": 18,
+            "h": 0.44
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#1F3864",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CustomerName + \" - average line \" + String(Avg([LineAmount] for group 2), \"#,##0.00\")"
+        }
+      ]
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 3,
+      "groupByColumns": [
+        "OrderNo"
+      ],
+      "keepHeaderWithFirstDetailRow": true,
+      "height": 0.45,
+      "repeatOnNewPage": true,
+      "backColor": "#F6F8FB",
+      "elements": [
+        {
+          "name": "G3A",
+          "type": "computed",
+          "bounds": {
+            "x": 0.6,
+            "y": 0.02,
+            "w": 17.4,
+            "h": 0.41
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Order \" + OrderNo + \" of \" + OrderDateText + \" - \" + Count(ItemName for group 3) + \" lines, freight \" + String(First(FreightAmount for group 3), \"#,##0.00\")"
+        },
+        {
+          "name": "G3B",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.02,
+            "w": 18,
+            "h": 0.41
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "italic": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Order \" + OrderNo + \" - order \" + [OrderSeq] + \" of the customer\""
+        },
+        {
+          "name": "G3C",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.02,
+            "w": 18,
+            "h": 0.41
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "italic": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Order \" + OrderNo + \" - largest line \" + String(Max([LineAmount] for group 3), \"#,##0.00\")"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0.45,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "alternateBackColor": "#F7F9FB",
+      "elements": [
+        {
+          "name": "RowNo",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 0.9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Row()"
+        },
+        {
+          "name": "ItemF",
+          "type": "field",
+          "bounds": {
+            "x": 0.9,
+            "y": 0,
+            "w": 6.5,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "ItemName"
+        },
+        {
+          "name": "QtyF",
+          "type": "field",
+          "bounds": {
+            "x": 7.4,
+            "y": 0,
+            "w": 1,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "LineQuantity",
+          "format": "#,##0"
+        },
+        {
+          "name": "FreightAmount",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 0.1,
+            "h": 0.1
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "visible": false,
+          "expression": "Long(FreightCents) / 100"
+        },
+        {
+          "name": "LinePrice",
+          "type": "computed",
+          "bounds": {
+            "x": 8.4,
+            "y": 0,
+            "w": 1.5,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Long(PriceCents) / 100",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "LineDiscount",
+          "type": "computed",
+          "bounds": {
+            "x": 9.9,
+            "y": 0,
+            "w": 1.1,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Long(DiscountPercent) / 100",
+          "format": "0%"
+        },
+        {
+          "name": "LineAmount",
+          "type": "computed",
+          "bounds": {
+            "x": 11,
+            "y": 0,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "LineQuantity * [LinePrice] * (1 - [LineDiscount])",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "LineRank",
+          "type": "computed",
+          "bounds": {
+            "x": 13,
+            "y": 0,
+            "w": 1,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativeSum(1 for group 3)"
+        },
+        {
+          "name": "FirstItem",
+          "type": "computed",
+          "bounds": {
+            "x": 14,
+            "y": 0,
+            "w": 4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "italic": true,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "If([LineRank] = 1, \"largest line of the order\", \"\")"
+        },
+        {
+          "name": "OrderRun",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativeSum([LineAmount] for group 3)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "CustRun",
+          "type": "computed",
+          "bounds": {
+            "x": 20,
+            "y": 0,
+            "w": 2.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "RunningTotal([LineAmount] for group 2)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "OrderSeq",
+          "type": "computed",
+          "bounds": {
+            "x": 22.2,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativeSum(1 for group 2 distinct OrderNo)"
+        },
+        {
+          "name": "FreightRun",
+          "type": "computed",
+          "bounds": {
+            "x": 23.4,
+            "y": 0,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativeSum(FreightAmount for group 2 distinct OrderNo)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "PageRun",
+          "type": "computed",
+          "bounds": {
+            "x": 25.4,
+            "y": 0,
+            "w": 2.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativeSum([LineAmount] for page)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "AllRun",
+          "type": "computed",
+          "bounds": {
+            "x": 27.6,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativeSum([LineAmount] for all)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "RowCheck",
+          "type": "computed",
+          "bounds": {
+            "x": 30,
+            "y": 0,
+            "w": 1.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "If(CumulativeSum(1 for all) = Row(), \"ok\", \"MISMATCH\")"
+        },
+        {
+          "name": "PctOrder",
+          "type": "computed",
+          "bounds": {
+            "x": 31.4,
+            "y": 0,
+            "w": 1.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Percent([LineAmount] for group 3)",
+          "format": "0.0"
+        },
+        {
+          "name": "CumPctCust",
+          "type": "computed",
+          "bounds": {
+            "x": 32.8,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativePercent([LineAmount] for group 2)",
+          "format": "0.0"
+        },
+        {
+          "name": "PctAll",
+          "type": "computed",
+          "bounds": {
+            "x": 34.4,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Percent([LineAmount] for all)",
+          "format": "0.000"
+        },
+        {
+          "name": "VsAvg",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 1.7,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "[LineAmount] - Avg([LineAmount] for group 2)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "MaxFlag",
+          "type": "computed",
+          "bounds": {
+            "x": 37.7,
+            "y": 0,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "If([LineAmount] = Max([LineAmount] for group 2), \"customer max\", If([LineAmount] = Min([LineAmount] for group 2), \"customer min\", \"\"))"
+        },
+        {
+          "name": "FirstOfOrder",
+          "type": "computed",
+          "bounds": {
+            "x": 39.7,
+            "y": 0,
+            "w": 7.3,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "First(ItemName for group 3) + \" .. \" + Last(ItemName for group 3)"
+        },
+        {
+          "name": "LinesOf",
+          "type": "computed",
+          "bounds": {
+            "x": 47,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "[LineRank] + \" of \" + Count(ItemName for group 3)"
+        },
+        {
+          "name": "AvgDisc",
+          "type": "computed",
+          "bounds": {
+            "x": 48.2,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Avg(LineDiscount for group 2)",
+          "format": "0.0%"
+        },
+        {
+          "name": "ItemsCtry",
+          "type": "computed",
+          "bounds": {
+            "x": 49.4,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Count(ItemName for group 1 distinct)"
+        },
+        {
+          "name": "QtyShare",
+          "type": "computed",
+          "bounds": {
+            "x": 50.6,
+            "y": 0,
+            "w": 1.3,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "LineQuantity / Sum(LineQuantity for group 1) * 100",
+          "format": "0.00"
+        },
+        {
+          "name": "PageLines",
+          "type": "computed",
+          "bounds": {
+            "x": 51.9,
+            "y": 0,
+            "w": 2.1,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"line \" + CumulativeSum(1 for page)"
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 3,
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "#F6F8FB",
+      "elements": [
+        {
+          "name": "F3A",
+          "type": "computed",
+          "bounds": {
+            "x": 0.6,
+            "y": 0.04,
+            "w": 10.4,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Order \" + OrderNo + \" - \" + Count(ItemName for group 3) + \" lines, \" + Sum(LineQuantity for group 3) + \" units\""
+        },
+        {
+          "name": "F3Amt",
+          "type": "computed",
+          "bounds": {
+            "x": 11,
+            "y": 0.04,
+            "w": 2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum([LineAmount] for group 3)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F3Fr",
+          "type": "computed",
+          "bounds": {
+            "x": 23.4,
+            "y": 0.04,
+            "w": 2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "First(FreightAmount for group 3)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F3B",
+          "type": "computed",
+          "bounds": {
+            "x": 25.4,
+            "y": 0.04,
+            "w": 10.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"avg \" + String(Avg([LineAmount] for group 3), \"#,##0.00\") + \" | min \" + String(Min([LineAmount] for group 3), \"#,##0.00\") + \" | max \" + String(Max([LineAmount] for group 3), \"#,##0.00\")"
+        },
+        {
+          "name": "F3C",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.04,
+            "w": 18,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"freight counted per line (wrong) \" + String(Sum(FreightAmount for group 3), \"#,##0.00\") + \" | first line \" + String(First([LineAmount] for group 3), \"#,##0.00\") + \" | last line \" + String(Last([LineAmount] for group 3), \"#,##0.00\")"
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 2,
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "#EEF3F8",
+      "elements": [
+        {
+          "name": "F2A",
+          "type": "computed",
+          "bounds": {
+            "x": 0.3,
+            "y": 0.04,
+            "w": 10.7,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Total \" + CustomerName + \" - \" + Count(ItemName for group 2) + \" lines, \" + Sum(LineQuantity for group 2) + \" units\""
+        },
+        {
+          "name": "F2Amt",
+          "type": "computed",
+          "bounds": {
+            "x": 11,
+            "y": 0.04,
+            "w": 2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum([LineAmount] for group 2)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F2Fr",
+          "type": "computed",
+          "bounds": {
+            "x": 23.4,
+            "y": 0.04,
+            "w": 2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(FreightAmount for group 2 distinct OrderNo)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F2B",
+          "type": "computed",
+          "bounds": {
+            "x": 25.4,
+            "y": 0.04,
+            "w": 10.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"avg \" + String(Avg([LineAmount] for group 2), \"#,##0.00\") + \" | min \" + String(Min([LineAmount] for group 2), \"#,##0.00\") + \" | max \" + String(Max([LineAmount] for group 2), \"#,##0.00\")"
+        },
+        {
+          "name": "F2C",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.04,
+            "w": 18,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"freight counted per line (wrong) \" + String(Sum(FreightAmount for group 2), \"#,##0.00\") + \" | first line \" + String(First([LineAmount] for group 2), \"#,##0.00\") + \" | last line \" + String(Last([LineAmount] for group 2), \"#,##0.00\")"
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 1,
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "#DCE6F0",
+      "elements": [
+        {
+          "name": "F1A",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.04,
+            "w": 11,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Total \" + CustomerCountry + \" - \" + Count(ItemName for group 1) + \" lines, \" + Sum(LineQuantity for group 1) + \" units\""
+        },
+        {
+          "name": "F1Amt",
+          "type": "computed",
+          "bounds": {
+            "x": 11,
+            "y": 0.04,
+            "w": 2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum([LineAmount] for group 1)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F1Fr",
+          "type": "computed",
+          "bounds": {
+            "x": 23.4,
+            "y": 0.04,
+            "w": 2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(FreightAmount for group 1 distinct OrderNo)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F1B",
+          "type": "computed",
+          "bounds": {
+            "x": 25.4,
+            "y": 0.04,
+            "w": 10.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"avg \" + String(Avg([LineAmount] for group 1), \"#,##0.00\") + \" | min \" + String(Min([LineAmount] for group 1), \"#,##0.00\") + \" | max \" + String(Max([LineAmount] for group 1), \"#,##0.00\")"
+        },
+        {
+          "name": "F1C",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.04,
+            "w": 18,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"freight counted per line (wrong) \" + String(Sum(FreightAmount for group 1), \"#,##0.00\") + \" | first line \" + String(First([LineAmount] for group 1), \"#,##0.00\") + \" | last line \" + String(Last([LineAmount] for group 1), \"#,##0.00\")"
+        }
+      ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 1.2,
+      "repeatOnNewPage": true,
+      "printAtBottom": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "AllA",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.2,
+            "w": 11,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "\"All lines - \" + Count(ItemName for all) + \", \" + Count(OrderNo for all distinct) + \" orders, \" + Count(ItemName for all distinct) + \" products\""
+        },
+        {
+          "name": "AllAmt",
+          "type": "computed",
+          "bounds": {
+            "x": 11,
+            "y": 0.2,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "Sum([LineAmount] for all)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "AllFr",
+          "type": "computed",
+          "bounds": {
+            "x": 23.4,
+            "y": 0.2,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "Sum(FreightAmount for all distinct OrderNo)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "AllB",
+          "type": "computed",
+          "bounds": {
+            "x": 25.4,
+            "y": 0.2,
+            "w": 10.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "\"last running total \" + String(Last([AllRun] for all), \"#,##0.00\")"
+        },
+        {
+          "name": "AllC",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.2,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "top": {
+                "style": "solid",
+                "color": "#000000",
+                "width": 0.75
+              }
+            }
+          },
+          "expression": "\"check: average line \" + String(Avg([LineAmount] for all), \"#,##0.00\") + \" = total / lines \" + String(Sum([LineAmount] for all) / Count(ItemName for all), \"#,##0.00\")"
+        }
+      ]
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.9,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "PgInfo1",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages() + \"  |  sheet \" + VPage() + \"-\" + HPage() + \"  (\" + TotalVPages() + \" rows x \" + TotalHPages() + \" columns)\""
+        },
+        {
+          "name": "PgAgg1",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.45,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"lines on this page \" + Count(ItemName for page) + \"  |  orders \" + Count(OrderNo for page distinct) + \"  |  sales on this page \" + String(Sum([LineAmount] for page), \"#,##0.00\")"
+        },
+        {
+          "name": "PgInfo2",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages() + \"  |  sheet \" + VPage() + \"-\" + HPage() + \"  (\" + TotalVPages() + \" rows x \" + TotalHPages() + \" columns)\""
+        },
+        {
+          "name": "PgAgg2",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.45,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"lines on this page \" + Count(ItemName for page) + \"  |  orders \" + Count(OrderNo for page distinct) + \"  |  sales on this page \" + String(Sum([LineAmount] for page), \"#,##0.00\")"
+        },
+        {
+          "name": "PgInfo3",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages() + \"  |  sheet \" + VPage() + \"-\" + HPage() + \"  (\" + TotalVPages() + \" rows x \" + TotalHPages() + \" columns)\""
+        },
+        {
+          "name": "PgAgg3",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.45,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"lines on this page \" + Count(ItemName for page) + \"  |  orders \" + Count(OrderNo for page distinct) + \"  |  sales on this page \" + String(Sum([LineAmount] for page), \"#,##0.00\")"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}

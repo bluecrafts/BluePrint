@@ -1,0 +1,1770 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Report Options",
+    "description": "Order lines of 1998 in three categories, page numbers restarting for each category, German number format, three sheets wide",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT od.OrderID AS OrderNo,\n       p.ProductID AS ProductNo,\n       p.ProductName AS ItemName,\n       cat.CategoryName AS CategoryTitle,\n       cat.Description AS CategoryNote,\n       sup.CompanyName AS SupplierName,\n       sup.Country AS SupplierCountry,\n       CAST(od.UnitPrice AS REAL) AS ListPrice,\n       od.Quantity AS LineQuantity,\n       p.UnitsInStock AS InStock,\n       {bp:Year(o.OrderDate)} AS OrderYear,\n       CASE WHEN p.Discontinued = 0 THEN 0 ELSE 1 END AS DiscontinuedFlag,\n       CASE WHEN od.UnitPrice < 20 THEN 1 WHEN od.UnitPrice < 50 THEN 2 ELSE 3 END AS PriceBand\nFROM {bp:Name(Order Details)} od\nJOIN Orders o ON o.OrderID = od.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nJOIN Categories cat ON cat.CategoryID = p.CategoryID\nJOIN Suppliers sup ON sup.SupplierID = p.SupplierID",
+    "columns": [
+      {
+        "name": "OrderNo",
+        "dbType": "int64"
+      },
+      {
+        "name": "ProductNo",
+        "dbType": "int64"
+      },
+      {
+        "name": "ItemName",
+        "dbType": "string"
+      },
+      {
+        "name": "CategoryTitle",
+        "dbType": "string"
+      },
+      {
+        "name": "CategoryNote",
+        "dbType": "string"
+      },
+      {
+        "name": "SupplierName",
+        "dbType": "string"
+      },
+      {
+        "name": "SupplierCountry",
+        "dbType": "string"
+      },
+      {
+        "name": "ListPrice",
+        "dbType": "double"
+      },
+      {
+        "name": "LineQuantity",
+        "dbType": "int64"
+      },
+      {
+        "name": "InStock",
+        "dbType": "int64"
+      },
+      {
+        "name": "OrderYear",
+        "dbType": "int64"
+      },
+      {
+        "name": "DiscontinuedFlag",
+        "dbType": "int64"
+      },
+      {
+        "name": "PriceBand",
+        "dbType": "int64"
+      }
+    ]
+  },
+  "sortColumns": [
+    {
+      "rules": [
+        {
+          "field": "CategoryTitle",
+          "direction": "asc"
+        },
+        {
+          "field": "PriceBand",
+          "direction": "desc"
+        },
+        {
+          "field": "ListPrice",
+          "direction": "desc"
+        },
+        {
+          "field": "ItemName",
+          "direction": "asc"
+        },
+        {
+          "field": "OrderNo",
+          "direction": "asc"
+        }
+      ]
+    }
+  ],
+  "culture": "de-DE",
+  "filters": "OrderYear = 1998 && CategoryTitle in (\"Beverages\", \"Condiments\", \"Confections\")",
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 1.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "T1",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 15,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Report Options"
+        },
+        {
+          "name": "S1",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.85,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Each category starts a new page and restarts page numbers. Long names wrap and the row grows."
+        },
+        {
+          "name": "T2",
+          "type": "label",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 13,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Report Options (numbers)"
+        },
+        {
+          "name": "S2",
+          "type": "label",
+          "bounds": {
+            "x": 18,
+            "y": 0.85,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Sheet 2 of 3: the report culture is German, so numbers use a comma for decimals."
+        },
+        {
+          "name": "T3",
+          "type": "label",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 13,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Report Options (culture and position)"
+        },
+        {
+          "name": "S3",
+          "type": "label",
+          "bounds": {
+            "x": 36,
+            "y": 0.85,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Sheet 3 of 3: day and month names follow the culture; group positions."
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "H1a",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "No"
+        },
+        {
+          "name": "H1b",
+          "type": "label",
+          "bounds": {
+            "x": 1,
+            "y": 0,
+            "w": 7.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Product"
+        },
+        {
+          "name": "H1c",
+          "type": "label",
+          "bounds": {
+            "x": 8.8,
+            "y": 0,
+            "w": 6.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Supplier"
+        },
+        {
+          "name": "H1d",
+          "type": "label",
+          "bounds": {
+            "x": 15,
+            "y": 0,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Country"
+        },
+        {
+          "name": "H2a",
+          "type": "label",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Price"
+        },
+        {
+          "name": "H2b",
+          "type": "label",
+          "bounds": {
+            "x": 20,
+            "y": 0,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Price x 1000"
+        },
+        {
+          "name": "H2c",
+          "type": "label",
+          "bounds": {
+            "x": 23,
+            "y": 0,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "String()"
+        },
+        {
+          "name": "H2d",
+          "type": "label",
+          "bounds": {
+            "x": 26,
+            "y": 0,
+            "w": 1.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Qty"
+        },
+        {
+          "name": "H2e",
+          "type": "label",
+          "bounds": {
+            "x": 27.4,
+            "y": 0,
+            "w": 2.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Value"
+        },
+        {
+          "name": "H2f",
+          "type": "label",
+          "bounds": {
+            "x": 30,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "% cat"
+        },
+        {
+          "name": "H2g",
+          "type": "label",
+          "bounds": {
+            "x": 31.8,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Band to date"
+        },
+        {
+          "name": "H2h",
+          "type": "label",
+          "bounds": {
+            "x": 34.2,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "In cat"
+        },
+        {
+          "name": "H3a",
+          "type": "label",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Price band"
+        },
+        {
+          "name": "H3b",
+          "type": "label",
+          "bounds": {
+            "x": 38.4,
+            "y": 0,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Date format"
+        },
+        {
+          "name": "H3c",
+          "type": "label",
+          "bounds": {
+            "x": 41.4,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "DayName / Month"
+        },
+        {
+          "name": "H3d",
+          "type": "label",
+          "bounds": {
+            "x": 43.8,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Row"
+        },
+        {
+          "name": "H3e",
+          "type": "label",
+          "bounds": {
+            "x": 45.4,
+            "y": 0,
+            "w": 8.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "#E8EDF2",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#AABCCE",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Position"
+        }
+      ]
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 1,
+      "groupByColumns": [
+        "CategoryTitle"
+      ],
+      "keepHeaderWithFirstDetailRow": true,
+      "resetPageNumberOnNewGroup": true,
+      "height": 1.1,
+      "autoHeight": true,
+      "newPageBefore": true,
+      "repeatOnNewPage": true,
+      "backColor": "#DCE6F0",
+      "elements": [
+        {
+          "name": "G1A",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CategoryTitle + \" - \" + Count(OrderNo for group 1) + \" lines of \" + Count(ProductNo for group 1 distinct) + \" products\""
+        },
+        {
+          "name": "G1Note",
+          "type": "field",
+          "bounds": {
+            "x": 0,
+            "y": 0.65,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "italic": true,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "CategoryNote",
+          "wrapText": true,
+          "autoHeight": true
+        },
+        {
+          "name": "G1B",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CategoryTitle + \" - sales \" + String(Sum(ListPrice * LineQuantity for group 1), \"#,##0.00\")"
+        },
+        {
+          "name": "G1C",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CategoryTitle + \" - \" + Count(PriceBand for group 1 distinct) + \" price bands\""
+        }
+      ]
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 2,
+      "groupByColumns": [
+        "PriceBand"
+      ],
+      "keepHeaderWithFirstDetailRow": true,
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "#EEF3F8",
+      "elements": [
+        {
+          "name": "G2A",
+          "type": "computed",
+          "bounds": {
+            "x": 0.3,
+            "y": 0.03,
+            "w": 17.7,
+            "h": 0.44
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#1F3864",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Price \" + Switch(PriceBand = 1, \"under 20\", PriceBand = 2, \"20 to 50\", \"50 and over\")"
+        },
+        {
+          "name": "G2B",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.03,
+            "w": 18,
+            "h": 0.44
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#1F3864",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Price \" + Switch(PriceBand = 1, \"under 20\", PriceBand = 2, \"20 to 50\", \"50 and over\") + \" - average \" + String(Avg(ListPrice for group 2), \"#,##0.00\")"
+        },
+        {
+          "name": "G2C",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.03,
+            "w": 18,
+            "h": 0.44
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#1F3864",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Price \" + Switch(PriceBand = 1, \"under 20\", PriceBand = 2, \"20 to 50\", \"50 and over\") + \" - \" + Count(OrderNo for group 2) + \" lines\""
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0.45,
+      "autoHeight": true,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "alternateBackColor": "#F7F9FB",
+      "elements": [
+        {
+          "name": "NoF",
+          "type": "field",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "ProductNo"
+        },
+        {
+          "name": "NameF",
+          "type": "field",
+          "bounds": {
+            "x": 1,
+            "y": 0,
+            "w": 3.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "ItemName",
+          "wrapText": true,
+          "autoHeight": true
+        },
+        {
+          "name": "DiscBadge",
+          "type": "label",
+          "bounds": {
+            "x": 4.5,
+            "y": 0,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6,
+            "bold": true,
+            "foreColor": "#FFFFFF",
+            "backColor": "#808080",
+            "hAlign": "center",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "visibleExpression": "DiscontinuedFlag = 1",
+          "text": "DISCONTINUED"
+        },
+        {
+          "name": "LowStock",
+          "type": "computed",
+          "bounds": {
+            "x": 6.6,
+            "y": 0,
+            "w": 2.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "bold": true,
+            "foreColor": "#C00000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "visibleExpression": "InStock < 10 && DiscontinuedFlag = 0",
+          "expression": "\"only \" + InStock + \" left\""
+        },
+        {
+          "name": "SupF",
+          "type": "field",
+          "bounds": {
+            "x": 8.8,
+            "y": 0,
+            "w": 6.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "SupplierName"
+        },
+        {
+          "name": "CtryF",
+          "type": "field",
+          "bounds": {
+            "x": 15,
+            "y": 0,
+            "w": 3,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "SupplierCountry"
+        },
+        {
+          "name": "PriceF",
+          "type": "field",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "ListPrice",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "Price1000",
+          "type": "computed",
+          "bounds": {
+            "x": 20,
+            "y": 0,
+            "w": 3,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "ListPrice * 1000",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "PriceText",
+          "type": "computed",
+          "bounds": {
+            "x": 23,
+            "y": 0,
+            "w": 3,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "String(ListPrice * 1000, \"#,##0.00\")"
+        },
+        {
+          "name": "QtyF",
+          "type": "field",
+          "bounds": {
+            "x": 26,
+            "y": 0,
+            "w": 1.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "LineQuantity",
+          "format": "#,##0"
+        },
+        {
+          "name": "ValueF",
+          "type": "computed",
+          "bounds": {
+            "x": 27.4,
+            "y": 0,
+            "w": 2.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "ListPrice * LineQuantity",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "ShareF",
+          "type": "computed",
+          "bounds": {
+            "x": 30,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "ListPrice * LineQuantity / Sum(ListPrice * LineQuantity for group 1)",
+          "format": "0.0%"
+        },
+        {
+          "name": "BandRun",
+          "type": "computed",
+          "bounds": {
+            "x": 31.8,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "RunningTotal(ListPrice * LineQuantity for group 2)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "RowInCat",
+          "type": "computed",
+          "bounds": {
+            "x": 34.2,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CumulativeSum(1 for group 1) + \"/\" + Count(ProductNo for group 1)"
+        },
+        {
+          "name": "PriceBandF",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Switch(PriceBand = 1, \"under 20\", PriceBand = 2, \"20 to 50\", \"50 and over\")"
+        },
+        {
+          "name": "DateDe",
+          "type": "computed",
+          "bounds": {
+            "x": 38.4,
+            "y": 0,
+            "w": 3,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Date(1998, 5, 6)",
+          "format": "dddd, d. MMMM yyyy"
+        },
+        {
+          "name": "DayNameDe",
+          "type": "computed",
+          "bounds": {
+            "x": 41.4,
+            "y": 0,
+            "w": 2.4,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "DayName(Date(1998, 5, 6)) + \" / \" + MonthName(5)"
+        },
+        {
+          "name": "RowAll",
+          "type": "computed",
+          "bounds": {
+            "x": 43.8,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Row() + \"/\" + RowCount()"
+        },
+        {
+          "name": "Grp",
+          "type": "computed",
+          "bounds": {
+            "x": 45.4,
+            "y": 0,
+            "w": 8.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "CategoryTitle + \" > \" + Switch(PriceBand = 1, \"under 20\", PriceBand = 2, \"20 to 50\", \"50 and over\") + \" > row \" + CumulativeSum(1 for group 2)"
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 2,
+      "height": 0.5,
+      "keepTogether": true,
+      "repeatOnNewPage": true,
+      "backColor": "#EEF3F8",
+      "elements": [
+        {
+          "name": "F2A",
+          "type": "computed",
+          "bounds": {
+            "x": 0.3,
+            "y": 0.04,
+            "w": 17.7,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Total price \" + Switch(PriceBand = 1, \"under 20\", PriceBand = 2, \"20 to 50\", \"50 and over\") + \" - \" + Count(OrderNo for group 2) + \" lines\""
+        },
+        {
+          "name": "F2Price",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.04,
+            "w": 2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Max(ListPrice for group 2)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F2Qty",
+          "type": "computed",
+          "bounds": {
+            "x": 26,
+            "y": 0.04,
+            "w": 1.4,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(LineQuantity for group 2)",
+          "format": "#,##0"
+        },
+        {
+          "name": "F2Value",
+          "type": "computed",
+          "bounds": {
+            "x": 27.4,
+            "y": 0.04,
+            "w": 2.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(ListPrice * LineQuantity for group 2)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F2C",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.04,
+            "w": 18,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"cheapest \" + String(Min(ListPrice for group 2), \"#,##0.00\") + \" | dearest \" + String(Max(ListPrice for group 2), \"#,##0.00\")"
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 1,
+      "height": 0.6,
+      "repeatOnNewPage": true,
+      "printAtBottom": true,
+      "backColor": "#DCE6F0",
+      "elements": [
+        {
+          "name": "F1A",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Total \" + CategoryTitle + \" - printed at the bottom of the page\""
+        },
+        {
+          "name": "F1Qty",
+          "type": "computed",
+          "bounds": {
+            "x": 26,
+            "y": 0.05,
+            "w": 1.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(LineQuantity for group 1)",
+          "format": "#,##0"
+        },
+        {
+          "name": "F1Value",
+          "type": "computed",
+          "bounds": {
+            "x": 27.4,
+            "y": 0.05,
+            "w": 2.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Sum(ListPrice * LineQuantity for group 1)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "F1C",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8.5,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Total \" + CategoryTitle + \" - discontinued products \" + Count(If(DiscontinuedFlag = 1, ProductNo, null) for group 1 distinct)"
+        }
+      ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 1.6,
+      "newPageBefore": true,
+      "repeatOnNewPage": true,
+      "printAtBottom": false,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "RF1",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 12,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Summary"
+        },
+        {
+          "name": "RF1b",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.7,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8.5,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Count(OrderNo for all) + \" lines of \" + Count(ProductNo for all distinct) + \" products in \" + Count(CategoryTitle for all distinct) + \" categories\""
+        },
+        {
+          "name": "RF2",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.7,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8.5,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"sales of all lines \" + String(Sum(ListPrice * LineQuantity for all), \"#,##0.00\")"
+        },
+        {
+          "name": "RF3",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.7,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8.5,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"the summary starts its own page and prints at the top\""
+        }
+      ]
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "PgInfo1",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"category page \" + Page() + \" of \" + GroupTotalPages() + \"  |  sheet \" + VPage() + \"-\" + HPage() + \"  |  \" + TotalPages() + \" pages in all\""
+        },
+        {
+          "name": "PgInfo2",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"category page \" + Page() + \" of \" + GroupTotalPages() + \"  |  sheet \" + VPage() + \"-\" + HPage() + \"  |  \" + TotalPages() + \" pages in all\""
+        },
+        {
+          "name": "PgInfo3",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 6.5,
+            "foreColor": "#555555",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"category page \" + Page() + \" of \" + GroupTotalPages() + \"  |  sheet \" + VPage() + \"-\" + HPage() + \"  |  \" + TotalPages() + \" pages in all\""
+        }
+      ]
+    }
+  ],
+  "noDataMessage": "No order lines match this report",
+  "noDataShowStructure": true,
+  "paddingFullPage": true,
+  "slotData": []
+}

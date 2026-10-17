@@ -306,6 +306,7 @@
                                           }
                                       ],
                          "type":  "reportFooter",
+                         "printAtBottom": true,
                          "groupLevel":  0,
                          "autoHeight":  false,
                          "backColor":  "Transparent",
