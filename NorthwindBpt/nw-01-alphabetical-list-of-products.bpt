@@ -54,24 +54,43 @@
   "sections": [
     {
       "type": "reportHeader",
-      "height": 1.4,
+      "height": 1.7,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
         {
-          "name": "Title",
+          "name": "AccentBar",
           "type": "label",
           "bounds": {
             "x": 0,
             "y": 0,
             "w": 18,
+            "h": 0.12
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 2,
+            "foreColor": "#1F5FAD",
+            "backColor": "#1F5FAD",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": ""
+        },
+        {
+          "name": "Title",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.3,
+            "w": 18,
             "h": 0.9
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 16,
+            "fontFamily": "Segoe UI",
+            "fontSize": 18,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -98,21 +117,21 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#E8EDF2",
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
             "hAlign": "left",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#AABCCE",
-                "width": 0.5
+                "color": "#B8C2CC",
+                "width": 1
               }
             }
           },
@@ -128,21 +147,21 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#E8EDF2",
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
             "hAlign": "left",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#AABCCE",
-                "width": 0.5
+                "color": "#B8C2CC",
+                "width": 1
               }
             }
           },
@@ -158,21 +177,21 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#E8EDF2",
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
             "hAlign": "left",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#AABCCE",
-                "width": 0.5
+                "color": "#B8C2CC",
+                "width": 1
               }
             }
           },
@@ -188,21 +207,21 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#E8EDF2",
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
             "hAlign": "left",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#AABCCE",
-                "width": 0.5
+                "color": "#B8C2CC",
+                "width": 1
               }
             }
           },
@@ -218,21 +237,21 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#E8EDF2",
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
             "hAlign": "right",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#AABCCE",
-                "width": 0.5
+                "color": "#B8C2CC",
+                "width": 1
               }
             }
           },
@@ -242,7 +261,7 @@
     },
     {
       "type": "detail",
-      "height": 0.6,
+      "height": 0.65,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
@@ -253,22 +272,22 @@
             "x": 0,
             "y": 0,
             "w": 6,
-            "h": 0.6
+            "h": 0.65
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#D8D8D8",
+                "color": "#E3E7EC",
                 "width": 0.5
               }
             }
@@ -282,22 +301,22 @@
             "x": 6,
             "y": 0,
             "w": 3.5,
-            "h": 0.6
+            "h": 0.65
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#D8D8D8",
+                "color": "#E3E7EC",
                 "width": 0.5
               }
             }
@@ -311,22 +330,22 @@
             "x": 9.5,
             "y": 0,
             "w": 5,
-            "h": 0.6
+            "h": 0.65
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#D8D8D8",
+                "color": "#E3E7EC",
                 "width": 0.5
               }
             }
@@ -340,22 +359,22 @@
             "x": 14.5,
             "y": 0,
             "w": 2,
-            "h": 0.6
+            "h": 0.65
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#D8D8D8",
+                "color": "#E3E7EC",
                 "width": 0.5
               }
             }
@@ -369,22 +388,22 @@
             "x": 16.5,
             "y": 0,
             "w": 1.5,
-            "h": 0.6
+            "h": 0.65
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#D8D8D8",
+                "color": "#E3E7EC",
                 "width": 0.5
               }
             }
@@ -392,7 +411,8 @@
           "source": "UnitPrice",
           "format": "#,##0.00"
         }
-      ]
+      ],
+      "alternateBackColor": "#F7F9FC"
     },
     {
       "type": "reportFooter",
@@ -411,10 +431,10 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -441,9 +461,9 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "foreColor": "#6B7280",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",

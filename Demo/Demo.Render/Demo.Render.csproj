@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlueCrafts.BluePrint.Render" Version="1.2.101" />
+    <PackageReference Include="BlueCrafts.BluePrint.Render" Version="1.2.102" />
   </ItemGroup>
 
   <ItemGroup>
