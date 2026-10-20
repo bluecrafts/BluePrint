@@ -104,24 +104,43 @@
   "sections": [
     {
       "type": "reportHeader",
-      "height": 5.6,
+      "height": 5.9,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
+        {
+          "name": "AccentBar",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.12
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 2,
+            "foreColor": "#1F5FAD",
+            "backColor": "#1F5FAD",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": ""
+        },
         {
           "name": "Title",
           "type": "label",
           "bounds": {
             "x": 0,
-            "y": 0,
+            "y": 0.3,
             "w": 9,
             "h": 1.1
           },
           "style": {
-            "fontFamily": "Tahoma",
+            "fontFamily": "Segoe UI",
             "fontSize": 22,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -135,14 +154,14 @@
           "type": "label",
           "bounds": {
             "x": 0,
-            "y": 1.1,
+            "y": 1.4,
             "w": 9,
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 11,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 10.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -156,15 +175,15 @@
           "type": "computed",
           "bounds": {
             "x": 11,
-            "y": 0.1,
+            "y": 0.4,
             "w": 7,
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 11,
+            "fontFamily": "Segoe UI",
+            "fontSize": 10.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
@@ -178,14 +197,14 @@
           "type": "computed",
           "bounds": {
             "x": 11,
-            "y": 0.75,
+            "y": 1.05,
             "w": 7,
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
@@ -199,14 +218,14 @@
           "type": "computed",
           "bounds": {
             "x": 11,
-            "y": 1.35,
+            "y": 1.65,
             "w": 7,
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
@@ -220,15 +239,15 @@
           "type": "label",
           "bounds": {
             "x": 0,
-            "y": 2.2,
+            "y": 2.5,
             "w": 4,
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -242,14 +261,14 @@
           "type": "field",
           "bounds": {
             "x": 0,
-            "y": 2.8,
+            "y": 3.1,
             "w": 9,
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 11,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 10.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -263,14 +282,14 @@
           "type": "field",
           "bounds": {
             "x": 0,
-            "y": 3.4,
+            "y": 3.7,
             "w": 9,
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -284,14 +303,14 @@
           "type": "computed",
           "bounds": {
             "x": 0,
-            "y": 4,
+            "y": 4.3,
             "w": 9,
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -305,14 +324,14 @@
           "type": "computed",
           "bounds": {
             "x": 11,
-            "y": 2.8,
+            "y": 3.1,
             "w": 7,
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
@@ -326,14 +345,14 @@
           "type": "computed",
           "bounds": {
             "x": 11,
-            "y": 3.4,
+            "y": 3.7,
             "w": 7,
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
@@ -347,14 +366,14 @@
           "type": "barcode",
           "bounds": {
             "x": 11,
-            "y": 4,
+            "y": 4.3,
             "w": 7,
             "h": 1.1
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -380,14 +399,14 @@
           "type": "line",
           "bounds": {
             "x": 0,
-            "y": 5.4,
+            "y": 5.7,
             "w": 18,
             "h": 0.02
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -420,21 +439,21 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#E8EDF2",
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
             "hAlign": "left",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#AABCCE",
-                "width": 0.5
+                "color": "#B8C2CC",
+                "width": 1
               }
             }
           },
@@ -450,21 +469,21 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#E8EDF2",
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
             "hAlign": "right",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#AABCCE",
-                "width": 0.5
+                "color": "#B8C2CC",
+                "width": 1
               }
             }
           },
@@ -480,21 +499,21 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#E8EDF2",
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
             "hAlign": "right",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#AABCCE",
-                "width": 0.5
+                "color": "#B8C2CC",
+                "width": 1
               }
             }
           },
@@ -510,21 +529,21 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#E8EDF2",
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
             "hAlign": "right",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#AABCCE",
-                "width": 0.5
+                "color": "#B8C2CC",
+                "width": 1
               }
             }
           },
@@ -540,21 +559,21 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#E8EDF2",
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
             "hAlign": "right",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#AABCCE",
-                "width": 0.5
+                "color": "#B8C2CC",
+                "width": 1
               }
             }
           },
@@ -578,19 +597,19 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#D8D8D8",
+                "color": "#E3E7EC",
                 "width": 0.5
               }
             }
@@ -607,19 +626,19 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#D8D8D8",
+                "color": "#E3E7EC",
                 "width": 0.5
               }
             }
@@ -637,19 +656,19 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#D8D8D8",
+                "color": "#E3E7EC",
                 "width": 0.5
               }
             }
@@ -667,19 +686,19 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#D8D8D8",
+                "color": "#E3E7EC",
                 "width": 0.5
               }
             }
@@ -697,19 +716,19 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#D8D8D8",
+                "color": "#E3E7EC",
                 "width": 0.5
               }
             }
@@ -717,7 +736,8 @@
           "source": "ExtendedPrice",
           "format": "#,##0.00"
         }
-      ]
+      ],
+      "alternateBackColor": "#F7F9FC"
     },
     {
       "type": "reportFooter",
@@ -736,9 +756,9 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
@@ -757,10 +777,10 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
@@ -770,8 +790,8 @@
               "uniform": false,
               "top": {
                 "style": "solid",
-                "color": "#000000",
-                "width": 1
+                "color": "#6B7280",
+                "width": 0.75
               }
             }
           },
@@ -788,9 +808,9 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
@@ -809,9 +829,9 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
@@ -831,10 +851,10 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 13,
+            "fontFamily": "Segoe UI",
+            "fontSize": 12.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
@@ -853,10 +873,10 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 13,
+            "fontFamily": "Segoe UI",
+            "fontSize": 12.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",
@@ -866,8 +886,8 @@
               "uniform": false,
               "top": {
                 "style": "solid",
-                "color": "#000000",
-                "width": 1
+                "color": "#6B7280",
+                "width": 0.75
               }
             }
           },
@@ -884,9 +904,9 @@
             "h": 0.02
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -911,9 +931,9 @@
             "h": 0.45
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 9,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "center",
             "vAlign": "top",
@@ -940,9 +960,9 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "foreColor": "#6B7280",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",

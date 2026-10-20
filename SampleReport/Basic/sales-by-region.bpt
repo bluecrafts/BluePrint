@@ -118,6 +118,13 @@
       ]
     },
     {
+      "type": "pageHeader",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
+    },
+    {
       "type": "crosstabColumnHeader",
       "groupLevel": 0,
       "groupSortDirection": "asc",
@@ -421,6 +428,13 @@
           "format": "#,##0.00"
         }
       ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
     },
     {
       "type": "pageFooter",

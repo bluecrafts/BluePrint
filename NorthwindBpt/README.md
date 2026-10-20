@@ -1,6 +1,6 @@
 # Northwind Reports
 
-Thirty-five reports built on the classic **Northwind** sample database, running on **SQLite** - a
+Thirty-eight reports built on the classic **Northwind** sample database, running on **SQLite** - a
 single file, no server, nothing to install.
 
 These cover the things the [external-data samples](../SampleReport/README.md) cannot: real queries, retrieval
@@ -95,6 +95,24 @@ together with totals "for page", which are the same on all three sheets of one r
 | [`nw-33-wide-order-calendar.bpt`](nw-33-wide-order-calendar.bpt) | **Date and time functions** in three group levels (year, quarter, month) - dates are built in the report with `Date(year, month, day)`, days to ship are counted three ways that must agree, and orders not yet shipped stay empty |
 | [`nw-34-wide-customer-aggregates.bpt`](nw-34-wide-customer-aggregates.bpt) | **Every aggregate** over order lines in three group levels - `distinct` counts and freight counted once per order (next to the wrong per-line total), running totals at every level, `Percent` and `CumulativePercent`, and lines sorted by a calculated amount |
 | [`nw-35-wide-report-options.bpt`](nw-35-wide-report-options.bpt) | **Report options** - a new page and new page numbers for each category with `GroupTotalPages()`, a German report culture, rows that grow with wrapped text, a badge shown only when a condition holds, empty rows that fill the page, a category footer at the bottom of the page and a summary on its own page |
+
+## Two that put each category in two columns
+
+Both use **Slot Data** (**Design > Rows > Slot Data...**) to send the odd rows of each category to the
+left column and the even rows to the right. The numbering starts again at 1 in every category, so the
+first product of a category is always on the left. The two reports print the same page.
+
+| Report | Shows |
+|---|---|
+| [`nw-36-slot-by-row-of-group.bpt`](nw-36-slot-by-row-of-group.bpt) | **`RowOfGroup(1)`** in the slot expressions - the row number within the category |
+| [`nw-37-slot-by-cumulative-sum.bpt`](nw-37-slot-by-cumulative-sum.bpt) | **`CumulativeSum(1 for group 1)`** - the same numbers, written as a running count |
+
+## Three columns over several pages
+
+[`nw-38-slot-three-columns.bpt`](nw-38-slot-three-columns.bpt) lists all 830 orders by the country they
+shipped to, three to a line and read left to right, over ten pages. It uses three slots:
+`Mod(RowOfGroup(1), 3) = 1`, `= 2` and `= 0`. The freight in each column is a computed field; when a
+country runs out of orders part way along a line, the columns that are left stay empty.
 
 ---
 

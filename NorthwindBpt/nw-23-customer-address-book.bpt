@@ -70,24 +70,43 @@
   "sections": [
     {
       "type": "reportHeader",
-      "height": 1.8,
+      "height": 2.1,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
         {
-          "name": "Title",
+          "name": "AccentBar",
           "type": "label",
           "bounds": {
             "x": 0,
             "y": 0,
             "w": 18,
+            "h": 0.12
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 2,
+            "foreColor": "#1F5FAD",
+            "backColor": "#1F5FAD",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": ""
+        },
+        {
+          "name": "Title",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.3,
+            "w": 18,
             "h": 0.9
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 16,
+            "fontFamily": "Segoe UI",
+            "fontSize": 18,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -101,14 +120,14 @@
           "type": "label",
           "bounds": {
             "x": 0,
-            "y": 0.95,
+            "y": 1.25,
             "w": 18,
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#555555",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#6B7280",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -129,27 +148,27 @@
           "name": "H1",
           "type": "label",
           "bounds": {
-            "x": 0.5,
+            "x": 0,
             "y": 0,
-            "w": 7,
+            "w": 7.5,
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#E8EDF2",
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
             "hAlign": "left",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#AABCCE",
-                "width": 0.5
+                "color": "#B8C2CC",
+                "width": 1
               }
             }
           },
@@ -165,21 +184,21 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#E8EDF2",
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
             "hAlign": "left",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#AABCCE",
-                "width": 0.5
+                "color": "#B8C2CC",
+                "width": 1
               }
             }
           },
@@ -195,21 +214,21 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
-            "backColor": "#E8EDF2",
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
             "hAlign": "left",
-            "vAlign": "top",
+            "vAlign": "middle",
             "paddingLeft": 0.1,
             "paddingRight": 0.05,
             "border": {
-              "uniform": true,
-              "all": {
+              "uniform": false,
+              "bottom": {
                 "style": "solid",
-                "color": "#AABCCE",
-                "width": 0.5
+                "color": "#B8C2CC",
+                "width": 1
               }
             }
           },
@@ -238,7 +257,7 @@
             "h": 0.7
           },
           "style": {
-            "fontFamily": "Tahoma",
+            "fontFamily": "Segoe UI",
             "fontSize": 15,
             "bold": true,
             "foreColor": "#1F4E79",
@@ -260,9 +279,9 @@
             "h": 0.02
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top"
@@ -287,16 +306,16 @@
           "name": "Customer",
           "type": "field",
           "bounds": {
-            "x": 0.5,
+            "x": 0,
             "y": 0,
-            "w": 7,
+            "w": 7.5,
             "h": 0.55
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -309,15 +328,15 @@
           "name": "Contact",
           "type": "computed",
           "bounds": {
-            "x": 0.5,
+            "x": 0,
             "y": 0.55,
-            "w": 7,
+            "w": 7.5,
             "h": 0.5
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 9,
-            "foreColor": "#555555",
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "foreColor": "#6B7280",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -336,9 +355,9 @@
             "h": 0.55
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -357,9 +376,9 @@
             "h": 0.5
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 9,
-            "foreColor": "#555555",
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "foreColor": "#6B7280",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -378,9 +397,9 @@
             "h": 0.55
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -402,15 +421,15 @@
           "name": "LetterCount",
           "type": "computed",
           "bounds": {
-            "x": 0.5,
+            "x": 0,
             "y": 0,
-            "w": 10,
+            "w": 10.5,
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 9,
-            "foreColor": "#555555",
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "foreColor": "#6B7280",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -432,16 +451,16 @@
           "name": "GrandLabel",
           "type": "computed",
           "bounds": {
-            "x": 0.5,
+            "x": 0,
             "y": 0.2,
-            "w": 17.5,
+            "w": 18,
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 12,
+            "fontFamily": "Segoe UI",
+            "fontSize": 11,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top",
@@ -468,9 +487,9 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "foreColor": "#6B7280",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top",

@@ -91,24 +91,43 @@
   "sections": [
     {
       "type": "reportHeader",
-      "height": 1.6,
+      "height": 2.3,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
         {
-          "name": "Title",
+          "name": "AccentBar",
           "type": "label",
           "bounds": {
             "x": 0,
             "y": 0,
             "w": 25,
+            "h": 0.12
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 2,
+            "foreColor": "#1F5FAD",
+            "backColor": "#1F5FAD",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": ""
+        },
+        {
+          "name": "Title",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.3,
+            "w": 25,
             "h": 0.9
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 16,
+            "fontFamily": "Segoe UI",
+            "fontSize": 18,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top"
@@ -120,21 +139,29 @@
           "type": "label",
           "bounds": {
             "x": 0,
-            "y": 0.9,
+            "y": 1.2,
             "w": 25,
-            "h": 0.6
+            "h": 1
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#555555",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#6B7280",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "top"
           },
-          "text": "Every cell holds two numbers. An order that contains several categories is counted in each of them, so the order counts add up to more than the 830 orders in the data."
+          "text": "Every cell holds two numbers. An order that contains several categories is counted in each of them, so the order counts add up to more than the 830 orders in the data.",
+          "wrapText": true
         }
       ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
     },
     {
       "type": "crosstabColumnHeader",
@@ -152,10 +179,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "#EFEFEF",
             "hAlign": "left",
             "vAlign": "middle",
@@ -180,10 +207,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "#EFEFEF",
             "hAlign": "center",
             "vAlign": "middle",
@@ -209,10 +236,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "#EFEFEF",
             "hAlign": "center",
             "vAlign": "middle",
@@ -246,10 +273,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "#EFEFEF",
             "hAlign": "left",
             "vAlign": "middle",
@@ -274,10 +301,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "#EFEFEF",
             "hAlign": "center",
             "vAlign": "middle",
@@ -302,10 +329,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "#EFEFEF",
             "hAlign": "center",
             "vAlign": "middle",
@@ -330,10 +357,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "#EFEFEF",
             "hAlign": "center",
             "vAlign": "middle",
@@ -358,10 +385,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "#EFEFEF",
             "hAlign": "center",
             "vAlign": "middle",
@@ -394,9 +421,9 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "left",
             "vAlign": "middle",
@@ -422,9 +449,9 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "middle",
@@ -451,9 +478,9 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "middle",
@@ -480,10 +507,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "middle",
@@ -510,10 +537,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "middle",
@@ -530,7 +557,8 @@
           "source": "OrderCount",
           "format": "#,##0"
         }
-      ]
+      ],
+      "alternateBackColor": "#F7F9FC"
     },
     {
       "type": "crosstabGrandTotal",
@@ -548,10 +576,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "#EFEFEF",
             "hAlign": "left",
             "vAlign": "middle",
@@ -576,10 +604,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "#EFEFEF",
             "hAlign": "right",
             "vAlign": "middle",
@@ -606,10 +634,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "#EFEFEF",
             "hAlign": "right",
             "vAlign": "middle",
@@ -636,10 +664,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "#EFEFEF",
             "hAlign": "right",
             "vAlign": "middle",
@@ -666,10 +694,10 @@
             "h": 0.8
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
             "bold": true,
-            "foreColor": "#000000",
+            "foreColor": "#1F2937",
             "backColor": "#EFEFEF",
             "hAlign": "right",
             "vAlign": "middle",
@@ -689,6 +717,13 @@
       ]
     },
     {
+      "type": "reportFooter",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
+    },
+    {
       "type": "pageFooter",
       "height": 0.8,
       "repeatOnNewPage": true,
@@ -704,9 +739,9 @@
             "h": 0.6
           },
           "style": {
-            "fontFamily": "Tahoma",
-            "fontSize": 10,
-            "foreColor": "#000000",
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "foreColor": "#6B7280",
             "backColor": "Transparent",
             "hAlign": "right",
             "vAlign": "top"

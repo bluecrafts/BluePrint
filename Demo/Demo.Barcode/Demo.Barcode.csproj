@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlueCrafts.BluePrint.Barcode" Version="1.2.101" />
+    <PackageReference Include="BlueCrafts.BluePrint.Barcode" Version="1.2.102" />
   </ItemGroup>
 
   <ItemGroup>
