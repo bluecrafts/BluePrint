@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.2.102" />
+    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.3.111" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,8 +20,10 @@
 
   <ItemGroup>
     <!-- The report, and the database it reads. Both shared with Demo.Render.
-         The code that reads them lives in MainWindow.xaml.cs, one button at a time. -->
+         The code that reads them lives in MainWindow.xaml.cs, one button at a time.
+         nw-06 is a second report to open with Load. -->
     <None Include="..\..\NorthwindBpt\nw-05-invoice.bpt" Link="nw-05-invoice.bpt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\NorthwindBpt\nw-06-products-by-category.bpt" Link="nw-06-products-by-category.bpt" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\NorthwindDB\SQLite\northwind.db" Link="northwind.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 

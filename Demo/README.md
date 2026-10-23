@@ -91,8 +91,18 @@ values it retrieved with, so any expression in the report that prints
 `@OrderId` sees the same value the query used. Export and preview then use what
 the report holds, so there is nothing more to pass.
 
-`Demo.Designer` opens the same definition. Editing a report needs no
-connection; the data source page shows the query as text. Rows on the design
+`Demo.Designer` opens the same definition and retrieves order 11077 as it
+starts, by passing the value to `Designer.Retrieve(...)` so no dialog comes up.
+**Load** opens another report - `nw-06-products-by-category.bpt` is copied next
+to the executable for that - and shows its layout until you press
+**Retrieve**. **Refresh** (or F5) renders the preview again after a change to
+the design, with the rows already retrieved. Editing a report needs no
+connection; the data source page shows the query as text. The element toolbar
+down the left edge (Pointer, Label, Field, Computed Field, Image, Line, Shape,
+Barcode) comes with the control, so the host writes no toolbar code to add
+elements. The Chart and Sub Band buttons appear when the host sets
+`ShowChartTool="True"` and `ShowSubBandTool="True"`, and a host that has a
+toolbar of its own sets `ShowElementToolBar="False"`. Rows on the design
 surface are the one thing the host wires up itself, because the designer never
 opens a connection. The designer asks for `@OrderId`, then hands the host an
 empty `BluePrintDocument` for the report being designed, and the host fills it
@@ -116,6 +126,14 @@ one after another and writes a PDF for each. Each button handler in
 `MainWindow.xaml.cs`, and each block in `Program.cs`, does the whole job by
 itself - load the report, put the rows in it, show or export it - so reading one
 is enough to copy that way into your own code.
+
+`Demo.Preview` also has **Load** at the left, as `Demo.Designer` does: it opens
+another report - `nw-06-products-by-category.bpt` is copied next to the
+executable for that - and shows its layout without rows. Own DbConnection and
+Connection Profile then fill it, because they run the query the report carries;
+a report whose arguments the sample does not know asks for them in the dialog
+every BluePrint host uses. The last two ways are written for the invoice and are
+only enabled while it is the report loaded.
 
 | Way | What it does |
 | --- | --- |

@@ -11,6 +11,11 @@
              rows in it, show it - and the page that comes out is the same
              whichever one is pressed. -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="8">
+            <Button x:Name="LoadButton"
+                    Content="Load"
+                    Click="Load_Click"
+                    Margin="0,0,8,0" Padding="12,4"
+                    ToolTip="Open another .bpt file and show its layout. Press a button to the right to fill it with rows." />
             <Button x:Name="OwnConnectionButton"
                     Content="Own DbConnection"
                     Click="OwnConnection_Click"
@@ -25,12 +30,12 @@
                     Content="Own DbConnection + SetSql"
                     Click="OwnConnectionSetSql_Click"
                     Margin="0,0,8,0" Padding="12,4"
-                    ToolTip="As Own DbConnection, but the query is our own SQLite SQL, set on the report first: report.SetSql(...)." />
+                    ToolTip="As Own DbConnection, but the query is our own SQLite SQL, set on the report first: report.SetSql(...). Written for nw-05-invoice.bpt." />
             <Button x:Name="OwnQueryButton"
                     Content="Own Query + List"
                     Click="OwnQuery_Click"
                     Padding="12,4"
-                    ToolTip="We query with the driver ourselves and give the report a List of objects: report.SetData(list)." />
+                    ToolTip="We query with the driver ourselves and give the report a List of objects: report.SetData(list). Written for nw-05-invoice.bpt." />
         </StackPanel>
 
         <StatusBar DockPanel.Dock="Bottom">
