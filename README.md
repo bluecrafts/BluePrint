@@ -177,6 +177,12 @@ below, so the same output can be followed from the designer to the preview to
 the PDF. Each builds against the published packages, so what you read is what
 you would write.
 
+[`Showcase/`](Showcase/) holds complete applications. `LabelPrinting` designs a
+label, fills it from a CSV or Excel file and prints it straight to a label
+printer - over USB, the network, the Windows spooler or a serial port - as a
+1-bit image in TSPL, ZPL, EPL or EZPL, with no printer driver in
+between.
+
 [`SampleReport/`](SampleReport/) holds finished `.bpt` report templates you can open
 in Studio directly, five of which need no data source at all.
 

@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlueCrafts.BluePrint.Designer" Version="1.2.102" />
+    <PackageReference Include="BlueCrafts.BluePrint.Designer" Version="1.3.111" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,12 +20,13 @@
 
   <ItemGroup>
     <!--
-      The same report the other two samples render, and the database it reads.
-      Editing a definition needs no database - the query is text on the data
-      source page. Only Retrieve, which the host wires up in MainWindow.xaml.cs,
-      opens the file.
+      The same report the other two samples render, a second one to open with
+      Load, and the database they read. Editing a definition needs no database -
+      the query is text on the data source page. Only Retrieve, which the host
+      wires up in MainWindow.xaml.cs, opens the file.
     -->
     <None Include="..\..\NorthwindBpt\nw-05-invoice.bpt" Link="nw-05-invoice.bpt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\NorthwindBpt\nw-06-products-by-category.bpt" Link="nw-06-products-by-category.bpt" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\NorthwindDB\SQLite\northwind.db" Link="northwind.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
