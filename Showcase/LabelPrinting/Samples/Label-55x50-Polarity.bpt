@@ -1,0 +1,226 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Label-55x50-Polarity",
+    "description": "Roll label 55 x 50 mm, one per row. A solid square in the top-left corner only, so a printout shows at once whether black and white are swapped, the image is mirrored or upside down, or an edge is cut off.",
+    "author": ""
+  },
+  "report": {
+    "type": "label",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "backgroundColor": "#FFFFFF"
+    },
+    "labelLayout": {
+      "labelWidth": 5.5,
+      "labelHeight": 5,
+      "labelsPerRow": 1,
+      "rowGap": 0.3,
+      "columnGap": 0,
+      "fillDirection": "rowMajor",
+      "pageMode": "rowPerPage",
+      "showCellBorder": true,
+      "cellBorderColor": "#000000",
+      "cellBorderWidth": 1
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT ProductID, ProductName, UnitPrice\nFROM Products\nORDER BY ProductID\n{bp:Limit(5)}",
+    "columns": [
+      {
+        "name": "ProductID",
+        "dbType": "int32"
+      },
+      {
+        "name": "ProductName",
+        "dbType": "string",
+        "length": 40
+      },
+      {
+        "name": "UnitPrice",
+        "dbType": "decimal",
+        "decimals": 2
+      }
+    ]
+  },
+  "sortColumns": [],
+  "sections": [
+    {
+      "type": "detail",
+      "height": 5,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "corner",
+          "type": "shape",
+          "bounds": {
+            "x": 0.15,
+            "y": 0.15,
+            "w": 0.8,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "#000000",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "penWidth": 1,
+          "penColor": "#000000",
+          "penStyle": "solid",
+          "geometric": "rectangle",
+          "roundCorner": 0
+        },
+        {
+          "name": "topLeft",
+          "type": "label",
+          "bounds": {
+            "x": 1.1,
+            "y": 0.15,
+            "w": 4.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 9,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": "TOP LEFT - UP"
+        },
+        {
+          "name": "caption",
+          "type": "label",
+          "bounds": {
+            "x": 1.1,
+            "y": 0.6,
+            "w": 4.2,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": "Direct print test 55 x 50 mm"
+        },
+        {
+          "name": "productName",
+          "type": "field",
+          "bounds": {
+            "x": 0.15,
+            "y": 1.15,
+            "w": 5.2,
+            "h": 0.9
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "source": "ProductName",
+          "wrapText": true
+        },
+        {
+          "name": "price",
+          "type": "computed",
+          "bounds": {
+            "x": 0.15,
+            "y": 2.05,
+            "w": 5.2,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 11,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "expression": "\"Price \" + String(UnitPrice, \"#,##0.00\")"
+        },
+        {
+          "name": "barcode",
+          "type": "barcode",
+          "bounds": {
+            "x": 0.5,
+            "y": 2.7,
+            "w": 4.5,
+            "h": 1.55
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top"
+          },
+          "expression": "\"P\" + String(ProductID, \"00000\")",
+          "barcode": {
+            "symbology": "code128",
+            "showText": true,
+            "rotation": "none",
+            "dpi": 300,
+            "encoding": "auto",
+            "narrowToWideRatio": 2,
+            "qrEcLevel": "m",
+            "includeChecksum": false,
+            "aztecEcPercent": 23,
+            "dataMatrixRectangular": false
+          }
+        },
+        {
+          "name": "bottomRight",
+          "type": "label",
+          "bounds": {
+            "x": 2.3,
+            "y": 4.4,
+            "w": 3.05,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Tahoma",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "text": "BOTTOM RIGHT"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}
