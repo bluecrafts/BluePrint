@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- The Windows calls in Transports/Native are LibraryImport, whose generated code is unsafe. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      One package brings everything this application uses from BluePrint: the
+      designer control, the preview, the render engine, the 1-bit raster and the
+      printer command encoders. The connection to the printer (TCP, USB, Windows
+      spooler, serial port) is this application's own code.
+    -->
+    <PackageReference Include="BlueCrafts.BluePrint.Designer" Version="1.4.114" />
+    <!-- Serial and Bluetooth printers (a paired Bluetooth printer is a COM port). -->
+    <PackageReference Include="System.IO.Ports" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The sample label and its data, next to the executable: the application
+         opens Samples\Label2Sticker.bpt when it starts, and Retrieve finds
+         Label2Sticker.csv beside it. -->
+    <None Include="Samples\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

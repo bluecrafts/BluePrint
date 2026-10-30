@@ -79,10 +79,8 @@ public partial class MainWindow : Window
                 MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
-
         // No retrieve here: the preview shows the new report's layout, without
         // rows, until Retrieve is pressed.
-        Designer.RefreshPreview(resetDocument: true);
     }
 
     private void Retrieve_Click(object sender, RoutedEventArgs e) => Designer.Retrieve();

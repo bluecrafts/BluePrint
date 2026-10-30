@@ -1,0 +1,410 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Label-11x1in-Long",
+    "description": "Long roll label 279.4 x 25.4 mm (11 x 1 in), one per row, designed the way it is read. Too long for a 4 inch print head across: print it with Orientation Landscape in the printer profile. TOP and the thick top edge show which way it came out. Data: Label-11x1in-Long.csv.",
+    "author": ""
+  },
+  "report": {
+    "type": "label",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "backgroundColor": "#FFFFFF"
+    },
+    "labelLayout": {
+      "labelWidth": 27.94,
+      "labelHeight": 2.54,
+      "labelsPerRow": 1,
+      "rowGap": 0,
+      "columnGap": 0,
+      "fillDirection": "rowMajor",
+      "pageMode": "rowPerPage",
+      "showCellBorder": false,
+      "cellBorderColor": "#000000",
+      "cellBorderWidth": 1
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "external",
+    "columns": [
+      {
+        "name": "ProductName",
+        "dbType": "string",
+        "length": 60
+      },
+      {
+        "name": "ProductCode",
+        "dbType": "string",
+        "length": 20
+      },
+      {
+        "name": "Price",
+        "dbType": "decimal",
+        "decimals": 2
+      },
+      {
+        "name": "LotNo",
+        "dbType": "string",
+        "length": 20
+      },
+      {
+        "name": "ManufactureDate",
+        "dbType": "date"
+      },
+      {
+        "name": "ExpireDate",
+        "dbType": "date"
+      }
+    ]
+  },
+  "sortColumns": [],
+  "culture": "en-US",
+  "sections": [
+    {
+      "type": "detail",
+      "height": 2.54,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "TopEdge",
+          "type": "shape",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 27.94,
+            "h": 0.12
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "#000000",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "penWidth": 1,
+          "penColor": "#000000",
+          "penStyle": "solid",
+          "geometric": "rectangle",
+          "roundCorner": 0
+        },
+        {
+          "name": "TopMark",
+          "type": "label",
+          "bounds": {
+            "x": 0.2,
+            "y": 0.25,
+            "w": 1.1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": "TOP"
+        },
+        {
+          "name": "ProductName",
+          "type": "field",
+          "bounds": {
+            "x": 1.5,
+            "y": 0.25,
+            "w": 9.3,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 14,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "source": "ProductName"
+        },
+        {
+          "name": "LotLabel",
+          "type": "label",
+          "bounds": {
+            "x": 1.5,
+            "y": 1.15,
+            "w": 0.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": "Lot"
+        },
+        {
+          "name": "LotNo",
+          "type": "field",
+          "bounds": {
+            "x": 2.3,
+            "y": 1.15,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "source": "LotNo"
+        },
+        {
+          "name": "ManufactureLabel",
+          "type": "label",
+          "bounds": {
+            "x": 4.5,
+            "y": 1.15,
+            "w": 0.9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": "MFG"
+        },
+        {
+          "name": "ManufactureDate",
+          "type": "field",
+          "bounds": {
+            "x": 5.4,
+            "y": 1.15,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "source": "ManufactureDate",
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "name": "ExpireLabel",
+          "type": "label",
+          "bounds": {
+            "x": 7.6,
+            "y": 1.15,
+            "w": 0.9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": "EXP"
+        },
+        {
+          "name": "ExpireDate",
+          "type": "field",
+          "bounds": {
+            "x": 8.5,
+            "y": 1.15,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "source": "ExpireDate",
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "name": "PriceLabel",
+          "type": "label",
+          "bounds": {
+            "x": 1.5,
+            "y": 1.85,
+            "w": 1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "bottom"
+          },
+          "text": "Price"
+        },
+        {
+          "name": "Price",
+          "type": "field",
+          "bounds": {
+            "x": 2.5,
+            "y": 1.7,
+            "w": 3,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 14,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "bottom"
+          },
+          "source": "Price",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "ProductCodeBarcode",
+          "type": "barcode",
+          "bounds": {
+            "x": 11.2,
+            "y": 0.3,
+            "w": 9.5,
+            "h": 1.95
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top"
+          },
+          "expression": "ProductCode",
+          "barcode": {
+            "symbology": "code128",
+            "showText": true,
+            "rotation": "none",
+            "dpi": 203,
+            "encoding": "auto",
+            "narrowToWideRatio": 2,
+            "qrEcLevel": "m",
+            "includeChecksum": false,
+            "aztecEcPercent": 23,
+            "dataMatrixRectangular": false
+          }
+        },
+        {
+          "name": "ProductCodeQr",
+          "type": "barcode",
+          "bounds": {
+            "x": 21.2,
+            "y": 0.3,
+            "w": 1.95,
+            "h": 1.95
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top"
+          },
+          "expression": "ProductCode",
+          "barcode": {
+            "symbology": "qrCode",
+            "showText": false,
+            "rotation": "none",
+            "dpi": 203,
+            "encoding": "auto",
+            "narrowToWideRatio": 2,
+            "qrEcLevel": "m",
+            "includeChecksum": false,
+            "aztecEcPercent": 23,
+            "dataMatrixRectangular": false
+          }
+        },
+        {
+          "name": "Caption",
+          "type": "label",
+          "bounds": {
+            "x": 23.4,
+            "y": 0.3,
+            "w": 4.3,
+            "h": 1
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": "279.4 x 25.4 mm. Print it with Orientation Landscape on a head narrower than the label.",
+          "wrapText": true
+        },
+        {
+          "name": "EndMark",
+          "type": "label",
+          "bounds": {
+            "x": 26.5,
+            "y": 1.85,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "bottom"
+          },
+          "text": "END"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}
