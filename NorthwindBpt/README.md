@@ -114,6 +114,34 @@ shipped to, three to a line and read left to right, over ten pages. It uses thre
 `Mod(RowOfGroup(1), 3) = 1`, `= 2` and `= 0`. The freight in each column is a computed field; when a
 country runs out of orders part way along a line, the columns that are left stay empty.
 
+## The print date in a calculation
+
+[`nw-39-employee-service-record.bpt`](nw-39-employee-service-record.bpt) lists the nine employees with
+their age, years of service and days employed, all counted up to the day the report is printed:
+`Year(Today()) - BirthYear` and `DaysAfter(Date(...), Today())`. Employees whose hire anniversary falls in
+the current month are highlighted with `HireMonth = Month(Today())`, and the report footer averages and
+counts with `Today()` inside the aggregate. The header and footer show `Today()`, `Now()` and
+`PrintDate()` both with a mask and without one. Every page, and every value, uses the same moment - the
+time the report started to render - so the numbers change from one day to the next but never within one
+report. From code, set `report.Clock` to a fixed `TimeProvider` to print the report as of another date.
+
+## Page numbers in calculations
+
+[`nw-40-page-and-system-functions.bpt`](nw-40-page-and-system-functions.bpt) uses every page and system
+function, on its own and inside calculations. It lists the orders of two employees, each starting on a
+new page, so it is four rows of pages long and three sheets wide - twelve pages in all.
+
+Page numbers are ordinary numbers: `Page() + 1`, `TotalPages() - Page()`, `String(Page(), "000")`,
+`Max(VPage(), HPage())`. The last sheet of the last page shows `This is the last page` in red through
+`If(PageNumber() = TotalPages(), ...)`, and a line whose `visibleExpression` is
+`Sum(FreightCost for page) > 0 and PageNumber() = TotalPages()` appears on that page only. A colour
+expression and a conditional format change with the row of pages, and a detail row prints the page it
+landed on. Sheet 3 also shows `ReportName()`, `Row()`, `GetRow()`, `RowCount()`, and `Now()`, `Today()`
+and `PrintDate()` with masks and in date arithmetic.
+
+Page numbers do not restart for each employee here, on purpose: with a restart, `PageNumber()` never
+reaches `TotalPages()`. Report 35 shows the restarting kind with `GroupTotalPages()`.
+
 ---
 
 ## Running the invoice
@@ -175,6 +203,9 @@ day of the range is included rather than dropped at midnight.
 | Sorting in the report by a calculated value (`sortColumns`) | 31, 34, 35 |
 | Page numbers that restart for each group | 35 |
 | A report in another language's number and date format | 35 |
+| The print date and time, shown and used in a calculation | 39, 40 |
+| Page numbers used in arithmetic and conditions, such as a line on the last page only | 40 |
+| Colours and conditional formats that depend on the page | 40 |
 
 ---
 

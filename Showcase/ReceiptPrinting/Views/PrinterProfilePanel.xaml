@@ -1,0 +1,356 @@
+<UserControl x:Class="ReceiptPrinting.Views.PrinterProfilePanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:BluePrint.UI.Controls;assembly=BluePrint.UI">
+
+    <!-- The printer profile, edited in place and saved as soon as a field is committed:
+         Enter or leaving a box, picking from a list, ticking a box (PrinterProfilePanel.xaml.cs).
+         A value that is not valid is not saved; the problem shows under the buttons. -->
+
+    <UserControl.Resources>
+        <!-- The label column of every group: one width, so the fields line up down the panel -->
+        <Style x:Key="FieldLabel" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,0,8,6" />
+            <Setter Property="MinWidth" Value="96" />
+        </Style>
+        <Style TargetType="Expander" BasedOn="{StaticResource {x:Type Expander}}">
+            <Setter Property="Padding" Value="12,8,12,12" />
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <!-- Choosing and managing the profiles -->
+        <StackPanel DockPanel.Dock="Top" Margin="12,8,12,8">
+            <!-- The same list, and the same choice, as the Profile box in the toolbar -->
+            <ComboBox x:Name="ProfileCombo" DisplayMemberPath="Name" SelectionChanged="ProfileCombo_SelectionChanged"
+                      ToolTip="The printer profile to edit and print with" AutomationProperties.Name="Printer profile" />
+            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                <Button x:Name="NewButton" Content="New from Preset" Click="NewButton_Click"
+                        ToolTip="Create a printer profile from a preset" />
+                <Button x:Name="DuplicateButton" Content="Duplicate" Margin="6,0,0,0" Click="DuplicateButton_Click"
+                        ToolTip="Create a copy of this printer profile" />
+                <Button x:Name="DeleteButton" Content="Delete" Margin="6,0,0,0" Click="DeleteButton_Click"
+                        ToolTip="Delete this printer profile" />
+            </StackPanel>
+            <ui:BpStatusLines x:Name="Problems" Margin="0,8,0,0" />
+        </StackPanel>
+
+        <TextBlock DockPanel.Dock="Bottom" Margin="12,8,12,8" Style="{DynamicResource Bp.Text.Caption}"
+                   Text="Saved in ReceiptPrinting.cfg next to the application." />
+
+        <Grid>
+            <!-- No profile yet: one way forward -->
+            <StackPanel x:Name="NoProfilesPanel" Margin="12,8,12,8" Visibility="Collapsed">
+                <ui:BpStatusLines x:Name="NoProfilesText" />
+                <Button Content="Create Profile..." HorizontalAlignment="Left" Margin="0,8,0,0" Click="NewButton_Click"
+                        ToolTip="Create a printer profile from a preset" />
+            </StackPanel>
+
+            <ScrollViewer x:Name="FormScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <!-- Every field commits here, through routed events: see Form_* in the code -->
+                <StackPanel x:Name="Form"
+                            PreviewKeyDown="Form_PreviewKeyDown"
+                            LostKeyboardFocus="Form_LostKeyboardFocus"
+                            Selector.SelectionChanged="Form_SelectionChanged"
+                            ButtonBase.Click="Form_Click">
+
+                    <!-- General -->
+                    <Expander x:Name="GeneralGroup" Tag="general" Header="General">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Name" Style="{StaticResource FieldLabel}" />
+                            <TextBox Grid.Column="1" x:Name="NameBox" Margin="0,0,0,6" AutomationProperties.Name="Name" />
+
+                            <TextBlock Grid.Row="1" Text="Resolution" Style="{StaticResource FieldLabel}" />
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,6">
+                                <ComboBox x:Name="DpiBox" IsEditable="True" MinWidth="80" AutomationProperties.Name="Resolution"
+                                          ToolTip="Dots per inch of the print head: 203 for most receipt printers, 180 for some" />
+                                <TextBlock Text="dpi" VerticalAlignment="Center" Margin="6,0,0,0" />
+                            </StackPanel>
+
+                            <TextBlock Grid.Row="2" Text="Print width" Style="{StaticResource FieldLabel}" Margin="0,0,8,0" />
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                                <TextBox x:Name="WidthCmBox" MinWidth="80" AutomationProperties.Name="Print width"
+                                         ToolTip="Width of the print head: 7.2 cm on 80 mm paper, 4.8 cm on 58 mm paper. It is rounded to a whole number of bytes (8 dots)." />
+                                <TextBlock Text="cm" VerticalAlignment="Center" Margin="6,0,8,0" />
+                                <TextBlock x:Name="WidthDotsText" VerticalAlignment="Center" Style="{DynamicResource Bp.Text.Caption}" />
+                            </StackPanel>
+                        </Grid>
+                    </Expander>
+
+                    <!-- Connection -->
+                    <Expander x:Name="ConnectionGroup" Tag="connection" Header="Connection">
+                        <StackPanel>
+                            <ComboBox x:Name="ConnectionBox" DisplayMemberPath="DisplayName" AutomationProperties.Name="Connection"
+                                      ToolTip="How the computer reaches the printer" />
+
+                            <!-- TCP -->
+                            <Grid x:Name="TcpPanel" Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Host" Style="{StaticResource FieldLabel}" />
+                                <TextBox Grid.Column="1" x:Name="HostBox" Margin="0,0,0,6" AutomationProperties.Name="Host"
+                                         ToolTip="The printer's IP address or host name" />
+                                <TextBlock Grid.Row="1" Text="Port" Style="{StaticResource FieldLabel}" />
+                                <TextBox Grid.Row="1" Grid.Column="1" x:Name="PortBox" MinWidth="80" HorizontalAlignment="Left"
+                                         Margin="0,0,0,6" AutomationProperties.Name="Port"
+                                         ToolTip="Most receipt printers listen on 9100" />
+                                <TextBlock Grid.Row="2" Text="Timeout (ms)" Style="{StaticResource FieldLabel}" Margin="0,0,8,0" />
+                                <TextBox Grid.Row="2" Grid.Column="1" x:Name="TimeoutBox" MinWidth="80" HorizontalAlignment="Left"
+                                         AutomationProperties.Name="Timeout" />
+                            </Grid>
+
+                            <!-- USB -->
+                            <!-- Device and queue names are long ("Receipt printer (USB001)"): their
+                                 box takes the whole width, under its label. -->
+                            <StackPanel x:Name="UsbPanel" Margin="0,8,0,0">
+                                <TextBlock Text="Device" Margin="0,0,0,4" />
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Right" Content="Refresh" Margin="6,0,0,0" Click="RefreshDevices_Click"
+                                            ToolTip="Look for USB printers again" />
+                                    <ComboBox x:Name="UsbDeviceBox" AutomationProperties.Name="Device" />
+                                </DockPanel>
+                                <TextBlock Style="{DynamicResource Bp.Text.Caption}" Margin="0,6,0,0"
+                                           Text="Only devices that Windows installed as USB printers are listed. No driver is needed." />
+                            </StackPanel>
+
+                            <!-- Windows spooler, RAW -->
+                            <StackPanel x:Name="SpoolerPanel" Margin="0,8,0,0">
+                                <TextBlock Text="Queue" Margin="0,0,0,4" />
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Right" Content="Refresh" Margin="6,0,0,0" Click="RefreshDevices_Click"
+                                            ToolTip="Read the list of print queues again" />
+                                    <ComboBox x:Name="QueueBox" IsEditable="True" TextSearch.TextPath="Id"
+                                              AutomationProperties.Name="Queue" ToolTip="The name of the print queue in Windows" />
+                                </DockPanel>
+                                <TextBlock Style="{DynamicResource Bp.Text.Caption}" Margin="0,6,0,0"
+                                           Text="Sends the commands through the Windows print queue as RAW data. The driver does not change them." />
+                            </StackPanel>
+
+                            <!-- Serial / Bluetooth -->
+                            <StackPanel x:Name="SerialPanel" Margin="0,8,0,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Port" Style="{StaticResource FieldLabel}" />
+                                    <DockPanel Grid.Column="1" Margin="0,0,0,6">
+                                        <Button DockPanel.Dock="Right" Content="Refresh" Margin="6,0,0,0" Click="RefreshDevices_Click"
+                                                ToolTip="Look for COM ports again" />
+                                        <ComboBox x:Name="SerialPortBox" IsEditable="True" TextSearch.TextPath="Id"
+                                                  AutomationProperties.Name="Serial port" ToolTip="For example COM5" />
+                                    </DockPanel>
+                                    <TextBlock Grid.Row="1" Text="Baud rate" Style="{StaticResource FieldLabel}" />
+                                    <ComboBox Grid.Row="1" Grid.Column="1" x:Name="BaudBox" IsEditable="True" MinWidth="80"
+                                              HorizontalAlignment="Left" Margin="0,0,0,6" AutomationProperties.Name="Baud rate" />
+                                    <TextBlock Grid.Row="2" Text="Data bits" Style="{StaticResource FieldLabel}" />
+                                    <ComboBox Grid.Row="2" Grid.Column="1" x:Name="DataBitsBox" MinWidth="80"
+                                              HorizontalAlignment="Left" Margin="0,0,0,6" AutomationProperties.Name="Data bits" />
+                                    <TextBlock Grid.Row="3" Text="Parity" Style="{StaticResource FieldLabel}" />
+                                    <ComboBox Grid.Row="3" Grid.Column="1" x:Name="ParityBox" DisplayMemberPath="Name" MinWidth="80"
+                                              HorizontalAlignment="Left" Margin="0,0,0,6" AutomationProperties.Name="Parity" />
+                                    <TextBlock Grid.Row="4" Text="Stop bits" Style="{StaticResource FieldLabel}" />
+                                    <ComboBox Grid.Row="4" Grid.Column="1" x:Name="StopBitsBox" DisplayMemberPath="Name" MinWidth="80"
+                                              HorizontalAlignment="Left" Margin="0,0,0,6" AutomationProperties.Name="Stop bits" />
+                                    <TextBlock Grid.Row="5" Text="Flow control" Style="{StaticResource FieldLabel}" Margin="0,0,8,0" />
+                                    <ComboBox Grid.Row="5" Grid.Column="1" x:Name="HandshakeBox" DisplayMemberPath="Name" MinWidth="80"
+                                              HorizontalAlignment="Left" AutomationProperties.Name="Flow control"
+                                              ToolTip="Receipt printers on a serial port usually need flow control" />
+                                </Grid>
+                                <TextBlock Style="{DynamicResource Bp.Text.Caption}" Margin="0,6,0,0"
+                                           Text="Pair a Bluetooth printer in Windows Settings first. Windows then creates a COM port for it." />
+                            </StackPanel>
+
+                            <!-- Opens the connection and closes it again; nothing is sent. -->
+                            <Button x:Name="TestButton" Content="Test Connection" HorizontalAlignment="Left" Margin="0,12,0,0"
+                                    Click="TestConnection_Click" ToolTip="Open the connection and close it again. Nothing is printed." />
+                            <StackPanel x:Name="TestResult" Orientation="Horizontal" Margin="0,6,0,0" Visibility="Collapsed">
+                                <ui:BpStatusIcon x:Name="TestIcon" Kind="Success" AlignToTextBaseline="True" Margin="0,0,6,0" />
+                                <TextBlock x:Name="TestText" VerticalAlignment="Top" TextWrapping="Wrap" MaxWidth="240" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Paper and cutting -->
+                    <Expander x:Name="PaperGroup" Tag="paper" Header="Paper and cutting">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Feed after image" Style="{StaticResource FieldLabel}" />
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBox x:Name="FeedBox" MinWidth="80" AutomationProperties.Name="Feed after image"
+                                             ToolTip="Lines of paper fed after the receipt, so its end comes out past the cutter (0-255)" />
+                                    <TextBlock Text="lines" VerticalAlignment="Center" Margin="6,0,0,0" />
+                                </StackPanel>
+                                <TextBlock Grid.Row="1" Text="Cut" Style="{StaticResource FieldLabel}" />
+                                <ComboBox Grid.Row="1" Grid.Column="1" x:Name="CutBox" DisplayMemberPath="Name" Margin="0,0,0,6"
+                                          AutomationProperties.Name="Cut" />
+                                <TextBlock Grid.Row="2" Text="Cut type" Style="{StaticResource FieldLabel}" />
+                                <ComboBox Grid.Row="2" Grid.Column="1" x:Name="CutTypeBox" DisplayMemberPath="Name" MinWidth="80"
+                                          HorizontalAlignment="Left" Margin="0,0,0,6" AutomationProperties.Name="Cut type"
+                                          ToolTip="A partial cut leaves the receipt hanging by a thread. Some printers only cut partially." />
+                                <TextBlock Grid.Row="3" Text="Strip height" Style="{StaticResource FieldLabel}" />
+                                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBox x:Name="StripHeightBox" MinWidth="80" AutomationProperties.Name="Strip height"
+                                             ToolTip="The image is sent in blocks of this many rows of dots (1-2303). 255 suits every printer; larger blocks need a printer with more memory." />
+                                    <TextBlock Text="dots" VerticalAlignment="Center" Margin="6,0,0,0" />
+                                </StackPanel>
+                                <CheckBox Grid.Row="4" Grid.Column="1" x:Name="InitializeBox" Content="Initialize printer" Margin="0,0,0,6"
+                                          ToolTip="Reset the printer's settings at the start of each job" />
+                                <TextBlock Grid.Row="5" Text="Copies" Style="{StaticResource FieldLabel}" Margin="0,0,8,0" />
+                                <TextBox Grid.Row="5" Grid.Column="1" x:Name="CopiesBox" MinWidth="80" HorizontalAlignment="Left"
+                                         AutomationProperties.Name="Copies"
+                                         ToolTip="Copies of each receipt (1-99). The Print panel starts from this number." />
+                            </Grid>
+                            <TextBlock Style="{DynamicResource Bp.Text.Caption}" Margin="0,6,0,0"
+                                       Text="Feed moves the paper past the cutter. Printers without a cutter ignore the cut command." />
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Cash drawer -->
+                    <Expander x:Name="DrawerGroup" Tag="drawer" Header="Cash drawer">
+                        <StackPanel>
+                            <CheckBox x:Name="DrawerBox" Content="Open the cash drawer after printing" Margin="0,0,0,8"
+                                      ToolTip="For a cash drawer plugged into the printer's drawer port" />
+                            <Grid x:Name="DrawerFields">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Drawer pin" Style="{StaticResource FieldLabel}" />
+                                <ComboBox Grid.Column="1" x:Name="DrawerPinBox" DisplayMemberPath="Name" MinWidth="80"
+                                          HorizontalAlignment="Left" Margin="0,0,0,6" AutomationProperties.Name="Drawer pin"
+                                          ToolTip="Most drawers are on pin 2. Pin 5 is for a second drawer." />
+                                <TextBlock Grid.Row="1" Text="Pulse on" Style="{StaticResource FieldLabel}" />
+                                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBox x:Name="PulseOnBox" MinWidth="80" AutomationProperties.Name="Pulse on"
+                                             ToolTip="How long the drawer is powered to open it (0-510 ms)" />
+                                    <TextBlock Text="ms" VerticalAlignment="Center" Margin="6,0,0,0" />
+                                </StackPanel>
+                                <TextBlock Grid.Row="2" Text="Pulse off" Style="{StaticResource FieldLabel}" Margin="0,0,8,0" />
+                                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                                    <TextBox x:Name="PulseOffBox" MinWidth="80" AutomationProperties.Name="Pulse off"
+                                             ToolTip="The pause after the pulse (0-510 ms)" />
+                                    <TextBlock Text="ms" VerticalAlignment="Center" Margin="6,0,0,0" />
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock Style="{DynamicResource Bp.Text.Caption}" Margin="0,6,0,0"
+ Text="The drawer opens once, after the last page is cut." />
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Image -->
+                    <Expander x:Name="ImageGroup" Tag="image" Header="Image">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Image width" Style="{StaticResource FieldLabel}" />
+                                <ComboBox Grid.Column="1" Grid.ColumnSpan="2" x:Name="ImageWidthBox" DisplayMemberPath="Name"
+                                          Margin="0,0,0,6" AutomationProperties.Name="Image width"
+                                          ToolTip="Actual size prints a narrow form at the left edge of a wide print head. Stretching makes the text larger." />
+                                <TextBlock Grid.Row="1" Text="Threshold" Style="{StaticResource FieldLabel}" />
+                                <Slider Grid.Row="1" Grid.Column="1" x:Name="ThresholdSlider" Minimum="0" Maximum="255"
+                                        SmallChange="1" LargeChange="8" IsSnapToTickEnabled="True" TickFrequency="1"
+                                        VerticalAlignment="Center" Margin="0,0,0,6" AutomationProperties.Name="Threshold"
+                                        ValueChanged="ThresholdSlider_ValueChanged"
+                                        Thumb.DragStarted="ThresholdSlider_DragStarted" Thumb.DragCompleted="ThresholdSlider_DragCompleted"
+                                        ToolTip="A grey darker than this prints black" />
+                                <TextBlock Grid.Row="1" Grid.Column="2" x:Name="ThresholdText" MinWidth="24" TextAlignment="Right"
+                                           VerticalAlignment="Center" Margin="8,0,0,6" />
+                                <TextBlock Grid.Row="2" Text="Dither" Style="{StaticResource FieldLabel}" />
+                                <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="DitherScopeBox" DisplayMemberPath="Name"
+                                          Margin="0,0,0,6" AutomationProperties.Name="Dither" />
+                                <TextBlock Grid.Row="3" Text="Algorithm" Style="{StaticResource FieldLabel}" Margin="0,0,8,0" />
+                                <ComboBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" x:Name="DitherAlgorithmBox" DisplayMemberPath="Name"
+                                          AutomationProperties.Name="Algorithm" />
+                            </Grid>
+                            <TextBlock Style="{DynamicResource Bp.Text.Caption}" Margin="0,6,0,0"
+                                       Text="Text and barcodes always use the threshold. Dithering only affects pictures." />
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Pacing -->
+                    <Expander x:Name="PacingGroup" Tag="pacing" Header="Pacing">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Chunk size (bytes)" Style="{StaticResource FieldLabel}" />
+                                <TextBox Grid.Column="1" x:Name="ChunkBox" MinWidth="80" HorizontalAlignment="Left" Margin="0,0,0,6"
+                                         AutomationProperties.Name="Chunk size" ToolTip="0 sends each page in one piece" />
+                                <TextBlock Grid.Row="1" Text="Delay between chunks (ms)" Style="{StaticResource FieldLabel}" />
+                                <TextBox Grid.Row="1" Grid.Column="1" x:Name="ChunkDelayBox" MinWidth="80" HorizontalAlignment="Left"
+                                         Margin="0,0,0,6" AutomationProperties.Name="Delay between chunks" />
+                                <TextBlock Grid.Row="2" Text="Delay between pages (ms)" Style="{StaticResource FieldLabel}" Margin="0,0,8,0" />
+                                <TextBox Grid.Row="2" Grid.Column="1" x:Name="PageDelayBox" MinWidth="80" HorizontalAlignment="Left"
+                                         AutomationProperties.Name="Delay between pages" />
+                            </Grid>
+                            <Button x:Name="RecommendedButton" Content="Use Recommended Values" HorizontalAlignment="Left" Margin="0,8,0,0"
+                                    ToolTip="The values that suit the connection chosen under Connection" />
+                            <TextBlock Style="{DynamicResource Bp.Text.Caption}" Margin="0,6,0,0"
+                                       Text="Leave these at 0 unless receipts come out cut short or stop half way. Then lower the chunk size and raise the delay step by step, for example 512 bytes and 20 ms." />
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+</UserControl>

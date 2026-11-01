@@ -13,7 +13,7 @@ Nothing is edited by hand.
 
 | Ready to open | |
 |---|---|
-| [`SQLite/northwind.db`](SQLite/northwind.db) | No server at all. This is what the [sample reports](../NorthwindBpt/) use |
+| [`SQLite/northwind.db`](SQLite/northwind.db) | No server at all. This is what the [sample reports](../NorthwindBpt/) use, and the [`Demo.Preview`](../Demo/Demo.Preview) sample and the [`ReceiptPrinting`](../Showcase/ReceiptPrinting) application open it read-only |
 | [`Firebird/northwind50.fdb`](Firebird/northwind50.fdb) | For **Firebird 5** |
 | [`Firebird/northwind25.fdb`](Firebird/northwind25.fdb) | For **Firebird 2.5** |
 

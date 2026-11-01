@@ -1,0 +1,1633 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Page and System Functions",
+    "description": "Every page and system function, alone and inside calculations: two employees each starting a new page, four rows of pages, three sheets wide",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT o.OrderID AS OrderNo,\n       o.EmployeeID AS EmpNo,\n       e.LastName AS EmpLast,\n       {bp:DateText(o.OrderDate)} AS OrderedOn,\n       o.ShipCountry AS ShipTo,\n       CAST(o.Freight AS REAL) AS FreightCost\nFROM Orders o\nJOIN Employees e ON e.EmployeeID = o.EmployeeID\nWHERE o.EmployeeID IN (6, 7)\nORDER BY o.EmployeeID, o.OrderID",
+    "columns": [
+      {
+        "name": "OrderNo",
+        "dbType": "int64"
+      },
+      {
+        "name": "EmpNo",
+        "dbType": "int64"
+      },
+      {
+        "name": "EmpLast",
+        "dbType": "string"
+      },
+      {
+        "name": "OrderedOn",
+        "dbType": "string"
+      },
+      {
+        "name": "ShipTo",
+        "dbType": "string"
+      },
+      {
+        "name": "FreightCost",
+        "dbType": "double"
+      }
+    ]
+  },
+  "sortColumns": [
+    {
+      "rules": [
+        {
+          "field": "EmpNo",
+          "direction": "asc"
+        },
+        {
+          "field": "OrderNo",
+          "direction": "asc"
+        }
+      ]
+    }
+  ],
+  "culture": "en-US",
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 1.9,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "AccentBar",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.12
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 2,
+            "foreColor": "#1F5FAD",
+            "backColor": "#1F5FAD",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": ""
+        },
+        {
+          "name": "T1",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.3,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 15,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Page and System Functions"
+        },
+        {
+          "name": "S1",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 1.15,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Every page and system function, alone and in calculations. Each employee starts on a new page."
+        },
+        {
+          "name": "T2",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.3,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 12.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "ReportName() + \" - sheet \" + HPage() + \" of \" + TotalHPages()"
+        },
+        {
+          "name": "S2",
+          "type": "label",
+          "bounds": {
+            "x": 18,
+            "y": 1.15,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Sheet 2 of 3: page numbers used in arithmetic, comparisons and functions."
+        },
+        {
+          "name": "T3",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.3,
+            "w": 18,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 12.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Upper(ReportName())"
+        },
+        {
+          "name": "S3",
+          "type": "label",
+          "bounds": {
+            "x": 36,
+            "y": 1.15,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "text": "Sheet 3 of 3: report name, date and time functions, and row numbers."
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "H1a",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Row()"
+        },
+        {
+          "name": "H1b",
+          "type": "label",
+          "bounds": {
+            "x": 1.2,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "GetRow()"
+        },
+        {
+          "name": "H1c",
+          "type": "label",
+          "bounds": {
+            "x": 2.4,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Order"
+        },
+        {
+          "name": "H1d",
+          "type": "label",
+          "bounds": {
+            "x": 4.3,
+            "y": 0,
+            "w": 2.1,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Ordered"
+        },
+        {
+          "name": "H1e",
+          "type": "label",
+          "bounds": {
+            "x": 6.4,
+            "y": 0,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Ship to"
+        },
+        {
+          "name": "H1f",
+          "type": "label",
+          "bounds": {
+            "x": 9.4,
+            "y": 0,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Row() + 1000"
+        },
+        {
+          "name": "H1g",
+          "type": "label",
+          "bounds": {
+            "x": 11.4,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Odd/even"
+        },
+        {
+          "name": "H1h",
+          "type": "label",
+          "bounds": {
+            "x": 13,
+            "y": 0,
+            "w": 2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Last row?"
+        },
+        {
+          "name": "H1i",
+          "type": "label",
+          "bounds": {
+            "x": 15,
+            "y": 0,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Freight"
+        },
+        {
+          "name": "H2a",
+          "type": "label",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Row()"
+        },
+        {
+          "name": "H2b",
+          "type": "label",
+          "bounds": {
+            "x": 19.2,
+            "y": 0,
+            "w": 9,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Row() with the data"
+        },
+        {
+          "name": "H2c",
+          "type": "label",
+          "bounds": {
+            "x": 28.2,
+            "y": 0,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Freight x 2"
+        },
+        {
+          "name": "H2d",
+          "type": "label",
+          "bounds": {
+            "x": 31.2,
+            "y": 0,
+            "w": 4.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Freight / Row()"
+        },
+        {
+          "name": "H3a",
+          "type": "label",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Row()"
+        },
+        {
+          "name": "H3b",
+          "type": "label",
+          "bounds": {
+            "x": 37.2,
+            "y": 0,
+            "w": 16.8,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#F1F4F8",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": false,
+              "bottom": {
+                "style": "solid",
+                "color": "#B8C2CC",
+                "width": 1
+              }
+            }
+          },
+          "text": "Page functions in a detail row"
+        }
+      ]
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 1,
+      "groupByColumns": [
+        "EmpNo"
+      ],
+      "keepHeaderWithFirstDetailRow": true,
+      "height": 0.7,
+      "newPageBefore": true,
+      "repeatOnNewPage": true,
+      "backColor": "#DCE6F0",
+      "elements": [
+        {
+          "name": "G1",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.1,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Employee \" + EmpNo + \" - \" + EmpLast"
+        },
+        {
+          "name": "G2",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.1,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Employee \" + EmpNo + \" - page \" + Page() + \" of \" + GroupTotalPages()"
+        },
+        {
+          "name": "G3",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.1,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"GroupNumber() = \" + GroupNumber() + \"  |  sheet \" + VPage() + \"-\" + HPage()"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0.45,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "alternateBackColor": "#F7F9FC",
+      "elements": [
+        {
+          "name": "D1a",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Row()"
+        },
+        {
+          "name": "D1b",
+          "type": "computed",
+          "bounds": {
+            "x": 1.2,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "GetRow()"
+        },
+        {
+          "name": "D1c",
+          "type": "field",
+          "bounds": {
+            "x": 2.4,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "OrderNo"
+        },
+        {
+          "name": "D1d",
+          "type": "field",
+          "bounds": {
+            "x": 4.3,
+            "y": 0,
+            "w": 2.1,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "OrderedOn"
+        },
+        {
+          "name": "D1e",
+          "type": "field",
+          "bounds": {
+            "x": 6.4,
+            "y": 0,
+            "w": 3,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "ShipTo"
+        },
+        {
+          "name": "D1f",
+          "type": "computed",
+          "bounds": {
+            "x": 9.4,
+            "y": 0,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Row() + 1000"
+        },
+        {
+          "name": "D1g",
+          "type": "computed",
+          "bounds": {
+            "x": 11.4,
+            "y": 0,
+            "w": 1.6,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "If(Mod(Row(), 2) = 0, \"even\", \"odd\")"
+        },
+        {
+          "name": "D1h",
+          "type": "computed",
+          "bounds": {
+            "x": 13,
+            "y": 0,
+            "w": 2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "If(Row() = RowCount(), \"last row\", \"\")"
+        },
+        {
+          "name": "D1i",
+          "type": "field",
+          "bounds": {
+            "x": 15,
+            "y": 0,
+            "w": 3,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "source": "FreightCost",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "D2a",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Row()"
+        },
+        {
+          "name": "D2b",
+          "type": "computed",
+          "bounds": {
+            "x": 19.2,
+            "y": 0,
+            "w": 9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"order \" + OrderNo + \" is row \" + Row() + \" of \" + RowCount()"
+        },
+        {
+          "name": "D2c",
+          "type": "computed",
+          "bounds": {
+            "x": 28.2,
+            "y": 0,
+            "w": 3,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "FreightCost * 2",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "D2d",
+          "type": "computed",
+          "bounds": {
+            "x": 31.2,
+            "y": 0,
+            "w": 4.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "Round(FreightCost / Row(), 2)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "D3a",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "GetRow()"
+        },
+        {
+          "name": "D3b",
+          "type": "computed",
+          "bounds": {
+            "x": 37.2,
+            "y": 0,
+            "w": 16.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"row \" + GetRow() + \" on page \" + Page() + \" of \" + GroupTotalPages() + \", sheet \" + VPage() + \"-\" + HPage() + \"  |  Page() * 100 + Row() = \" + (Page() * 100 + Row())"
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 1,
+      "height": 0.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "F1",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Orders: \" + Count(OrderNo for group 1) + \"   Freight: \" + String(Sum(FreightCost for group 1), \"#,##0.00\")"
+        },
+        {
+          "name": "F2",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Pages in this employee: \" + GroupTotalPages() + \" (\" + String(GroupTotalPages() / TotalHPages(), \"0\") + \" rows of sheets)\""
+        },
+        {
+          "name": "F3",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "If(Page() = GroupTotalPages(), \"This employee ends on the last page\", \"This employee ends before the last page\")"
+        }
+      ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 0.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "R1",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"End of \" + ReportName() + \" - \" + TotalPages() + \" pages, \" + RowCount() + \" rows\""
+        },
+        {
+          "name": "R2",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Printed \" + String(Now(), \"yyyy-MM-dd HH:mm\") + \" - \" + TotalVPages() + \" rows of \" + TotalHPages() + \" sheets\""
+        },
+        {
+          "name": "R3",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.05,
+            "w": 18,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Last page is \" + TotalPages() + \", which is \" + String(TotalPages(), \"000\")"
+        }
+      ]
+    },
+    {
+      "type": "pageFooter",
+      "height": 2.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "P1a",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages()"
+        },
+        {
+          "name": "P1b",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.4,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page() + 1 = \" + (Page() + 1) + \"  |  TotalPages() - Page() = \" + (TotalPages() - Page()) + \"  |  String(Page(), 000) = \" + String(Page(), \"000\")"
+        },
+        {
+          "name": "P1c",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.8,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "foreColorExpression": "If(VPage() = TotalVPages(), \"#B91C1C\", \"#6B7280\")",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "If(VPage() = TotalVPages(), \"Last row of sheets\", \"The next row of sheets starts on page \" + (Page() + TotalHPages()))"
+        },
+        {
+          "name": "P1d",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 1.2,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Pages after this one: \" + (TotalPages() - PageNumber()) + \"  |  this page is \" + If(Mod(Page(), 2) = 0, \"even\", \"odd\")"
+        },
+        {
+          "name": "P1e",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 1.6,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Freight on this page \" + String(Sum(FreightCost for page), \"#,##0.00\") + \"  |  last Row() on this page = \" + Row()"
+        },
+        {
+          "name": "P2a",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"PageNumber() \" + PageNumber() + \" of GroupTotalPages() \" + GroupTotalPages() + \"  |  \" + TotalPages() + \" pages in all\""
+        },
+        {
+          "name": "P2b",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.4,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"sheet \" + VPage() + \"-\" + HPage() + \" of \" + TotalVPages() + \" x \" + TotalHPages()"
+        },
+        {
+          "name": "P2c",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 0.8,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Max(VPage(), HPage()) = \" + Max(VPage(), HPage()) + \"  |  Min = \" + Min(VPage(), HPage()) + \"  |  Mod(HPage(), 2) = \" + Mod(HPage(), 2)"
+        },
+        {
+          "name": "P2d",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 1.2,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "conditionalFormats": [
+            {
+              "condition": "VPage() = TotalVPages()",
+              "style": {
+                "fontFamily": "Segoe UI",
+                "fontSize": 7,
+                "bold": true,
+                "foreColor": "#B91C1C",
+                "backColor": "#FDECEC",
+                "hAlign": "left",
+                "vAlign": "middle",
+                "paddingLeft": 0.05,
+                "paddingRight": 0.05
+              }
+            }
+          ],
+          "expression": "If(HPage() = TotalHPages(), \"right-most sheet\", \"more sheets to the right\")"
+        },
+        {
+          "name": "P2e",
+          "type": "computed",
+          "bounds": {
+            "x": 18,
+            "y": 1.6,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"GroupTotalPages() - TotalPages() = \" + (GroupTotalPages() - TotalPages()) + \" (page numbers do not restart for each employee)\""
+        },
+        {
+          "name": "P3a",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"ReportName() = \" + ReportName() + \"  |  Upper = \" + Upper(ReportName()) + \"  |  Len = \" + Len(ReportName())"
+        },
+        {
+          "name": "P3b",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.4,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Now() = \" + String(Now(), \"yyyy-MM-dd HH:mm:ss\") + \"  |  Today() = \" + String(Today(), \"yyyy-MM-dd\") + \"  |  PrintDate() = \" + String(PrintDate(), \"yyyy-MM-dd\")"
+        },
+        {
+          "name": "P3c",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 0.8,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Year(Today()) = \" + Year(Today()) + \"  |  DaysAfter(PrintDate(), Today()) = \" + DaysAfter(PrintDate(), Today()) + \"  |  Hour(Now()) = \" + Hour(Now())"
+        },
+        {
+          "name": "P3d",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 1.2,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Printed \" + String(PrintDate(), \"d MMMM yyyy\") + \" on sheet \" + VPage() + \"-\" + HPage()"
+        },
+        {
+          "name": "P3e",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 1.6,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Row() = \" + Row() + \"  |  GetRow() = \" + GetRow() + \"  |  RowCount() = \" + RowCount()"
+        },
+        {
+          "name": "P3f",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 2,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "foreColorExpression": "If(PageNumber() = TotalPages(), \"#B91C1C\", \"#6B7280\")",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "expression": "If(PageNumber() = TotalPages(), \"This is the last page (\" + Page() + \" of \" + TotalPages() + \")\", \"Continued on page \" + (PageNumber() + 1))"
+        },
+        {
+          "name": "P3g",
+          "type": "computed",
+          "bounds": {
+            "x": 36,
+            "y": 2.4,
+            "w": 18,
+            "h": 0.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 7,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.05,
+            "paddingRight": 0.05
+          },
+          "visibleExpression": "Sum(FreightCost for page) > 0 and PageNumber() = TotalPages()",
+          "expression": "\"Grand freight \" + String(Sum(FreightCost), \"#,##0.00\") + \" - shown on the last page only\""
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}

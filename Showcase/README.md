@@ -7,15 +7,17 @@ an application of your own would.
 | Application | Shows |
 | --- | --- |
 | [`LabelPrinting`](LabelPrinting) | design a label with `BluePrintDesignerControl`, fill it from a data file, and print it straight to a label printer as a 1-bit image in the printer's own command language, with no printer driver in between |
+| [`ReceiptPrinting`](ReceiptPrinting) | open a receipt form for 80 mm or 58 mm paper, fill it from the Northwind database with retrieval arguments, see the 1-bit image the printer will get, and print it straight to a receipt printer in ESC/POS - receipts from a few lines to 5,000 |
 
 Like the samples, each application references the BlueCrafts packages from
 nuget.org by an exact version, so what you build here is what the published
 packages give you.
 
-LabelPrinting is a WPF application and needs Windows.
+Both are WPF applications and need Windows.
 
 ```
 dotnet run --project LabelPrinting
+dotnet run --project ReceiptPrinting
 ```
 
 Each application has a README of its own that walks through it.
