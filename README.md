@@ -181,7 +181,10 @@ you would write.
 label, fills it from a CSV or Excel file and prints it straight to a label
 printer - over USB, the network, the Windows spooler or a serial port - as a
 1-bit image in TSPL, ZPL, EPL or EZPL, with no printer driver in
-between.
+between. `ReceiptPrinting` opens ready-made receipt forms for 80 mm and 58 mm
+paper, fills them from the Northwind database with retrieval arguments and
+prints them to a receipt printer in ESC/POS, the same way - from a three-line
+receipt to one of 5,000 lines.
 
 [`SampleReport/`](SampleReport/) holds finished `.bpt` report templates you can open
 in Studio directly, five of which need no data source at all.

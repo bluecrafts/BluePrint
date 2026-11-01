@@ -1,0 +1,656 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Receipt-58mm-Paged",
+    "description": "58 mm receipt (48 mm printable) on 150 mm pages, for very long documents. The order and the page number repeat on every page. Arguments: FromOrder, ToOrder, Lines.",
+    "author": ""
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "Roll 58 mm (48 mm printable)",
+        "widthMm": 48,
+        "heightMm": 150
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 0.2,
+        "bottom": 0.3,
+        "left": 0,
+        "right": 0
+      },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT o.OrderID AS OrderNo, {bp:DateText(o.OrderDate)} AS OrderDay,\n       c.CompanyName AS Customer, {bp:Concat(e.FirstName, ' ', e.LastName)} AS Salesperson,\n       k.ShipperID AS Pass,\n       p.ProductName AS ItemName, od.Quantity AS Qty, od.UnitPrice AS Price, od.Discount AS DiscountRate\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nJOIN Employees e ON e.EmployeeID = o.EmployeeID\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nCROSS JOIN Shippers k\nWHERE o.OrderID >= @FromOrder AND o.OrderID <= @ToOrder\nORDER BY Pass, OrderNo, ItemName\n{bp:Limit(@Lines)}",
+    "arguments": [
+      {
+        "name": "FromOrder",
+        "argType": "number"
+      },
+      {
+        "name": "ToOrder",
+        "argType": "number"
+      },
+      {
+        "name": "Lines",
+        "argType": "number"
+      }
+    ],
+    "columns": [
+      {
+        "name": "OrderNo",
+        "dbType": "int64"
+      },
+      {
+        "name": "OrderDay",
+        "dbType": "object"
+      },
+      {
+        "name": "Customer",
+        "dbType": "string"
+      },
+      {
+        "name": "Salesperson",
+        "dbType": "object"
+      },
+      {
+        "name": "Pass",
+        "dbType": "int64"
+      },
+      {
+        "name": "ItemName",
+        "dbType": "string"
+      },
+      {
+        "name": "Qty",
+        "dbType": "int64"
+      },
+      {
+        "name": "Price",
+        "dbType": "decimal",
+        "decimals": 4
+      },
+      {
+        "name": "DiscountRate",
+        "dbType": "decimal",
+        "decimals": 4
+      }
+    ]
+  },
+  "sortColumns": [],
+  "culture": "en-US",
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 1.35,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "shop",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 4.8,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 11,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top"
+          },
+          "text": "NORTHWIND TRADERS"
+        },
+        {
+          "name": "subtitle",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.72,
+            "w": 4.8,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top"
+          },
+          "text": "Sample receipt (ESC/POS)"
+        },
+        {
+          "name": "headRule",
+          "type": "line",
+          "bounds": {
+            "x": 0,
+            "y": 1.22,
+            "w": 4.8,
+            "h": 0
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "x1": 0,
+          "y1": 1.22,
+          "x2": 4.8,
+          "y2": 1.22,
+          "penWidth": 1,
+          "penColor": "#000000",
+          "penStyle": "dashed"
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 1.05,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "order",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "expression": "If(Min(OrderNo for all) = Max(OrderNo for all), \"Order \" + String(Min(OrderNo for all)), \"Orders \" + String(Min(OrderNo for all)) + \" - \" + String(Max(OrderNo for all)))"
+        },
+        {
+          "name": "page",
+          "type": "computed",
+          "bounds": {
+            "x": 3,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "expression": "\"Page \" + Page() + \"/\" + TotalPages()"
+        },
+        {
+          "name": "hNo",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.52,
+            "w": 0.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "text": "#"
+        },
+        {
+          "name": "hItem",
+          "type": "label",
+          "bounds": {
+            "x": 0.7,
+            "y": 0.52,
+            "w": 2.2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": "Item"
+        },
+        {
+          "name": "hQty",
+          "type": "label",
+          "bounds": {
+            "x": 2.9,
+            "y": 0.52,
+            "w": 0.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "text": "Qty"
+        },
+        {
+          "name": "hAmount",
+          "type": "label",
+          "bounds": {
+            "x": 3.5,
+            "y": 0.52,
+            "w": 1.3,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "text": "Amount"
+        },
+        {
+          "name": "hRule",
+          "type": "line",
+          "bounds": {
+            "x": 0,
+            "y": 0.98,
+            "w": 4.8,
+            "h": 0
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "x1": 0,
+          "y1": 0.98,
+          "x2": 4.8,
+          "y2": 0.98,
+          "penWidth": 1,
+          "penColor": "#000000",
+          "penStyle": "dashed"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0.42,
+      "autoHeight": true,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "no",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 0.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "expression": "Row()",
+          "format": "#,##0"
+        },
+        {
+          "name": "item",
+          "type": "field",
+          "bounds": {
+            "x": 0.7,
+            "y": 0,
+            "w": 2.2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "source": "ItemName",
+          "wrapText": true,
+          "autoHeight": true
+        },
+        {
+          "name": "qty",
+          "type": "field",
+          "bounds": {
+            "x": 2.9,
+            "y": 0,
+            "w": 0.6,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "source": "Qty",
+          "format": "#,##0"
+        },
+        {
+          "name": "amount",
+          "type": "computed",
+          "bounds": {
+            "x": 3.5,
+            "y": 0,
+            "w": 1.3,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "expression": "Price * Qty * (1 - DiscountRate)",
+          "format": "#,##0.00"
+        }
+      ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 3.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "totalRule",
+          "type": "line",
+          "bounds": {
+            "x": 0,
+            "y": 0.08,
+            "w": 4.8,
+            "h": 0
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "x1": 0,
+          "y1": 0.08,
+          "x2": 4.8,
+          "y2": 0.08,
+          "penWidth": 1,
+          "penColor": "#000000",
+          "penStyle": "dashed"
+        },
+        {
+          "name": "subtotalLbl",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.18,
+            "w": 2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": "Subtotal"
+        },
+        {
+          "name": "subtotal",
+          "type": "computed",
+          "bounds": {
+            "x": 2,
+            "y": 0.18,
+            "w": 2.8,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "expression": "Sum(Price * Qty for all)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "discountLbl",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.6,
+            "w": 2,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": "Discount"
+        },
+        {
+          "name": "discount",
+          "type": "computed",
+          "bounds": {
+            "x": 2,
+            "y": 0.6,
+            "w": 2.8,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "expression": "-Sum(Price * Qty * DiscountRate for all)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "totalLbl",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 1.04,
+            "w": 2,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 11,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": "TOTAL"
+        },
+        {
+          "name": "total",
+          "type": "computed",
+          "bounds": {
+            "x": 2,
+            "y": 1.04,
+            "w": 2.8,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 11,
+            "bold": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top"
+          },
+          "expression": "Sum(Price * Qty * (1 - DiscountRate) for all)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "items",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 1.62,
+            "w": 4.8,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "expression": "String(Count(ItemName for all), \"#,##0\") + \" items\""
+        },
+        {
+          "name": "barcode",
+          "type": "barcode",
+          "bounds": {
+            "x": 0.4,
+            "y": 2.15,
+            "w": 4,
+            "h": 1
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 7,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top"
+          },
+          "expression": "String(Min(OrderNo for all))",
+          "barcode": {
+            "symbology": "code128",
+            "showText": true,
+            "rotation": "none",
+            "dpi": 300,
+            "encoding": "auto",
+            "narrowToWideRatio": 2,
+            "qrEcLevel": "m",
+            "includeChecksum": false,
+            "aztecEcPercent": 23,
+            "dataMatrixRectangular": false
+          }
+        },
+        {
+          "name": "thanks",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 3.15,
+            "w": 4.8,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top"
+          },
+          "text": "Thank you."
+        }
+      ]
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.5,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "continued",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.05,
+            "w": 4.8,
+            "h": 0.42
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "italic": true,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "center",
+            "vAlign": "top"
+          },
+          "visibleExpression": "Page() < TotalPages()",
+          "text": "Continued on next page"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}

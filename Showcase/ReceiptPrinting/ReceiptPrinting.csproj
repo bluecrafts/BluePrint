@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- The Windows calls in Transports/Native are LibraryImport, whose generated code is unsafe. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      One package brings everything this application uses from BluePrint: the
+      preview of the 1-bit image, the render engine, the 1-bit raster and the
+      printer command encoders. There is no designer: the forms are opened and
+      printed, not edited. The connection to the printer (TCP, USB, Windows
+      spooler, serial port) is this application's own code.
+    -->
+    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.5.115" />
+    <!-- The sample data: the Northwind database in SQLite. -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.13" />
+    <!-- Microsoft.Data.Sqlite on its own brings an older SQLite with a known vulnerability. -->
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
+    <!-- Serial and Bluetooth printers (a paired Bluetooth printer is a COM port). -->
+    <PackageReference Include="System.IO.Ports" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The receipt forms, next to the executable: the Forms list shows every
+         .bpt file in Samples. -->
+    <None Include="Samples\**" CopyToOutputDirectory="PreserveNewest" />
+    <!-- The Northwind database of this repository, opened read-only. -->
+    <None Include="..\..\NorthwindDB\SQLite\northwind.db" Link="northwind.db" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
