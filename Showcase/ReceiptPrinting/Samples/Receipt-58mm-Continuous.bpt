@@ -88,16 +88,39 @@
   "sections": [
     {
       "type": "reportHeader",
-      "height": 2.8,
+      "height": 4.15,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
+        {
+          "name": "logo",
+          "type": "image",
+          "bounds": {
+            "x": 1.8,
+            "y": 0,
+            "w": 1.2,
+            "h": 1.2
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "imagePath": "BluePrintLogo.png",
+          "sizeMode": "zoom",
+          "imageDpi": 96,
+          "grayscale": false,
+          "showErrorImage": true
+        },
         {
           "name": "shop",
           "type": "label",
           "bounds": {
             "x": 0,
-            "y": 0,
+            "y": 1.35,
             "w": 4.8,
             "h": 0.7
           },
@@ -117,7 +140,7 @@
           "type": "label",
           "bounds": {
             "x": 0,
-            "y": 0.72,
+            "y": 2.07,
             "w": 4.8,
             "h": 0.42
           },
@@ -136,7 +159,7 @@
           "type": "line",
           "bounds": {
             "x": 0,
-            "y": 1.22,
+            "y": 2.57,
             "w": 4.8,
             "h": 0
           },
@@ -149,9 +172,9 @@
             "vAlign": "top"
           },
           "x1": 0,
-          "y1": 1.22,
+          "y1": 2.57,
           "x2": 4.8,
-          "y2": 1.22,
+          "y2": 2.57,
           "penWidth": 1,
           "penColor": "#000000",
           "penStyle": "dashed"
@@ -161,7 +184,7 @@
           "type": "computed",
           "bounds": {
             "x": 0,
-            "y": 1.32,
+            "y": 2.67,
             "w": 4.8,
             "h": 0.45
           },
@@ -181,8 +204,8 @@
           "type": "computed",
           "bounds": {
             "x": 2.976,
-            "y": 1.32,
-            "w": 1.8239999999999998,
+            "y": 2.67,
+            "w": 1.824,
             "h": 0.45
           },
           "style": {
@@ -200,7 +223,7 @@
           "type": "computed",
           "bounds": {
             "x": 0,
-            "y": 1.8,
+            "y": 3.15,
             "w": 4.8,
             "h": 0.42
           },
@@ -219,7 +242,7 @@
           "type": "computed",
           "bounds": {
             "x": 0,
-            "y": 2.22,
+            "y": 3.57,
             "w": 4.8,
             "h": 0.42
           },
@@ -238,7 +261,7 @@
           "type": "line",
           "bounds": {
             "x": 0,
-            "y": 2.72,
+            "y": 4.07,
             "w": 4.8,
             "h": 0
           },
@@ -251,9 +274,9 @@
             "vAlign": "top"
           },
           "x1": 0,
-          "y1": 2.72,
+          "y1": 4.07,
           "x2": 4.8,
-          "y2": 2.72,
+          "y2": 4.07,
           "penWidth": 1,
           "penColor": "#000000",
           "penStyle": "dashed"

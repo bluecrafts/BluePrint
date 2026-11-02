@@ -87,16 +87,39 @@
   "sections": [
     {
       "type": "reportHeader",
-      "height": 1.35,
+      "height": 3,
       "repeatOnNewPage": true,
       "backColor": "Transparent",
       "elements": [
+        {
+          "name": "logo",
+          "type": "image",
+          "bounds": {
+            "x": 2.85,
+            "y": 0,
+            "w": 1.5,
+            "h": 1.5
+          },
+          "style": {
+            "fontFamily": "Arial",
+            "fontSize": 8,
+            "foreColor": "#000000",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "imagePath": "BluePrintLogo.png",
+          "sizeMode": "zoom",
+          "imageDpi": 96,
+          "grayscale": false,
+          "showErrorImage": true
+        },
         {
           "name": "shop",
           "type": "label",
           "bounds": {
             "x": 0,
-            "y": 0,
+            "y": 1.65,
             "w": 7.2,
             "h": 0.7
           },
@@ -116,7 +139,7 @@
           "type": "label",
           "bounds": {
             "x": 0,
-            "y": 0.72,
+            "y": 2.37,
             "w": 7.2,
             "h": 0.42
           },
@@ -135,7 +158,7 @@
           "type": "line",
           "bounds": {
             "x": 0,
-            "y": 1.22,
+            "y": 2.87,
             "w": 7.2,
             "h": 0
           },
@@ -148,9 +171,9 @@
             "vAlign": "top"
           },
           "x1": 0,
-          "y1": 1.22,
+          "y1": 2.87,
           "x2": 7.2,
-          "y2": 1.22,
+          "y2": 2.87,
           "penWidth": 1,
           "penColor": "#000000",
           "penStyle": "dashed"
