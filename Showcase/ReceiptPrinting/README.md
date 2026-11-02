@@ -35,7 +35,7 @@ executable - a JSON file you can read, copy to another computer, or fix by hand.
 ## A first receipt
 
 1. Start the application. It opens `Receipt-80mm-Continuous` with
-   `Order 10248`: a receipt of three lines, about 10 cm of paper.
+   `Order 10248`: a receipt of three lines, about 12 cm of paper.
 2. On the right, **New from Preset** and pick the preset of your printer:
    80 mm or 58 mm paper, 203 or 180 dpi. Under **Connection** choose how the
    printer is connected - for most receipt printers, **USB direct** and the
@@ -85,8 +85,8 @@ continuous page up to 10 m, and the forms here stay well inside that with
 
 | Form | 3 lines | 100 lines | 1,000 lines | 5,000 lines |
 | --- | --: | --: | --: | --: |
-| 80 mm, continuous | 10.1 cm | 50.9 cm | 4.29 m | longer than 10 m |
-| 58 mm, continuous (two lines per item) | 9.9 cm | 81.8 cm | 7.48 m | longer than 10 m |
+| 80 mm, continuous | 11.8 cm | 52.5 cm | 4.31 m | longer than 10 m |
+| 58 mm, continuous (two lines per item) | 11.3 cm | 83.0 cm | 7.49 m | longer than 10 m |
 | 80 mm, paged (pages of 20 cm) | 1 page | 3 pages | 25 pages | 120 pages |
 | 58 mm, paged (pages of 15 cm) | 1 page | 6 pages | 47 pages | 235 pages |
 
