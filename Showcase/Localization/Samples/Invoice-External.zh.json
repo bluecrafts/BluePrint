@@ -1,0 +1,29 @@
+{
+  "language": "zh",
+  "items": {
+    "lblTitle.text": "发票 / 收据",
+    "cPaidStamp.expression": "已付款",
+    "lblInvoiceNo.text": "发票号码",
+    "lblDate.text": "日期",
+    "lblBillTo.text": "收票方",
+    "lblShipVia.text": "承运商",
+    "lblSalesperson.text": "销售员",
+    "hdrNo.text": "序号",
+    "hdrProduct.text": "产品",
+    "hdrQty.text": "数量",
+    "hdrPrice.text": "单价",
+    "hdrDiscount.text": "折扣",
+    "hdrAmount.text": "金额",
+    "lblSubtotal.text": "小计",
+    "lblFreight.text": "运费",
+    "lblTotal.text": "总计 (USD)",
+    "lblCurrencyNote.text": "所有金额均以美元计。",
+    "lblReceivedBy.text": "收款人"
+  },
+  "strings": {
+    "items_count": "{0} 项",
+    "thank_you": "{0}，感谢您的订购。",
+    "page_of": "第 {0} 页，共 {1} 页",
+    "rendered_in": "语言：{0}"
+  }
+}

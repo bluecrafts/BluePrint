@@ -1,0 +1,397 @@
+<Window x:Class="LocalizationShowcase.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:BluePrint.UI.Controls;assembly=BluePrint.UI"
+        xmlns:bh="clr-namespace:BluePrint.UI.Behaviors;assembly=BluePrint.UI"
+        xmlns:local="clr-namespace:LocalizationShowcase"
+        xmlns:forms="clr-namespace:LocalizationShowcase.Forms"
+        xmlns:rw="clr-namespace:BluePrint.Render.WPF.Controls;assembly=BluePrint.Render.WPF"
+        Title="Localization" Width="1440" Height="900" MinWidth="1000" MinHeight="640">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Views/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- The theme's toolbar buttons are sized for 16 px icons (a fixed button
+                 height). These carry 24 px icons: let the height follow the icon, with
+                 the same padding on every side, for square 34 x 34 buttons. -->
+            <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button"
+                   BasedOn="{StaticResource Bp.Button.Toolbar}">
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Padding" Value="4" />
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Open"          Executed="OpenForm_Executed" />
+        <CommandBinding Command="local:AppCommands.ReloadForm"      Executed="ReloadForm_Executed"   CanExecute="HasForm_CanExecute" />
+        <CommandBinding Command="local:AppCommands.Retrieve"        Executed="Retrieve_Executed"     CanExecute="CanRetrieve_CanExecute" />
+        <CommandBinding Command="local:AppCommands.PreviousLanguage" Executed="PreviousLanguage_Executed" />
+        <CommandBinding Command="local:AppCommands.NextLanguage"    Executed="NextLanguage_Executed" />
+        <CommandBinding Command="local:AppCommands.SelectLanguage"  Executed="SelectLanguage_Executed" />
+        <CommandBinding Command="ApplicationCommands.Find"          Executed="Find_Executed" />
+    </Window.CommandBindings>
+
+    <!-- Ctrl+1 ... Ctrl+7: the languages in the order of the list -->
+    <Window.InputBindings>
+        <KeyBinding Key="D1" Modifiers="Control" Command="local:AppCommands.SelectLanguage" CommandParameter="0" />
+        <KeyBinding Key="D2" Modifiers="Control" Command="local:AppCommands.SelectLanguage" CommandParameter="1" />
+        <KeyBinding Key="D3" Modifiers="Control" Command="local:AppCommands.SelectLanguage" CommandParameter="2" />
+        <KeyBinding Key="D4" Modifiers="Control" Command="local:AppCommands.SelectLanguage" CommandParameter="3" />
+        <KeyBinding Key="D5" Modifiers="Control" Command="local:AppCommands.SelectLanguage" CommandParameter="4" />
+        <KeyBinding Key="D6" Modifiers="Control" Command="local:AppCommands.SelectLanguage" CommandParameter="5" />
+        <KeyBinding Key="D7" Modifiers="Control" Command="local:AppCommands.SelectLanguage" CommandParameter="6" />
+    </Window.InputBindings>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open Form..." Command="ApplicationCommands.Open"
+                          ToolTip="Open a report (.bpt) that is not in the Samples folder" />
+                <MenuItem Header="_Reload Form" Command="local:AppCommands.ReloadForm"
+                          ToolTip="Read the selected form and its translation files again, after you changed them" />
+                <MenuItem Header="Open Samples _Folder" Click="OpenSamplesFolder_Click"
+                          ToolTip="Show the Samples folder in File Explorer: the forms and their translation files" />
+                <MenuItem Header="Refresh Form_s" Click="RefreshForms_Click"
+                          ToolTip="Read the Samples folder again" />
+                <Separator />
+                <MenuItem Header="E_xit" InputGestureText="Alt+F4" Click="Exit_Click" />
+            </MenuItem>
+            <MenuItem Header="_Data">
+                <MenuItem Header="_Retrieve" Command="local:AppCommands.Retrieve"
+                          ToolTip="Read the selected document from the Northwind database again" />
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_Previous Language" Command="local:AppCommands.PreviousLanguage" />
+                <MenuItem Header="_Next Language" Command="local:AppCommands.NextLanguage" />
+                <Separator />
+                <MenuItem x:Name="LeftPanelMenuItem" Header="_Left Panel" IsCheckable="True" IsChecked="True"
+                          Click="LeftPanelMenuItem_Click" ToolTip="Show or hide the panel on the left: Forms and Documents" />
+                <MenuItem x:Name="RightPanelMenuItem" Header="_Right Panel" IsCheckable="True" IsChecked="True"
+                          Click="RightPanelMenuItem_Click" ToolTip="Show or hide the panel on the right: Language and Translation sources" />
+                <MenuItem Header="_Translation Sources" IsCheckable="True"
+                          IsChecked="{Binding IsExpanded, ElementName=SourcesExpander, Mode=TwoWay}"
+                          ToolTip="Show or hide the layers each text of the form comes from" />
+                <!-- Theme > Light / Dark / System is added here by MainWindow.xaml.cs -->
+                <Separator x:Name="ThemeSeparator" />
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="How the _translation layers work" Click="HowLayersWork_Click" />
+                <MenuItem Header="_About Localization" Click="About_Click" />
+            </MenuItem>
+        </Menu>
+
+        <!-- Icon buttons, 24 x 24 (Views/Icons.xaml), then the languages as a row of
+             buttons: the same choice as the Language list on the left. -->
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar Band="0" BandIndex="0">
+                <Button Command="ApplicationCommands.Open" ToolTipService.ShowOnDisabled="True"
+                        ToolTip="Open Form (Ctrl+O)" AutomationProperties.Name="Open Form">
+                    <Path Data="{StaticResource Icon.Open}" Style="{StaticResource Bp.ToolIcon}" />
+                </Button>
+                <Button Command="local:AppCommands.ReloadForm" ToolTipService.ShowOnDisabled="True" AutomationProperties.Name="Reload Form"
+                        ToolTip="Reload Form: read the form and its translation files again (F5)">
+                    <Path Data="{StaticResource Icon.Reload}" Style="{StaticResource Bp.ToolIcon}" />
+                </Button>
+                <Button Command="local:AppCommands.Retrieve" ToolTipService.ShowOnDisabled="True" AutomationProperties.Name="Retrieve"
+                        ToolTip="Retrieve: read the selected document from the Northwind database again (Ctrl+R)">
+                    <Path Data="{StaticResource Icon.Retrieve}" Style="{StaticResource Bp.ToolIcon}" />
+                </Button>
+            </ToolBar>
+            <ToolBar Band="0" BandIndex="1">
+                <TextBlock Text="Language" VerticalAlignment="Center" Margin="4,0,6,0" />
+                <!-- Filled by MainWindow.Languages.cs: one toggle button per language -->
+                <StackPanel x:Name="LanguageButtons" Orientation="Horizontal" AutomationProperties.Name="Language" />
+            </ToolBar>
+        </ToolBarTray>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel />
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem DockPanel.Dock="Right" Margin="0,0,8,0">
+                <!-- The language of the preview and the culture its dates and numbers follow -->
+                <TextBlock x:Name="StatusLanguageText" Foreground="{DynamicResource Bp.Brush.Text.Secondary}" />
+            </StatusBarItem>
+            <StatusBarItem>
+                <!-- The last thing that happened. There is no log panel: each message
+                     replaces the one before, and the full text is in the tooltip. -->
+                <StackPanel x:Name="StatusPanel" Orientation="Horizontal">
+                    <ui:BpStatusIcon x:Name="StatusIcon" Kind="Information" AlignToTextBaseline="True"
+                                     Margin="0,0,6,0" Visibility="Collapsed" />
+                    <TextBlock x:Name="StatusText" Text="Ready" VerticalAlignment="Top"
+                               TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
+
+        <!-- Left, what the user chooses: a form, a document, a language. Right, the
+             invoice in that language. Kept off the window's left and right edges, so
+             the panels do not touch the frame. -->
+        <Grid Margin="8,0,8,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="LeftColumn" Width="300" MinWidth="240" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" MinWidth="480" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="RightColumn" Width="300" MinWidth="240" />
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="LeftPane" Background="{DynamicResource Bp.Brush.Surface.Panel}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" MinHeight="140" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" MinHeight="160" />
+                </Grid.RowDefinitions>
+
+                <!-- Forms, grouped by where their translations are kept (MainWindow.Forms.cs).
+                     One click opens the form and reads the selected document into it. -->
+                <DockPanel>
+                    <Border DockPanel.Dock="Top" Background="{DynamicResource Bp.Brush.Surface.Header}" Padding="8,2"
+                            MinHeight="{DynamicResource Bp.Size.Header.Height}">
+                        <TextBlock Text="Forms" Style="{DynamicResource Bp.Text.Label}" VerticalAlignment="Center" />
+                    </Border>
+                    <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource Bp.Brush.Border.Subtle}" BorderThickness="0,1,0,0"
+                            Padding="8,6,8,8" x:Name="FormDescriptionPanel" Visibility="Collapsed">
+                        <TextBlock x:Name="FormDescriptionText" TextWrapping="Wrap" Style="{DynamicResource Bp.Text.Caption}" />
+                    </Border>
+                    <Grid>
+                        <ListBox x:Name="FormsList" BorderThickness="0" SelectionChanged="FormsList_SelectionChanged"
+                                 AutomationProperties.Name="Forms">
+                            <ListBox.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" Style="{DynamicResource Bp.Text.Caption}" Margin="4,8,4,2" />
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ListBox.GroupStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type forms:FormEntry}">
+                                    <StackPanel Orientation="Horizontal" Margin="8,2,4,2" ToolTip="{Binding Path}">
+                                        <TextBlock x:Name="FormName" Text="{Binding Name}" VerticalAlignment="Top" />
+                                        <ui:BpStatusIcon x:Name="FormWarning" Kind="Warning" AlignToTextBaseline="True" Margin="6,0,0,0"
+                                                         Visibility="Collapsed" />
+                                    </StackPanel>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding IsExternal}" Value="True">
+                                            <Setter TargetName="FormName" Property="FontStyle" Value="Italic" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding HasProblem}" Value="True">
+                                            <Setter TargetName="FormWarning" Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <TextBlock x:Name="NoFormsText" Text="No forms in the Samples folder. File > Open Form..."
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12" Visibility="Collapsed"
+                                   TextWrapping="Wrap" TextAlignment="Center" Style="{DynamicResource Bp.Text.Caption}" />
+                    </Grid>
+                </DockPanel>
+
+                <GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch"
+                              Background="{DynamicResource Bp.Brush.Border.Default}" />
+
+                <!-- Documents: the batches, then every order of the database (MainWindow.Documents.cs) -->
+                <DockPanel Grid.Row="2">
+                    <Border DockPanel.Dock="Top" Background="{DynamicResource Bp.Brush.Surface.Header}" Padding="8,2"
+                            MinHeight="{DynamicResource Bp.Size.Header.Height}">
+                        <TextBlock Text="Documents" Style="{DynamicResource Bp.Text.Label}" VerticalAlignment="Center" />
+                    </Border>
+                    <TextBox x:Name="DocumentSearchBox" DockPanel.Dock="Top" Margin="8,8,8,4"
+                             bh:BpInput.Placeholder="Search orders" TextChanged="DocumentSearchBox_TextChanged"
+                             ToolTip="Show only the orders whose number, customer or country contains this text (Ctrl+F)"
+                             AutomationProperties.Name="Search orders" />
+                    <TextBlock x:Name="DocumentCountText" DockPanel.Dock="Bottom" Margin="8,4,8,8"
+                               Style="{DynamicResource Bp.Text.Caption}" />
+                    <Grid Margin="8,0,8,0">
+                        <DataGrid x:Name="DocumentsGrid" IsReadOnly="True" AutoGenerateColumns="False"
+                                  HeadersVisibility="Column" SelectionMode="Single" CanUserSortColumns="False"
+                                 
+                                  VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                  SelectionChanged="DocumentsGrid_SelectionChanged"
+                                  MouseDoubleClick="DocumentsGrid_MouseDoubleClick" PreviewKeyDown="DocumentsGrid_PreviewKeyDown"
+                                  AutomationProperties.Name="Documents">
+                            <DataGrid.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" Style="{DynamicResource Bp.Text.Caption}" Margin="4,6,4,2" />
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </DataGrid.GroupStyle>
+                            <DataGrid.RowStyle>
+                                <!-- The theme sets RowStyle to Bp.DataGridRow: build on it, or the rows lose the theme -->
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource Bp.DataGridRow}">
+                                    <Setter Property="ToolTip" Value="{Binding ToolTipText}" />
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Order" Width="84" Binding="{Binding OrderText}" />
+                                <DataGridTextColumn Header="Customer" Width="*" Binding="{Binding Customer}" />
+                                <DataGridTextColumn Header="Country" Width="84" Binding="{Binding Country}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <!-- northwind.db missing or unreadable: the forms still open, without data -->
+                        <StackPanel x:Name="NoDatabasePanel" Orientation="Horizontal" HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" Margin="12" Visibility="Collapsed">
+                            <ui:BpStatusIcon Kind="Error" AlignToTextBaseline="True" Margin="0,0,6,0"
+                                             TextElement.FontSize="{DynamicResource Bp.Font.Size.Caption}" />
+                            <TextBlock x:Name="NoDatabaseText" TextWrapping="Wrap" MaxWidth="220" VerticalAlignment="Top"
+                                       Style="{DynamicResource Bp.Text.Caption}" />
+                        </StackPanel>
+                    </Grid>
+                </DockPanel>
+            </Grid>
+
+            <GridSplitter Grid.Column="1" x:Name="LeftSplitter" Width="4" HorizontalAlignment="Stretch"
+                          Background="{DynamicResource Bp.Brush.Border.Default}" />
+
+            <!-- The invoice, in colour and on as many pages as it takes. The control has its
+                 own toolbar: zoom, pages, print and export to PDF or Excel in the language
+                 shown. The strip above it says that a document is on its way. -->
+            <DockPanel Grid.Column="2">
+                <ProgressBar x:Name="RetrieveProgress" DockPanel.Dock="Top" Height="2" IsIndeterminate="True"
+                             Visibility="Hidden" AutomationProperties.Name="Retrieving" />
+                <!-- A font the form asks for in this language is not on this computer (MainWindow.Fonts.cs) -->
+                <ui:BpStatusLines x:Name="FontWarning" DockPanel.Dock="Top" Banner="True" Visibility="Collapsed"
+                                  AutomationProperties.Name="Missing fonts" />
+                <Grid>
+                    <rw:BluePrintPreviewControl x:Name="Preview" />
+                    <!-- A card of its own over the preview: the preview's grey background (and its own
+                         "No report loaded") must not show through the text. -->
+                    <Border x:Name="PreviewMessagePanel" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="24"
+                            Visibility="Collapsed" IsHitTestVisible="False"
+                            Background="{DynamicResource Bp.Brush.Surface.Window}" BorderBrush="{DynamicResource Bp.Brush.Border.Default}"
+                            BorderThickness="1" CornerRadius="{DynamicResource Bp.CornerRadius.Card}"
+                            Padding="{DynamicResource Bp.Thickness.Card.Padding}">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:BpStatusIcon x:Name="PreviewMessageIcon" Kind="Error" AlignToTextBaseline="True" Margin="0,0,6,0" />
+                            <TextBlock x:Name="PreviewMessageText" TextWrapping="Wrap" MaxWidth="520" VerticalAlignment="Top" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </DockPanel>
+
+            <GridSplitter Grid.Column="3" x:Name="RightSplitter" Width="4" HorizontalAlignment="Stretch"
+                          Background="{DynamicResource Bp.Brush.Border.Default}" />
+
+            <!-- Right of the invoice, what tells about its language: the language list, and where
+                 each text of the form comes from in that language. -->
+            <Grid Grid.Column="4" x:Name="RightPane" Background="{DynamicResource Bp.Brush.Surface.Panel}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- Language: the same choice as the buttons in the toolbar (MainWindow.Languages.cs) -->
+                <DockPanel>
+                    <Border DockPanel.Dock="Top" Background="{DynamicResource Bp.Brush.Surface.Header}" Padding="8,2"
+                            MinHeight="{DynamicResource Bp.Size.Header.Height}">
+                        <TextBlock Text="Language" Style="{DynamicResource Bp.Text.Label}" VerticalAlignment="Center" />
+                    </Border>
+                    <ListBox x:Name="LanguagesList" BorderThickness="0" Margin="0,4,0,8"
+                             SelectionChanged="LanguagesList_SelectionChanged" AutomationProperties.Name="Language list"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type local:LanguageRow}">
+                                <DockPanel Margin="8,2,4,2" ToolTip="{Binding ToolTipText}" ToolTipService.ShowOnDisabled="True">
+                                    <TextBlock DockPanel.Dock="Right" Text="{Binding Detail}" Style="{DynamicResource Bp.Text.Caption}"
+                                               VerticalAlignment="Center" Margin="8,0,0,0" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock x:Name="LanguageName" Text="{Binding Name}" VerticalAlignment="Top" />
+                                        <TextBlock x:Name="SourceLabel" Text="source" Style="{DynamicResource Bp.Text.Caption}"
+                                                   VerticalAlignment="Center" Margin="6,0,0,0" Visibility="Collapsed" />
+                                        <ui:BpStatusIcon x:Name="MissingIcon" Kind="Warning" AlignToTextBaseline="True" Margin="6,0,0,0"
+                                                         Visibility="Collapsed" />
+                                    </StackPanel>
+                                </DockPanel>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsSource}" Value="True">
+                                        <Setter TargetName="SourceLabel" Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsDeclared}" Value="False">
+                                        <Setter TargetName="LanguageName" Property="Foreground" Value="{DynamicResource Bp.Brush.Text.Secondary}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding HasMissing}" Value="True">
+                                        <Setter TargetName="MissingIcon" Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+
+                <!-- Translation sources: the layers of the form in the order they win, and how many
+                     texts each one gives in the language shown (MainWindow.Sources.cs) -->
+                <Expander Grid.Row="1" x:Name="SourcesExpander" IsExpanded="True"
+                          Expanded="SourcesExpander_Changed" Collapsed="SourcesExpander_Changed"
+                          AutomationProperties.Name="Translation sources">
+                    <Expander.Header>
+                        <TextBlock Text="Translation sources" Style="{DynamicResource Bp.Text.Label}" VerticalAlignment="Center" />
+                    </Expander.Header>
+                    <DockPanel Margin="0,0,0,8">
+                        <TextBlock x:Name="SourcesSummaryText" DockPanel.Dock="Bottom" Margin="8,4,8,0" TextWrapping="Wrap"
+                                   Style="{DynamicResource Bp.Text.Caption}" />
+                        <Grid DockPanel.Dock="Top" Margin="8,4,8,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="40" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="#" Style="{DynamicResource Bp.Text.Caption}" />
+                            <TextBlock Grid.Column="1" Text="Layer" Style="{DynamicResource Bp.Text.Caption}" />
+                            <TextBlock Grid.Column="2" Text="Texts" Style="{DynamicResource Bp.Text.Caption}" HorizontalAlignment="Right" />
+                        </Grid>
+                        <ListBox x:Name="SourcesList" BorderThickness="0" MouseDoubleClick="SourcesList_MouseDoubleClick"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Translation sources list">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type local:SourceRow}">
+                                    <Grid Margin="4,0,0,0" ToolTip="{Binding ToolTipText}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="32" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock x:Name="RowNumber" Text="{Binding Number}" Style="{DynamicResource Bp.Text.Caption}" VerticalAlignment="Center" />
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                            <TextBlock x:Name="RowName" Text="{Binding Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" />
+                                            <TextBlock Text="{Binding Detail}" Style="{DynamicResource Bp.Text.Caption}" Margin="6,0,0,0"
+                                                       TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                        <ui:BpStatusIcon Grid.Column="2" x:Name="RowProblem" Kind="{Binding ProblemKind}" AlignToTextBaseline="True"
+                                                         Margin="4,0,0,0" Visibility="Collapsed" />
+                                        <TextBlock Grid.Column="3" x:Name="RowCount" Text="{Binding CountText}" HorizontalAlignment="Right" VerticalAlignment="Top" />
+                                    </Grid>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding IsDim}" Value="True">
+                                            <Setter TargetName="RowName" Property="Foreground" Value="{DynamicResource Bp.Brush.Text.Secondary}" />
+                                            <Setter TargetName="RowCount" Property="Foreground" Value="{DynamicResource Bp.Brush.Text.Secondary}" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding HasProblem}" Value="True">
+                                            <Setter TargetName="RowProblem" Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </Expander>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>

@@ -1,0 +1,27 @@
+{
+  "language": "th",
+  "strings": {
+    "invoice.title": "ใบแจ้งหนี้ / ใบเสร็จรับเงิน",
+    "invoice.paid": "ชำระเงินแล้ว",
+    "invoice.number": "เลขที่",
+    "common.date": "วันที่",
+    "invoice.bill_to": "ลูกค้า",
+    "invoice.ship_via": "จัดส่งโดย",
+    "invoice.salesperson": "พนักงานขาย",
+    "common.no": "ลำดับ",
+    "common.product": "สินค้า",
+    "common.qty": "จำนวน",
+    "common.unit_price": "ราคาต่อหน่วย",
+    "common.discount": "ส่วนลด",
+    "common.amount": "จำนวนเงิน",
+    "common.subtotal": "รวมเป็นเงิน",
+    "invoice.freight": "ค่าขนส่ง",
+    "common.total_usd": "ยอดรวมทั้งสิ้น (USD)",
+    "common.currency_note": "จำนวนเงินทั้งหมดเป็นดอลลาร์สหรัฐ",
+    "invoice.received_by": "ผู้รับเงิน",
+    "items_count": "{0} รายการ",
+    "thank_you": "ขอบคุณสำหรับคำสั่งซื้อของ {0}",
+    "page_of": "หน้า {0} จาก {1}",
+    "rendered_in": "ภาษา: {0}"
+  }
+}

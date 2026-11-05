@@ -1,0 +1,29 @@
+{
+  "language": "ko",
+  "items": {
+    "lblTitle.text": "청구서 / 영수증",
+    "cPaidStamp.expression": "결제 완료",
+    "lblInvoiceNo.text": "청구서 번호",
+    "lblDate.text": "날짜",
+    "lblBillTo.text": "청구처",
+    "lblShipVia.text": "배송사",
+    "lblSalesperson.text": "영업 담당자",
+    "hdrNo.text": "번호",
+    "hdrProduct.text": "상품",
+    "hdrQty.text": "수량",
+    "hdrPrice.text": "단가",
+    "hdrDiscount.text": "할인",
+    "hdrAmount.text": "금액",
+    "lblSubtotal.text": "소계",
+    "lblFreight.text": "운송비",
+    "lblTotal.text": "합계 (USD)",
+    "lblCurrencyNote.text": "모든 금액은 미국 달러입니다.",
+    "lblReceivedBy.text": "수령인"
+  },
+  "strings": {
+    "items_count": "{0}개 품목",
+    "thank_you": "{0} 님, 주문해 주셔서 감사합니다.",
+    "page_of": "{1}페이지 중 {0}페이지",
+    "rendered_in": "언어: {0}"
+  }
+}

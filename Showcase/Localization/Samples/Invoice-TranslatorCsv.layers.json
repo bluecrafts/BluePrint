@@ -1,0 +1,10 @@
+{
+  "group": "Host provider",
+  "layers": [
+    {
+      "kind": "csv",
+      "path": "Invoice-TranslatorCsv.csv"
+    }
+  ],
+  "description": "The translations come from the CSV file a translator filled in after the Designer exported it (Translations > Export CSV...). The application reads it with its own IReportStringSource - a database or a translation service works the same way. The Studio reads only translation files named after the report, so Verify there warns that six languages are not translated. The application passes its layers to Verify (doc.Verify) and gets no warning."
+}

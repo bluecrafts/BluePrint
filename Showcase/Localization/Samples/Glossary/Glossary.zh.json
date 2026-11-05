@@ -1,0 +1,27 @@
+{
+  "language": "zh",
+  "strings": {
+    "invoice.title": "发票 / 收据",
+    "invoice.paid": "已付款",
+    "invoice.number": "发票号码",
+    "common.date": "日期",
+    "invoice.bill_to": "收票方",
+    "invoice.ship_via": "承运商",
+    "invoice.salesperson": "销售员",
+    "common.no": "序号",
+    "common.product": "产品",
+    "common.qty": "数量",
+    "common.unit_price": "单价",
+    "common.discount": "折扣",
+    "common.amount": "金额",
+    "common.subtotal": "小计",
+    "invoice.freight": "运费",
+    "common.total_usd": "总计 (USD)",
+    "common.currency_note": "所有金额均以美元计。",
+    "invoice.received_by": "收款人",
+    "items_count": "{0} 项",
+    "thank_you": "{0}，感谢您的订购。",
+    "page_of": "第 {0} 页，共 {1} 页",
+    "rendered_in": "语言：{0}"
+  }
+}

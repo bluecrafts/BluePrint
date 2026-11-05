@@ -1,0 +1,1314 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Invoice-ThaiSource",
+    "description": "The texts of the report are written in Thai and the other languages are translations of it: sourceLanguage is th. Arguments: FromOrder, ToOrder.",
+    "author": ""
+  },
+  "report": {
+    "type": "canvas",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "portrait",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.2,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT o.OrderID AS OrderNo, {bp:DateText(o.OrderDate)} AS OrderedOn, o.Freight AS FreightCost,\n       c.CompanyName AS Customer, c.Address AS CustAddress, c.City AS CustCity,\n       c.PostalCode AS CustPostalCode, c.Country AS CustCountry,\n       s.CompanyName AS ShipperName, {bp:Concat(e.FirstName, ' ', e.LastName)} AS Salesperson,\n       p.ProductName AS ItemName, od.Quantity AS Qty, od.UnitPrice AS Price, od.Discount AS DiscountRate\nFROM Orders o\nJOIN Customers c ON c.CustomerID = o.CustomerID\nJOIN Employees e ON e.EmployeeID = o.EmployeeID\nJOIN Shippers  s ON s.ShipperID  = o.ShipVia\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nWHERE o.OrderID >= @FromOrder AND o.OrderID <= @ToOrder\nORDER BY OrderNo, ItemName",
+    "arguments": [
+      {
+        "name": "FromOrder",
+        "argType": "number"
+      },
+      {
+        "name": "ToOrder",
+        "argType": "number"
+      }
+    ],
+    "columns": [
+      {
+        "name": "OrderNo",
+        "dbType": "int64"
+      },
+      {
+        "name": "OrderedOn",
+        "dbType": "object"
+      },
+      {
+        "name": "FreightCost",
+        "dbType": "decimal",
+        "decimals": 4
+      },
+      {
+        "name": "Customer",
+        "dbType": "string"
+      },
+      {
+        "name": "CustAddress",
+        "dbType": "string"
+      },
+      {
+        "name": "CustCity",
+        "dbType": "string"
+      },
+      {
+        "name": "CustPostalCode",
+        "dbType": "string"
+      },
+      {
+        "name": "CustCountry",
+        "dbType": "string"
+      },
+      {
+        "name": "ShipperName",
+        "dbType": "string"
+      },
+      {
+        "name": "Salesperson",
+        "dbType": "object"
+      },
+      {
+        "name": "ItemName",
+        "dbType": "string"
+      },
+      {
+        "name": "Qty",
+        "dbType": "int64"
+      },
+      {
+        "name": "Price",
+        "dbType": "decimal",
+        "decimals": 4
+      },
+      {
+        "name": "DiscountRate",
+        "dbType": "decimal",
+        "decimals": 4
+      }
+    ]
+  },
+  "sortColumns": [],
+  "culture": "en-US",
+  "localization": {
+    "sourceLanguage": "th",
+    "languages": [
+      "en",
+      "de",
+      "ja",
+      "ko",
+      "th",
+      "lo",
+      "zh"
+    ],
+    "cultures": {
+      "en": "en-US",
+      "de": "de-DE",
+      "ja": "ja-JP",
+      "ko": "ko-KR",
+      "th": "th-TH",
+      "lo": "lo-LA",
+      "zh": "zh-CN"
+    },
+    "items": {
+      "lblTitle.text": {
+        "de": "RECHNUNG / QUITTUNG",
+        "ja": "請求書 / 領収書",
+        "ko": "청구서 / 영수증",
+        "en": "INVOICE / RECEIPT",
+        "lo": "ໃບແຈ້ງໜີ້ / ໃບຮັບເງິນ",
+        "zh": "发票 / 收据"
+      },
+      "cPaidStamp.expression": {
+        "de": "BEZAHLT",
+        "ja": "支払済",
+        "ko": "결제 완료",
+        "en": "PAID",
+        "lo": "ຊຳລະແລ້ວ",
+        "zh": "已付款"
+      },
+      "lblInvoiceNo.text": {
+        "de": "Rechnungsnr.",
+        "ja": "請求書番号",
+        "ko": "청구서 번호",
+        "en": "Invoice No.",
+        "lo": "ເລກທີ",
+        "zh": "发票号码"
+      },
+      "lblDate.text": {
+        "de": "Datum",
+        "ja": "日付",
+        "ko": "날짜",
+        "en": "Date",
+        "lo": "ວັນທີ",
+        "zh": "日期"
+      },
+      "lblBillTo.text": {
+        "de": "Rechnung an",
+        "ja": "請求先",
+        "ko": "청구처",
+        "en": "Bill to",
+        "lo": "ລູກຄ້າ",
+        "zh": "收票方"
+      },
+      "lblShipVia.text": {
+        "de": "Versand durch",
+        "ja": "配送業者",
+        "ko": "배송사",
+        "en": "Ship via",
+        "lo": "ຂົນສົ່ງໂດຍ",
+        "zh": "承运商"
+      },
+      "lblSalesperson.text": {
+        "de": "Verkäufer",
+        "ja": "営業担当",
+        "ko": "영업 담당자",
+        "en": "Salesperson",
+        "lo": "ພະນັກງານຂາຍ",
+        "zh": "销售员"
+      },
+      "hdrNo.text": {
+        "de": "Nr.",
+        "ja": "No.",
+        "ko": "번호",
+        "en": "No.",
+        "lo": "ລຳດັບ",
+        "zh": "序号"
+      },
+      "hdrProduct.text": {
+        "de": "Artikel",
+        "ja": "商品",
+        "ko": "상품",
+        "en": "Product",
+        "lo": "ສິນຄ້າ",
+        "zh": "产品"
+      },
+      "hdrQty.text": {
+        "de": "Menge",
+        "ja": "数量",
+        "ko": "수량",
+        "en": "Qty",
+        "lo": "ຈຳນວນ",
+        "zh": "数量"
+      },
+      "hdrPrice.text": {
+        "de": "Einzelpreis",
+        "ja": "単価",
+        "ko": "단가",
+        "en": "Unit price",
+        "lo": "ລາຄາຕໍ່ໜ່ວຍ",
+        "zh": "单价"
+      },
+      "hdrDiscount.text": {
+        "de": "Rabatt",
+        "ja": "割引",
+        "ko": "할인",
+        "en": "Discount",
+        "lo": "ສ່ວນຫຼຸດ",
+        "zh": "折扣"
+      },
+      "hdrAmount.text": {
+        "de": "Betrag",
+        "ja": "金額",
+        "ko": "금액",
+        "en": "Amount",
+        "lo": "ຈຳນວນເງິນ",
+        "zh": "金额"
+      },
+      "lblSubtotal.text": {
+        "de": "Zwischensumme",
+        "ja": "小計",
+        "ko": "소계",
+        "en": "Subtotal",
+        "lo": "ລວມ",
+        "zh": "小计"
+      },
+      "lblFreight.text": {
+        "de": "Fracht",
+        "ja": "送料",
+        "ko": "운송비",
+        "en": "Freight",
+        "lo": "ຄ່າຂົນສົ່ງ",
+        "zh": "运费"
+      },
+      "lblTotal.text": {
+        "de": "Gesamtbetrag (USD)",
+        "ja": "合計 (USD)",
+        "ko": "합계 (USD)",
+        "en": "Total (USD)",
+        "lo": "ລວມທັງໝົດ (USD)",
+        "zh": "总计 (USD)"
+      },
+      "lblCurrencyNote.text": {
+        "de": "Alle Beträge in US-Dollar.",
+        "ja": "金額はすべて米ドルです。",
+        "ko": "모든 금액은 미국 달러입니다.",
+        "en": "All amounts in US dollars.",
+        "lo": "ຈຳນວນເງິນທັງໝົດເປັນໂດລາສະຫະລັດ",
+        "zh": "所有金额均以美元计。"
+      },
+      "lblReceivedBy.text": {
+        "de": "Empfangen von",
+        "ja": "受領者",
+        "ko": "수령인",
+        "en": "Received by",
+        "lo": "ຜູ້ຮັບເງິນ",
+        "zh": "收款人"
+      }
+    },
+    "strings": {
+      "items_count": {
+        "en": "{0} items",
+        "de": "{0} Positionen",
+        "ja": "{0} 品目",
+        "ko": "{0}개 품목",
+        "th": "{0} รายการ",
+        "lo": "{0} ລາຍການ",
+        "zh": "{0} 项"
+      },
+      "thank_you": {
+        "en": "Thank you for your order, {0}.",
+        "de": "Vielen Dank für Ihre Bestellung, {0}.",
+        "ja": "{0} 様、ご注文ありがとうございます。",
+        "ko": "{0} 님, 주문해 주셔서 감사합니다.",
+        "th": "ขอบคุณสำหรับคำสั่งซื้อของ {0}",
+        "lo": "ຂອບໃຈສຳລັບການສັ່ງຊື້ຂອງ {0}",
+        "zh": "{0}，感谢您的订购。"
+      },
+      "page_of": {
+        "en": "Page {0} of {1}",
+        "de": "Seite {0} von {1}",
+        "ja": "{1} ページ中 {0} ページ",
+        "ko": "{1}페이지 중 {0}페이지",
+        "th": "หน้า {0} จาก {1}",
+        "lo": "ໜ້າ {0} ຈາກ {1}",
+        "zh": "第 {0} 页，共 {1} 页"
+      },
+      "rendered_in": {
+        "en": "Language: {0}",
+        "de": "Sprache: {0}",
+        "ja": "言語: {0}",
+        "ko": "언어: {0}",
+        "th": "ภาษา: {0}",
+        "lo": "ພາສາ: {0}",
+        "zh": "语言：{0}"
+      }
+    },
+    "fonts": {
+      "ja": [
+        {
+          "from": "Leelawadee UI",
+          "to": "Yu Gothic UI"
+        }
+      ],
+      "ko": [
+        {
+          "from": "Leelawadee UI",
+          "to": "Malgun Gothic"
+        }
+      ],
+      "zh": [
+        {
+          "from": "Leelawadee UI",
+          "to": "Microsoft YaHei UI"
+        }
+      ]
+    }
+  },
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
+    },
+    {
+      "type": "pageHeader",
+      "height": 2,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "lblCompany",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 9,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 16,
+            "bold": true,
+            "foreColor": "#1F5FAD",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "text": "NORTHWIND TRADERS",
+          "keepFont": true,
+          "translate": false
+        },
+        {
+          "name": "lblShopAddress",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.85,
+            "w": 9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 8.5,
+            "foreColor": "#5A6470",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "text": "1 Harbor Way, Seattle, WA 98101, USA",
+          "translate": false
+        },
+        {
+          "name": "lblTitle",
+          "type": "label",
+          "bounds": {
+            "x": 8,
+            "y": 0,
+            "w": 10,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 16,
+            "bold": true,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle"
+          },
+          "text": "ใบแจ้งหนี้ / ใบเสร็จรับเงิน"
+        },
+        {
+          "name": "cPaidStamp",
+          "type": "computed",
+          "bounds": {
+            "x": 13,
+            "y": 0.85,
+            "w": 5,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 10,
+            "bold": true,
+            "foreColor": "#1E7B34",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle"
+          },
+          "expression": "\"ชำระเงินแล้ว\""
+        },
+        {
+          "name": "ruleHeader",
+          "type": "line",
+          "bounds": {
+            "x": 0,
+            "y": 1.6,
+            "w": 18,
+            "h": 0
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "x1": 0,
+          "y1": 1.6,
+          "x2": 18,
+          "y2": 1.6,
+          "penWidth": 2,
+          "penColor": "#1F5FAD",
+          "penStyle": "solid"
+        }
+      ]
+    },
+    {
+      "type": "groupHeader",
+      "groupLevel": 1,
+      "groupByColumns": [
+        "OrderNo"
+      ],
+      "resetPageNumberOnNewGroup": true,
+      "height": 3.3,
+      "newPageBefore": true,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "lblInvoiceNo",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.2,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#5A6470",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "text": "เลขที่"
+        },
+        {
+          "name": "fOrderNo",
+          "type": "field",
+          "bounds": {
+            "x": 3,
+            "y": 0.2,
+            "w": 5,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "bold": true,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "source": "OrderNo",
+          "format": "0"
+        },
+        {
+          "name": "lblDate",
+          "type": "label",
+          "bounds": {
+            "x": 9,
+            "y": 0.2,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#5A6470",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "text": "วันที่"
+        },
+        {
+          "name": "cDate",
+          "type": "computed",
+          "bounds": {
+            "x": 12,
+            "y": 0.2,
+            "w": 6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "expression": "Date([OrderedOn])",
+          "format": "[longdate]"
+        },
+        {
+          "name": "lblBillTo",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.75,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#5A6470",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "text": "ลูกค้า"
+        },
+        {
+          "name": "fCustomer",
+          "type": "field",
+          "bounds": {
+            "x": 3,
+            "y": 0.75,
+            "w": 15,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "bold": true,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "source": "Customer"
+        },
+        {
+          "name": "cCustAddress",
+          "type": "computed",
+          "bounds": {
+            "x": 3,
+            "y": 1.25,
+            "w": 15,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "expression": "[CustAddress] + \", \" + Trim(Coalesce([CustPostalCode], \"\") + \" \" + [CustCity]) + \", \" + [CustCountry]"
+        },
+        {
+          "name": "lblShipVia",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 1.8,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#5A6470",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "text": "จัดส่งโดย"
+        },
+        {
+          "name": "fShipper",
+          "type": "field",
+          "bounds": {
+            "x": 3,
+            "y": 1.8,
+            "w": 6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "source": "ShipperName"
+        },
+        {
+          "name": "lblSalesperson",
+          "type": "label",
+          "bounds": {
+            "x": 9,
+            "y": 1.8,
+            "w": 3,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#5A6470",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "text": "พนักงานขาย"
+        },
+        {
+          "name": "fSalesperson",
+          "type": "field",
+          "bounds": {
+            "x": 12,
+            "y": 1.8,
+            "w": 6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "source": "Salesperson"
+        },
+        {
+          "name": "hdrNo",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 2.6,
+            "w": 1.2,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9,
+            "bold": true,
+            "foreColor": "#1F2933",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.1
+          },
+          "text": "ลำดับ"
+        },
+        {
+          "name": "hdrProduct",
+          "type": "label",
+          "bounds": {
+            "x": 1.2,
+            "y": 2.6,
+            "w": 7.6,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9,
+            "bold": true,
+            "foreColor": "#1F2933",
+            "backColor": "#F1F4F8",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.1
+          },
+          "text": "สินค้า"
+        },
+        {
+          "name": "hdrQty",
+          "type": "label",
+          "bounds": {
+            "x": 8.8,
+            "y": 2.6,
+            "w": 1.8,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9,
+            "bold": true,
+            "foreColor": "#1F2933",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.1
+          },
+          "text": "จำนวน"
+        },
+        {
+          "name": "hdrPrice",
+          "type": "label",
+          "bounds": {
+            "x": 10.6,
+            "y": 2.6,
+            "w": 2.8,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9,
+            "bold": true,
+            "foreColor": "#1F2933",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.1
+          },
+          "text": "ราคาต่อหน่วย"
+        },
+        {
+          "name": "hdrDiscount",
+          "type": "label",
+          "bounds": {
+            "x": 13.4,
+            "y": 2.6,
+            "w": 2,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9,
+            "bold": true,
+            "foreColor": "#1F2933",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.1
+          },
+          "text": "ส่วนลด"
+        },
+        {
+          "name": "hdrAmount",
+          "type": "label",
+          "bounds": {
+            "x": 15.4,
+            "y": 2.6,
+            "w": 2.6,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9,
+            "bold": true,
+            "foreColor": "#1F2933",
+            "backColor": "#F1F4F8",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.1
+          },
+          "text": "จำนวนเงิน"
+        },
+        {
+          "name": "ruleColumns",
+          "type": "line",
+          "bounds": {
+            "x": 0,
+            "y": 3.25,
+            "w": 18,
+            "h": 0
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "x1": 0,
+          "y1": 3.25,
+          "x2": 18,
+          "y2": 3.25,
+          "penWidth": 1,
+          "penColor": "#1F5FAD",
+          "penStyle": "solid"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0.55,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "cNo",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 1.2,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.1
+          },
+          "expression": "RowOfGroup()",
+          "format": "0"
+        },
+        {
+          "name": "fItem",
+          "type": "field",
+          "bounds": {
+            "x": 1.2,
+            "y": 0,
+            "w": 7.6,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.1
+          },
+          "source": "ItemName"
+        },
+        {
+          "name": "fQty",
+          "type": "field",
+          "bounds": {
+            "x": 8.8,
+            "y": 0,
+            "w": 1.8,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.1
+          },
+          "source": "Qty",
+          "format": "#,##0"
+        },
+        {
+          "name": "fPrice",
+          "type": "field",
+          "bounds": {
+            "x": 10.6,
+            "y": 0,
+            "w": 2.8,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.1
+          },
+          "source": "Price",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "fDiscount",
+          "type": "field",
+          "bounds": {
+            "x": 13.4,
+            "y": 0,
+            "w": 2,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.1
+          },
+          "source": "DiscountRate",
+          "format": "0%"
+        },
+        {
+          "name": "cAmount",
+          "type": "computed",
+          "bounds": {
+            "x": 15.4,
+            "y": 0,
+            "w": 2.6,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.1
+          },
+          "expression": "[Price] * [Qty] * (1 - [DiscountRate])",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "ruleRow",
+          "type": "line",
+          "bounds": {
+            "x": 0,
+            "y": 0.55,
+            "w": 18,
+            "h": 0
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "x1": 0,
+          "y1": 0.55,
+          "x2": 18,
+          "y2": 0.55,
+          "penWidth": 1,
+          "penColor": "#E3E7EC",
+          "penStyle": "solid"
+        }
+      ]
+    },
+    {
+      "type": "groupFooter",
+      "groupLevel": 1,
+      "groupByColumns": [
+        "OrderNo"
+      ],
+      "height": 4,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "cItemsCount",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.25,
+            "w": 9,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "expression": "Tr(\"items_count\", Count(ItemName for group 1))"
+        },
+        {
+          "name": "lblCurrencyNote",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.75,
+            "w": 9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 8.5,
+            "foreColor": "#5A6470",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "text": "จำนวนเงินทั้งหมดเป็นดอลลาร์สหรัฐ"
+        },
+        {
+          "name": "lblSubtotal",
+          "type": "label",
+          "bounds": {
+            "x": 10,
+            "y": 0.25,
+            "w": 5.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle"
+          },
+          "text": "รวมเป็นเงิน"
+        },
+        {
+          "name": "cSubtotal",
+          "type": "computed",
+          "bounds": {
+            "x": 15.4,
+            "y": 0.25,
+            "w": 2.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle"
+          },
+          "expression": "Sum([Price] * [Qty] * (1 - [DiscountRate]) for group 1)",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "lblFreight",
+          "type": "label",
+          "bounds": {
+            "x": 10,
+            "y": 0.75,
+            "w": 5.4,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle"
+          },
+          "text": "ค่าขนส่ง"
+        },
+        {
+          "name": "fFreight",
+          "type": "field",
+          "bounds": {
+            "x": 15.4,
+            "y": 0.75,
+            "w": 2.6,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle"
+          },
+          "source": "FreightCost",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "ruleTotal",
+          "type": "line",
+          "bounds": {
+            "x": 10,
+            "y": 1.3,
+            "w": 8,
+            "h": 0
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "x1": 10,
+          "y1": 1.3,
+          "x2": 18,
+          "y2": 1.3,
+          "penWidth": 1,
+          "penColor": "#1F5FAD",
+          "penStyle": "solid"
+        },
+        {
+          "name": "lblTotal",
+          "type": "label",
+          "bounds": {
+            "x": 10,
+            "y": 1.4,
+            "w": 5.4,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 10.5,
+            "bold": true,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle"
+          },
+          "text": "ยอดรวมทั้งสิ้น (USD)"
+        },
+        {
+          "name": "cTotal",
+          "type": "computed",
+          "bounds": {
+            "x": 15.4,
+            "y": 1.4,
+            "w": 2.6,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 10.5,
+            "bold": true,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle"
+          },
+          "expression": "Sum([Price] * [Qty] * (1 - [DiscountRate]) for group 1) + [FreightCost]",
+          "format": "#,##0.00"
+        },
+        {
+          "name": "cThankYou",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 2.3,
+            "w": 18,
+            "h": 0.55
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 10,
+            "foreColor": "#1F5FAD",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "expression": "Tr(\"thank_you\", [Customer])"
+        },
+        {
+          "name": "lblReceivedBy",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 3.25,
+            "w": 3.5,
+            "h": 0.5
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9.5,
+            "foreColor": "#5A6470",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "text": "ผู้รับเงิน"
+        },
+        {
+          "name": "ruleSignature",
+          "type": "line",
+          "bounds": {
+            "x": 3.6,
+            "y": 3.7,
+            "w": 6,
+            "h": 0
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 9,
+            "foreColor": "#1F2933",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "x1": 3.6,
+          "y1": 3.7,
+          "x2": 9.6,
+          "y2": 3.7,
+          "penWidth": 1,
+          "penColor": "#5A6470",
+          "penStyle": "solid"
+        }
+      ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.6,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "cLanguage",
+          "type": "computed",
+          "bounds": {
+            "x": 0,
+            "y": 0.1,
+            "w": 9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 8,
+            "foreColor": "#5A6470",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle"
+          },
+          "expression": "Tr(\"rendered_in\", Language())"
+        },
+        {
+          "name": "cPage",
+          "type": "computed",
+          "bounds": {
+            "x": 9,
+            "y": 0.1,
+            "w": 9,
+            "h": 0.45
+          },
+          "style": {
+            "fontFamily": "Leelawadee UI",
+            "fontSize": 8,
+            "foreColor": "#5A6470",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle"
+          },
+          "expression": "Tr(\"page_of\", Page(), GroupTotalPages())"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}

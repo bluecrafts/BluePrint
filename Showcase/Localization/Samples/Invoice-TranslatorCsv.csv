@@ -1,0 +1,23 @@
+﻿key,kind,en,de,ja,ko,th,lo,zh
+lblTitle.text,element,INVOICE / RECEIPT,RECHNUNG / QUITTUNG,請求書 / 領収書,청구서 / 영수증,ใบแจ้งหนี้ / ใบเสร็จรับเงิน,ໃບແຈ້ງໜີ້ / ໃບຮັບເງິນ,发票 / 收据
+cPaidStamp.expression,element,PAID,BEZAHLT,支払済,결제 완료,ชำระเงินแล้ว,ຊຳລະແລ້ວ,已付款
+lblInvoiceNo.text,element,Invoice No.,Rechnungsnr.,請求書番号,청구서 번호,เลขที่,ເລກທີ,发票号码
+lblDate.text,element,Date,Datum,日付,날짜,วันที่,ວັນທີ,日期
+lblBillTo.text,element,Bill to,Rechnung an,請求先,청구처,ลูกค้า,ລູກຄ້າ,收票方
+lblShipVia.text,element,Ship via,Versand durch,配送業者,배송사,จัดส่งโดย,ຂົນສົ່ງໂດຍ,承运商
+lblSalesperson.text,element,Salesperson,Verkäufer,営業担当,영업 담당자,พนักงานขาย,ພະນັກງານຂາຍ,销售员
+hdrNo.text,element,No.,Nr.,No.,번호,ลำดับ,ລຳດັບ,序号
+hdrProduct.text,element,Product,Artikel,商品,상품,สินค้า,ສິນຄ້າ,产品
+hdrQty.text,element,Qty,Menge,数量,수량,จำนวน,ຈຳນວນ,数量
+hdrPrice.text,element,Unit price,Einzelpreis,単価,단가,ราคาต่อหน่วย,ລາຄາຕໍ່ໜ່ວຍ,单价
+hdrDiscount.text,element,Discount,Rabatt,割引,할인,ส่วนลด,ສ່ວນຫຼຸດ,折扣
+hdrAmount.text,element,Amount,Betrag,金額,금액,จำนวนเงิน,ຈຳນວນເງິນ,金额
+lblCurrencyNote.text,element,All amounts in US dollars.,Alle Beträge in US-Dollar.,金額はすべて米ドルです。,모든 금액은 미국 달러입니다.,จำนวนเงินทั้งหมดเป็นดอลลาร์สหรัฐ,ຈຳນວນເງິນທັງໝົດເປັນໂດລາສະຫະລັດ,所有金额均以美元计。
+lblSubtotal.text,element,Subtotal,Zwischensumme,小計,소계,รวมเป็นเงิน,ລວມ,小计
+lblFreight.text,element,Freight,Fracht,送料,운송비,ค่าขนส่ง,ຄ່າຂົນສົ່ງ,运费
+lblTotal.text,element,Total (USD),Gesamtbetrag (USD),合計 (USD),합계 (USD),ยอดรวมทั้งสิ้น (USD),ລວມທັງໝົດ (USD),总计 (USD)
+lblReceivedBy.text,element,Received by,Empfangen von,受領者,수령인,ผู้รับเงิน,ຜູ້ຮັບເງິນ,收款人
+items_count,text,{0} items,{0} Positionen,{0} 品目,{0}개 품목,{0} รายการ,{0} ລາຍການ,{0} 项
+thank_you,text,"Thank you for your order, {0}.","Vielen Dank für Ihre Bestellung, {0}.",{0} 様、ご注文ありがとうございます。,"{0} 님, 주문해 주셔서 감사합니다.",ขอบคุณสำหรับคำสั่งซื้อของ {0},ຂອບໃຈສຳລັບການສັ່ງຊື້ຂອງ {0},{0}，感谢您的订购。
+page_of,text,Page {0} of {1},Seite {0} von {1},{1} ページ中 {0} ページ,{1}페이지 중 {0}페이지,หน้า {0} จาก {1},ໜ້າ {0} ຈາກ {1},第 {0} 页，共 {1} 页
+rendered_in,text,Language: {0},Sprache: {0},言語: {0},언어: {0},ภาษา: {0},ພາສາ: {0},语言：{0}

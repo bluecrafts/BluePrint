@@ -1,0 +1,27 @@
+{
+  "language": "ko",
+  "strings": {
+    "invoice.title": "청구서 / 영수증",
+    "invoice.paid": "결제 완료",
+    "invoice.number": "청구서 번호",
+    "common.date": "날짜",
+    "invoice.bill_to": "청구처",
+    "invoice.ship_via": "배송사",
+    "invoice.salesperson": "영업 담당자",
+    "common.no": "번호",
+    "common.product": "상품",
+    "common.qty": "수량",
+    "common.unit_price": "단가",
+    "common.discount": "할인",
+    "common.amount": "금액",
+    "common.subtotal": "소계",
+    "invoice.freight": "운송비",
+    "common.total_usd": "합계 (USD)",
+    "common.currency_note": "모든 금액은 미국 달러입니다.",
+    "invoice.received_by": "수령인",
+    "items_count": "{0}개 품목",
+    "thank_you": "{0} 님, 주문해 주셔서 감사합니다.",
+    "page_of": "{1}페이지 중 {0}페이지",
+    "rendered_in": "언어: {0}"
+  }
+}

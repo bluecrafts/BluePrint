@@ -1,0 +1,8 @@
+{
+  "language": "th",
+  "items": {
+    "lblTitle.text": "ใบกำกับภาษี / ใบเสร็จรับเงิน",
+    "lblBillTo.text": "ผู้ซื้อ",
+    "lblReceivedBy.text": "ผู้รับสินค้า"
+  }
+}

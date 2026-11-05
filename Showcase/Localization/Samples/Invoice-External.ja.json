@@ -1,0 +1,29 @@
+{
+  "language": "ja",
+  "items": {
+    "lblTitle.text": "請求書 / 領収書",
+    "cPaidStamp.expression": "支払済",
+    "lblInvoiceNo.text": "請求書番号",
+    "lblDate.text": "日付",
+    "lblBillTo.text": "請求先",
+    "lblShipVia.text": "配送業者",
+    "lblSalesperson.text": "営業担当",
+    "hdrNo.text": "No.",
+    "hdrProduct.text": "商品",
+    "hdrQty.text": "数量",
+    "hdrPrice.text": "単価",
+    "hdrDiscount.text": "割引",
+    "hdrAmount.text": "金額",
+    "lblSubtotal.text": "小計",
+    "lblFreight.text": "送料",
+    "lblTotal.text": "合計 (USD)",
+    "lblCurrencyNote.text": "金額はすべて米ドルです。",
+    "lblReceivedBy.text": "受領者"
+  },
+  "strings": {
+    "items_count": "{0} 品目",
+    "thank_you": "{0} 様、ご注文ありがとうございます。",
+    "page_of": "{1} ページ中 {0} ページ",
+    "rendered_in": "言語: {0}"
+  }
+}

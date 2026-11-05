@@ -1,0 +1,27 @@
+{
+  "language": "de",
+  "strings": {
+    "invoice.title": "RECHNUNG / QUITTUNG",
+    "invoice.paid": "BEZAHLT",
+    "invoice.number": "Rechnungsnr.",
+    "common.date": "Datum",
+    "invoice.bill_to": "Rechnung an",
+    "invoice.ship_via": "Versand durch",
+    "invoice.salesperson": "Verkäufer",
+    "common.no": "Nr.",
+    "common.product": "Artikel",
+    "common.qty": "Menge",
+    "common.unit_price": "Einzelpreis",
+    "common.discount": "Rabatt",
+    "common.amount": "Betrag",
+    "common.subtotal": "Zwischensumme",
+    "invoice.freight": "Fracht",
+    "common.total_usd": "Gesamtbetrag (USD)",
+    "common.currency_note": "Alle Beträge in US-Dollar.",
+    "invoice.received_by": "Empfangen von",
+    "items_count": "{0} Positionen",
+    "thank_you": "Vielen Dank für Ihre Bestellung, {0}.",
+    "page_of": "Seite {0} von {1}",
+    "rendered_in": "Sprache: {0}"
+  }
+}
