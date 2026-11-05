@@ -1,0 +1,10 @@
+# GitHub language statistics (Linguist)
+#
+# NorthwindDB/ holds the sample database scripts (~8 MB of INSERT statements per
+# DBMS). They are data for the samples, not source code of this project, but by
+# byte count they outweigh the C# code more than ten to one - so without this
+# GitHub reports the repository as "TSQL".
+#
+# linguist-vendored only excludes the files from the language bar; they are
+# still in the repository, searchable and viewable as usual.
+NorthwindDB/** linguist-vendored

@@ -1,0 +1,27 @@
+{
+  "language": "ja",
+  "strings": {
+    "invoice.title": "請求書 / 領収書",
+    "invoice.paid": "支払済",
+    "invoice.number": "請求書番号",
+    "common.date": "日付",
+    "invoice.bill_to": "請求先",
+    "invoice.ship_via": "配送業者",
+    "invoice.salesperson": "営業担当",
+    "common.no": "No.",
+    "common.product": "商品",
+    "common.qty": "数量",
+    "common.unit_price": "単価",
+    "common.discount": "割引",
+    "common.amount": "金額",
+    "common.subtotal": "小計",
+    "invoice.freight": "送料",
+    "common.total_usd": "合計 (USD)",
+    "common.currency_note": "金額はすべて米ドルです。",
+    "invoice.received_by": "受領者",
+    "items_count": "{0} 品目",
+    "thank_you": "{0} 様、ご注文ありがとうございます。",
+    "page_of": "{1} ページ中 {0} ページ",
+    "rendered_in": "言語: {0}"
+  }
+}

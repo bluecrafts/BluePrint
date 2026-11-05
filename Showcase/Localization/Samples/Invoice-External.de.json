@@ -1,0 +1,29 @@
+{
+  "language": "de",
+  "items": {
+    "lblTitle.text": "RECHNUNG / QUITTUNG",
+    "cPaidStamp.expression": "BEZAHLT",
+    "lblInvoiceNo.text": "Rechnungsnr.",
+    "lblDate.text": "Datum",
+    "lblBillTo.text": "Rechnung an",
+    "lblShipVia.text": "Versand durch",
+    "lblSalesperson.text": "Verkäufer",
+    "hdrNo.text": "Nr.",
+    "hdrProduct.text": "Artikel",
+    "hdrQty.text": "Menge",
+    "hdrPrice.text": "Einzelpreis",
+    "hdrDiscount.text": "Rabatt",
+    "hdrAmount.text": "Betrag",
+    "lblSubtotal.text": "Zwischensumme",
+    "lblFreight.text": "Fracht",
+    "lblTotal.text": "Gesamtbetrag (USD)",
+    "lblCurrencyNote.text": "Alle Beträge in US-Dollar.",
+    "lblReceivedBy.text": "Empfangen von"
+  },
+  "strings": {
+    "items_count": "{0} Positionen",
+    "thank_you": "Vielen Dank für Ihre Bestellung, {0}.",
+    "page_of": "Seite {0} von {1}",
+    "rendered_in": "Sprache: {0}"
+  }
+}

@@ -47,6 +47,13 @@ public partial class App : Application
     {
         if (_reporting) return;
         _reporting = true;
+
+        // An exception while the main window is still being built (in its constructor,
+        // before it is shown): there is no window to go back to, so the application
+        // has to close. A window that was never shown cannot own the message either -
+        // WPF refuses it, and the message would be lost with the window.
+        var owner = MainWindow is { IsLoaded: true } window ? window : null;
+        if (owner is null) stillRunning = false;
         try
         {
             // Nothing to save here: the forms are only read, and the printer
@@ -54,11 +61,11 @@ public partial class App : Application
             var what = stillRunning
                 ? "Something went wrong, but ReceiptPrinting is still running."
                 : "Something went wrong and ReceiptPrinting has to close.";
-            var next = stillRunning
-                ? "Try again. If it happens again, restart the application."
-                : "A print job that was running did not finish.";
+            var next = stillRunning ? "Try again. If it happens again, restart the application."
+                     : owner is null ? "Restart the application."
+                     : "A print job that was running did not finish.";
 
-            BpMessage.ShowDetails(MainWindow,
+            BpMessage.ShowDetails(owner,
                 $"{what}\n\n{ex.GetType().Name}: {ex.Message}\n\n{next}",
                 ex.ToString(), BpMessageKind.Error, title: "ReceiptPrinting");
         }
@@ -70,5 +77,6 @@ public partial class App : Application
         {
             _reporting = false;
         }
+        if (owner is null) Shutdown(1);
     }
 }

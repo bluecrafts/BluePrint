@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Not "Localization": that would read as a part of BluePrint.Render.Localization. -->
+    <RootNamespace>LocalizationShowcase</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      One package brings everything this application uses from BluePrint: the
+      preview, the render engine and the report languages (the language of a
+      render, translations in the report or from files, the culture of each
+      language and the font of each language). There is no designer: the forms
+      are opened and shown, not edited.
+    -->
+    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.6.121" />
+    <!-- The sample data: the Northwind database in SQLite. -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.13" />
+    <!-- Microsoft.Data.Sqlite on its own brings an older SQLite with a known vulnerability. -->
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The invoice forms and their translation files, next to the executable:
+         the Forms list shows every .bpt file in Samples. -->
+    <None Include="Samples\**" CopyToOutputDirectory="PreserveNewest" />
+    <!-- The Northwind database of this repository, opened read-only. -->
+    <None Include="..\..\NorthwindDB\SQLite\northwind.db" Link="northwind.db" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

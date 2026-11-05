@@ -1,0 +1,30 @@
+{
+  "group": "In separate files",
+  "layers": [
+    {
+      "kind": "json",
+      "path": "Invoice-External.de.json"
+    },
+    {
+      "kind": "json",
+      "path": "Invoice-External.ja.json"
+    },
+    {
+      "kind": "json",
+      "path": "Invoice-External.ko.json"
+    },
+    {
+      "kind": "json",
+      "path": "Invoice-External.th.json"
+    },
+    {
+      "kind": "json",
+      "path": "Invoice-External.lo.json"
+    },
+    {
+      "kind": "json",
+      "path": "Invoice-External.zh.json"
+    }
+  ],
+  "description": "The report has no translations. Each language is a JSON file the application adds with Translations.AddJson. The files are named after the report (Invoice-External.de.json), so the Studio reads them too when it opens the report, and Verify counts them."
+}

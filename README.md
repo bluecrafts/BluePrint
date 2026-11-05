@@ -184,7 +184,10 @@ printer - over USB, the network, the Windows spooler or a serial port - as a
 between. `ReceiptPrinting` opens ready-made receipt forms for 80 mm and 58 mm
 paper, fills them from the Northwind database with retrieval arguments and
 prints them to a receipt printer in ESC/POS, the same way - from a three-line
-receipt to one of 5,000 lines.
+receipt to one of 5,000 lines. `Localization` prints one invoice report in seven
+languages - English, German, Japanese, Korean, Thai, Lao and Chinese - with the
+dates, numbers and fonts of each, and shows seven ways to keep the translations,
+from inside the report to files and a translator's CSV file.
 
 [`SampleReport/`](SampleReport/) holds finished `.bpt` report templates you can open
 in Studio directly, five of which need no data source at all.

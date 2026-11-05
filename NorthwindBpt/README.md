@@ -142,6 +142,29 @@ and `PrintDate()` with masks and in date arithmetic.
 Page numbers do not restart for each employee here, on purpose: with a restart, `PageNumber()` never
 reaches `TotalPages()`. Report 35 shows the restarting kind with `GroupTotalPages()`.
 
+## One report in three languages
+
+[`nw-41-multilingual-products.bpt`](nw-41-multilingual-products.bpt) is the products-by-category list
+of report 06, written once in English and translated into German and French. The translations live in
+the report file itself, in its `localization` block, so there is still only one file to keep.
+
+- **Labels** - the title and the column headings - have a translation per language. A label without one
+  keeps its English text.
+- **Text inside an expression** goes through `Tr()`: `Tr("product_count", Count(...))` gives
+  `11 product(s)`, `11 Produkt(e)` or `11 produit(s)`, and the page footer uses
+  `Tr("page_of", Page(), TotalPages())`. `{0}` and `{1}` mark where the values go, so each language
+  can put them in its own order.
+- **`Language()`** returns the language of the render; the line under the title prints it.
+- **The number format follows the language.** The report maps `de` to the culture `de-DE`, so the
+  German copy prints the grand total as `3.018`; the English one prints `3,018`.
+
+Choose the language when you render. From code, set `report.Language = "de"`; on the print server,
+send `"language": "de"` with the request. Without a language the report prints in English, its
+source language. The product and category names come from the database and are not translated.
+
+Translated text is often longer than the original: the German column headings were shortened to fit
+the narrow number columns. Check every language by eye when you add one.
+
 ---
 
 ## Running the invoice
@@ -206,6 +229,7 @@ day of the range is included rather than dropped at midnight.
 | The print date and time, shown and used in a calculation | 39, 40 |
 | Page numbers used in arithmetic and conditions, such as a line on the last page only | 40 |
 | Colours and conditional formats that depend on the page | 40 |
+| One report in several languages - translated labels, `Tr()`, `Language()` and a number format per language | 41 |
 
 ---
 

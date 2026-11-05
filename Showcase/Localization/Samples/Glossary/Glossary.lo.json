@@ -1,0 +1,27 @@
+{
+  "language": "lo",
+  "strings": {
+    "invoice.title": "ໃບແຈ້ງໜີ້ / ໃບຮັບເງິນ",
+    "invoice.paid": "ຊຳລະແລ້ວ",
+    "invoice.number": "ເລກທີ",
+    "common.date": "ວັນທີ",
+    "invoice.bill_to": "ລູກຄ້າ",
+    "invoice.ship_via": "ຂົນສົ່ງໂດຍ",
+    "invoice.salesperson": "ພະນັກງານຂາຍ",
+    "common.no": "ລຳດັບ",
+    "common.product": "ສິນຄ້າ",
+    "common.qty": "ຈຳນວນ",
+    "common.unit_price": "ລາຄາຕໍ່ໜ່ວຍ",
+    "common.discount": "ສ່ວນຫຼຸດ",
+    "common.amount": "ຈຳນວນເງິນ",
+    "common.subtotal": "ລວມ",
+    "invoice.freight": "ຄ່າຂົນສົ່ງ",
+    "common.total_usd": "ລວມທັງໝົດ (USD)",
+    "common.currency_note": "ຈຳນວນເງິນທັງໝົດເປັນໂດລາສະຫະລັດ",
+    "invoice.received_by": "ຜູ້ຮັບເງິນ",
+    "items_count": "{0} ລາຍການ",
+    "thank_you": "ຂອບໃຈສຳລັບການສັ່ງຊື້ຂອງ {0}",
+    "page_of": "ໜ້າ {0} ຈາກ {1}",
+    "rendered_in": "ພາສາ: {0}"
+  }
+}

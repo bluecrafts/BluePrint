@@ -1,0 +1,26 @@
+{
+  "group": "In separate files",
+  "layers": [
+    {
+      "kind": "json",
+      "path": "Invoice-Mixed.th.json"
+    },
+    {
+      "kind": "json",
+      "path": "Invoice-Mixed.ja.json"
+    },
+    {
+      "kind": "json",
+      "path": "Invoice-Mixed.ko.json"
+    },
+    {
+      "kind": "json",
+      "path": "Invoice-Mixed.lo.json"
+    },
+    {
+      "kind": "json",
+      "path": "Invoice-Mixed.zh.json"
+    }
+  ],
+  "description": "German and Thai are embedded in the report. Japanese, Korean, Lao and Chinese come from files. The Thai file replaces three embedded terms: a file the application adds wins over the report. The files are named after the report, so the Studio reads them too when it opens the report, and Verify counts them."
+}

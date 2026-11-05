@@ -1,0 +1,29 @@
+{
+  "language": "lo",
+  "items": {
+    "lblTitle.text": "ໃບແຈ້ງໜີ້ / ໃບຮັບເງິນ",
+    "cPaidStamp.expression": "ຊຳລະແລ້ວ",
+    "lblInvoiceNo.text": "ເລກທີ",
+    "lblDate.text": "ວັນທີ",
+    "lblBillTo.text": "ລູກຄ້າ",
+    "lblShipVia.text": "ຂົນສົ່ງໂດຍ",
+    "lblSalesperson.text": "ພະນັກງານຂາຍ",
+    "hdrNo.text": "ລຳດັບ",
+    "hdrProduct.text": "ສິນຄ້າ",
+    "hdrQty.text": "ຈຳນວນ",
+    "hdrPrice.text": "ລາຄາຕໍ່ໜ່ວຍ",
+    "hdrDiscount.text": "ສ່ວນຫຼຸດ",
+    "hdrAmount.text": "ຈຳນວນເງິນ",
+    "lblSubtotal.text": "ລວມ",
+    "lblFreight.text": "ຄ່າຂົນສົ່ງ",
+    "lblTotal.text": "ລວມທັງໝົດ (USD)",
+    "lblCurrencyNote.text": "ຈຳນວນເງິນທັງໝົດເປັນໂດລາສະຫະລັດ",
+    "lblReceivedBy.text": "ຜູ້ຮັບເງິນ"
+  },
+  "strings": {
+    "items_count": "{0} ລາຍການ",
+    "thank_you": "ຂອບໃຈສຳລັບການສັ່ງຊື້ຂອງ {0}",
+    "page_of": "ໜ້າ {0} ຈາກ {1}",
+    "rendered_in": "ພາສາ: {0}"
+  }
+}

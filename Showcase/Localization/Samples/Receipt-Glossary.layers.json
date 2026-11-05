@@ -1,0 +1,30 @@
+{
+  "group": "Shared glossary",
+  "layers": [
+    {
+      "kind": "json",
+      "path": "Glossary/Glossary.de.json"
+    },
+    {
+      "kind": "json",
+      "path": "Glossary/Glossary.ja.json"
+    },
+    {
+      "kind": "json",
+      "path": "Glossary/Glossary.ko.json"
+    },
+    {
+      "kind": "json",
+      "path": "Glossary/Glossary.th.json"
+    },
+    {
+      "kind": "json",
+      "path": "Glossary/Glossary.lo.json"
+    },
+    {
+      "kind": "json",
+      "path": "Glossary/Glossary.zh.json"
+    }
+  ],
+  "description": "A short A5 receipt with the same glossary as Invoice-Glossary. It uses only some of the terms: a glossary does not have to match one report. The Studio reads only translation files named after the report, so Verify there warns that six languages are not translated. The application passes its layers to Verify (doc.Verify) and gets no warning."
+}

@@ -1,0 +1,29 @@
+{
+  "language": "th",
+  "items": {
+    "lblTitle.text": "ใบแจ้งหนี้ / ใบเสร็จรับเงิน",
+    "cPaidStamp.expression": "ชำระเงินแล้ว",
+    "lblInvoiceNo.text": "เลขที่",
+    "lblDate.text": "วันที่",
+    "lblBillTo.text": "ลูกค้า",
+    "lblShipVia.text": "จัดส่งโดย",
+    "lblSalesperson.text": "พนักงานขาย",
+    "hdrNo.text": "ลำดับ",
+    "hdrProduct.text": "สินค้า",
+    "hdrQty.text": "จำนวน",
+    "hdrPrice.text": "ราคาต่อหน่วย",
+    "hdrDiscount.text": "ส่วนลด",
+    "hdrAmount.text": "จำนวนเงิน",
+    "lblSubtotal.text": "รวมเป็นเงิน",
+    "lblFreight.text": "ค่าขนส่ง",
+    "lblTotal.text": "ยอดรวมทั้งสิ้น (USD)",
+    "lblCurrencyNote.text": "จำนวนเงินทั้งหมดเป็นดอลลาร์สหรัฐ",
+    "lblReceivedBy.text": "ผู้รับเงิน"
+  },
+  "strings": {
+    "items_count": "{0} รายการ",
+    "thank_you": "ขอบคุณสำหรับคำสั่งซื้อของ {0}",
+    "page_of": "หน้า {0} จาก {1}",
+    "rendered_in": "ภาษา: {0}"
+  }
+}
