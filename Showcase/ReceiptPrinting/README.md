@@ -21,10 +21,10 @@ Studio, open `ReceiptPrinting.csproj` and press F5.
 
 | Part | How |
 | --- | --- |
-| The forms | four ready-made `.bpt` reports in `Samples/`, for 80 mm and 58 mm paper, each one continuous (one long page) and paged. There is nothing to design |
+| The forms | six ready-made `.bpt` reports in `Samples/`, for 80 mm, 58 mm and 75 mm (dot matrix) paper, each one continuous (one long page) and paged. There is nothing to design |
 | The data | `BluePrintDocument.RetrieveAsync(connection, arguments)` runs the form's own SQL against `northwind.db` (SQLite) with the document's retrieval arguments |
 | The 1-bit image | `MonochromeRenderer` draws the receipt at the printer's resolution; `BluePrintMonochromeView` shows it dot for dot |
-| The printer's language | `PrinterCommands.Encode` wraps the image in ESC/POS (`GS v 0`), with the feed, the cut and the cash drawer. This application never writes a printer command itself |
+| The printer's language | `PrinterCommands.Encode` wraps the image in ESC/POS - the raster command `GS v 0`, or column passes with `ESC *` for dot matrix printers - with the feed, the cut and the cash drawer. This application never writes a printer command itself |
 | Getting the bytes there | its own code, in `Transports/`: USB, the Windows spooler as RAW data, TCP, and serial ports |
 
 Everything printer-specific lives in a printer profile, edited in the panel on
@@ -108,13 +108,46 @@ print head** scales the whole receipt to the head instead - the text then
 prints 50% larger than designed. A form wider than the head is cut off at the
 right.
 
+### Dot matrix printers
+
+Some printers - dot matrix ones such as the Epson TM-U220, and some older
+thermal ones - do not have the raster command `GS v 0`: they print nothing, or
+garbage. Under **Image command**, choose **Column (ESC \*)**. The image is then
+sent in passes 8 dots high, and the paper moves by the **line spacing** after
+each pass.
+
+- **Line spacing**: too much leaves white lines across the receipt, too little
+  prints the passes over each other. **Print Calibration Pattern** prints a test
+  block with five values around the current one: choose the number whose black
+  bar is solid and whose diagonal lines are straight. 16 suits the TM-U220.
+- **Vertical resolution**: a dot matrix head is not as fine down the paper as
+  across it (the TM-U220 is 80 dpi across, 160 in double density, and 72 down).
+  With the vertical resolution set, the receipt prints at its designed height.
+- **Column mode**: 8-dot single density is faster, double density is sharper.
+  A 9-pin head has no 24-dot modes.
+- **Print in one direction**: turn it on for double density. The head prints
+  both ways, and when the data comes slower than it prints, the two passes of a
+  line of text do not line up: the letters lean.
+- **Pacing**: leave it at 0 when the printer has flow control (RTS/CTS). Pauses
+  do not protect anything then - they only make the head wait for data.
+
+The presets **ESC/POS dot matrix - 76 mm, serial, fast** and **... fine** hold
+these values for the TM-U220 on 76 mm paper: 200 or 400 dots across, the form
+shrunk to the head, 9600 baud with no pacing, one direction for fine, and 7
+lines of feed to bring the receipt past the cutter.
+
+The forms under **75 mm paper** are made for this head: 63.5 mm wide, which is
+exactly 200 dots at 80 dpi, so they print at their actual size - the image
+width can stay at **Same as the form**.
+
 ## Printer profiles
 
 | Group | What it holds |
 | --- | --- |
-| General | name, print head resolution, and its width in cm (rounded to a multiple of 8 dots) |
+| General | name, print head resolution across and - for a dot matrix head - down the paper, and its width in cm (rounded to a multiple of 8 dots) |
 | Connection | USB direct (any printer Windows installed as a USB printer - no driver needed), a Windows print queue used as RAW, TCP (host and port, usually 9100), or a COM port - a paired Bluetooth printer is one |
-| Paper and cutting | the lines fed after the receipt so it comes out past the cutter, when to cut (at the end of the job, after every page, or not at all), a partial or a full cut, the height of each `GS v 0` block, and the copies |
+| Paper and cutting | the lines fed after the receipt so it comes out past the cutter, when to cut (at the end of the job, after every page, or not at all), a partial or a full cut, and the copies |
+| Image command | Raster (`GS v 0`) and the height of each block, or Column (`ESC *`): the column mode, the line spacing between passes, and a calibration pattern to find it |
 | Cash drawer | open the drawer plugged into the printer, once, after the last cut |
 | Image | the width of the image, the threshold, and dithering for pictures |
 | Pacing | how the data is sent: in pieces, with pauses |
@@ -133,6 +166,7 @@ commands:
 | USB, TCP | the printer sets the pace: about 150 - 250 mm a second, so 1.5 - 2.5 minutes | no pacing needed |
 | Serial, 115200 baud | the port sets the pace: about 11.5 KB a second, so about 17 minutes | the Print panel shows the time left |
 | Windows spooler | the spooler takes the whole job first, then passes it on | the progress reaches 100% before the paper is out |
+| Dot matrix, serial 9600 baud | the port sets the pace: about 940 bytes a second. `Batch 100 lines` on the 80 mm continuous form (52 cm) took 52 s in single density | double density sends twice as much |
 
 Serial ports, and Bluetooth printers in particular, often have no flow control:
 data that does not fit the printer's buffer is lost without an error. If
@@ -158,6 +192,7 @@ deleted from the queue, so half a job never prints.
 | `Printing/RasterChecks.cs` | what the Print panel says before printing |
 | `Printing/CommandSource.cs` | `PrinterCommands.Encode` one page at a time, with exactly the bytes of encoding the whole job at once |
 | `Printing/PrintJobRunner.cs` | open, send in pieces with pacing, Stop, always close; progress in bytes |
+| `Printing/CalibrationPattern.cs` | the line spacing pattern for `ESC *`: drawn as bits, made a `MonochromeBitmap` with `FromPixels`, encoded by BluePrint like any page |
 | `Transports/` | the four connections and finding devices on this computer |
 | `Profiles/AppConfigStore.cs` | `ReceiptPrinting.cfg`: written through a temporary file; a file that cannot be read is renamed, never overwritten |
 | `Views/PrinterProfilePanel.xaml` | the printer profile, checked and saved field by field |

@@ -33,7 +33,8 @@ public partial class PrinterProfilePanel : UserControl
     // every page and makes CutAtEnd pointless. One box cannot be set the wrong way.
     private enum CutChoice { AtEnd, EveryPage, None }
 
-    private static readonly int[] CommonDpi = [180, 203, 300];
+    // 80 and 160: a dot matrix printer (Epson TM-U220) in single and double density
+    private static readonly int[] CommonDpi = [80, 160, 180, 203, 300];
     private static readonly int[] CommonBaudRates = [9600, 19200, 38400, 57600, 115200];
     private static readonly CultureInfo Invariant = CultureInfo.InvariantCulture;
 
@@ -56,6 +57,10 @@ public partial class PrinterProfilePanel : UserControl
         ["EscPos.DrawerPin"] = nameof(DrawerPinBox),
         ["EscPos.DrawerOnMs"] = nameof(PulseOnBox),
         ["EscPos.DrawerOffMs"] = nameof(PulseOffBox),
+        ["EscPos.ImageCommand"] = nameof(ImageCommandBox),
+        ["EscPos.ColumnDensity"] = nameof(ColumnModeBox),
+        ["EscPos.ColumnLineSpacing"] = nameof(LineSpacingBox),
+        ["EscPos.Unidirectional"] = nameof(UnidirectionalBox),
     };
 
     /// <summary>Options of the encoder that the panel leaves out on purpose, with the reason.</summary>
@@ -98,6 +103,16 @@ public partial class PrinterProfilePanel : UserControl
         };
         CutTypeBox.ItemsSource = new[] { new Choice(EscPosCutMode.Partial, "Partial"), new Choice(EscPosCutMode.Full, "Full") };
         DrawerPinBox.ItemsSource = new[] { new Choice(EscPosDrawerPin.Pin2, "Pin 2"), new Choice(EscPosDrawerPin.Pin5, "Pin 5") };
+        ImageCommandBox.ItemsSource = new[]
+        {
+            new Choice(EscPosImageCommand.Raster, "Raster (GS v 0)"),
+            new Choice(EscPosImageCommand.Column, "Column (ESC *) - dot matrix and older printers"),
+        };
+        ColumnModeBox.ItemsSource = new[]
+        {
+            new Choice(EscPosColumnDensity.Single8, "8-dot single density"), new Choice(EscPosColumnDensity.Double8, "8-dot double density"),
+            new Choice(EscPosColumnDensity.Single24, "24-dot single density"), new Choice(EscPosColumnDensity.Double24, "24-dot double density"),
+        };
         ImageWidthBox.ItemsSource = new[]
         {
             new Choice(ImageWidthMode.Report, "Same as the form (actual size)"),
@@ -149,6 +164,9 @@ public partial class PrinterProfilePanel : UserControl
 
     /// <summary>A profile was added, deleted or renamed: lists that show the names refresh.</summary>
     public event EventHandler? ListChanged;
+
+    /// <summary>Print Calibration Pattern was clicked: the window prints it with the chosen profile.</summary>
+    public event EventHandler? CalibrationRequested;
 
     /// <summary>A problem appeared or went away (<see cref="HasProblems"/>).</summary>
     public event EventHandler? ProblemsChanged;
@@ -265,6 +283,7 @@ public partial class PrinterProfilePanel : UserControl
 
             NameBox.Text = p.Name;
             DpiBox.Text = Format(p.Dpi);
+            VerticalDpiBox.Text = p.VerticalDpi is { } vertical ? Format(vertical) : "";
             WidthCmBox.Text = Format(p.PrintWidthMm / 10);
 
             var t = p.Transport;
@@ -287,7 +306,11 @@ public partial class PrinterProfilePanel : UserControl
             FeedBox.Text = Format(e.FeedLinesAfter);
             Select(CutBox, e.CutAfter ? CutChoice.EveryPage : e.CutAtEnd ? CutChoice.AtEnd : CutChoice.None);
             Select(CutTypeBox, e.CutMode);
+            Select(ImageCommandBox, e.ImageCommand);
             StripHeightBox.Text = Format(e.MaxStripHeight);
+            Select(ColumnModeBox, e.ColumnDensity);
+            LineSpacingBox.Text = Format(e.ColumnLineSpacing);
+            UnidirectionalBox.IsChecked = e.Unidirectional;
             InitializeBox.IsChecked = c.Initialize;
             CopiesBox.Text = Format(c.Copies);
             DrawerBox.IsChecked = e.OpenDrawer;
@@ -437,6 +460,14 @@ public partial class PrinterProfilePanel : UserControl
 
         CutTypeBox.IsEnabled = CutBox.SelectedItem is Choice { Value: not CutChoice.None };
         DrawerFields.IsEnabled = DrawerBox.IsChecked == true;
+
+        // Only the fields of the chosen image command are shown.
+        bool column = p.Commands.EscPos.ImageCommand == EscPosImageCommand.Column;
+        StripHeightLabel.Visibility = StripHeightPanel.Visibility = Shown(!column);
+        ColumnModeLabel.Visibility = ColumnModeBox.Visibility = Shown(column);
+        LineSpacingLabel.Visibility = LineSpacingPanel.Visibility = Shown(column);
+        UnidirectionalBox.Visibility = Shown(column);
+        CalibrateButton.Visibility = CalibrateHelp.Visibility = Shown(column);
         WidthDotsText.Text = p is { Dpi: > 0, PrintWidthDots: > 0 } ? $"= {Format(p.PrintWidthDots)} dots" : "";
         ThresholdText.Text = Format((int)Math.Round(ThresholdSlider.Value));
     }
@@ -479,6 +510,12 @@ public partial class PrinterProfilePanel : UserControl
         if (e.OriginalSource is CheckBox) Commit();
         else if (ReferenceEquals(e.OriginalSource, RecommendedButton) && Selected is { } p)
             ApplyPacing(p, TransportCatalog.RecommendedPacing(p.Transport.Kind));
+        else if (ReferenceEquals(e.OriginalSource, CalibrateButton))
+        {
+            // What is typed but not yet committed is taken first; a problem stops it.
+            Commit();
+            if (!HasProblems) CalibrationRequested?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     // The threshold follows the slider at once on screen; it is saved when the
@@ -544,6 +581,9 @@ public partial class PrinterProfilePanel : UserControl
     {
         p.Name = NameBox.Text.Trim();
         p.Dpi = ReadInt(DpiBox.Text, "Resolution", p.Dpi);
+        // Empty: the dots are square. The same number as across is kept as empty too.
+        p.VerticalDpi = VerticalDpiBox.Text.Trim().Length == 0 ? null : ReadInt(VerticalDpiBox.Text, "Vertical resolution", p.VerticalDpi ?? p.Dpi);
+        if (p.VerticalDpi == p.Dpi) p.VerticalDpi = null;
         p.PrintWidthDots = ReadWidthCm(WidthCmBox.Text, p.Dpi, p.PrintWidthDots);
 
         var t = p.Transport;
@@ -574,7 +614,11 @@ public partial class PrinterProfilePanel : UserControl
             default: (e.CutAfter, e.CutAtEnd) = (false, false); break;
         }
         e.CutMode = Value(CutTypeBox, e.CutMode);
+        e.ImageCommand = Value(ImageCommandBox, e.ImageCommand);
         e.MaxStripHeight = ReadInt(StripHeightBox.Text, "Strip height", e.MaxStripHeight);
+        e.ColumnDensity = Value(ColumnModeBox, e.ColumnDensity);
+        e.ColumnLineSpacing = ReadInt(LineSpacingBox.Text, "Line spacing", e.ColumnLineSpacing);
+        e.Unidirectional = UnidirectionalBox.IsChecked == true;
         c.Initialize = InitializeBox.IsChecked == true;
         c.Copies = ReadInt(CopiesBox.Text, "Copies", c.Copies);
         e.OpenDrawer = DrawerBox.IsChecked == true;

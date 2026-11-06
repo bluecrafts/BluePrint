@@ -202,6 +202,24 @@ public partial class MainWindow
         }
     }
 
+    /// <summary>
+    /// The line spacing pattern of a column (ESC *) profile, over the profile's
+    /// connection - no receipt is needed. See CalibrationPattern.
+    /// </summary>
+    private async Task PrintCalibrationAsync()
+    {
+        if (IsPrinting || CurrentProfile is not { } current || ProfilePanel.HasProblems) return;
+
+        var profile = AppConfigStore.Clone(current);
+        var segments = CalibrationPattern.Segments(profile);
+        var spacings = CalibrationPattern.Spacings(profile.Commands.EscPos.ColumnLineSpacing);
+        var progress = Reporter();
+        await RunAsync(ct => _runner.RunAsync(PrinterConnectionFactory.Create(profile.Transport, $"{AppName} - Calibration"),
+                                              segments, segments.Count, profile.Pacing, progress, ct),
+            r => $"Printed the calibration pattern for line spacing {spacings[0]} to {spacings[^1]} in {Seconds(r.Elapsed)} s.",
+            r => $"Last job: calibration pattern, line spacing {spacings[0]} to {spacings[^1]}.");
+    }
+
     private static string Seconds(TimeSpan elapsed) => elapsed.TotalSeconds.ToString("0.0", CultureInfo.InvariantCulture);
 
     // Save Commands: the same bytes as printing, into a file, without pauses.

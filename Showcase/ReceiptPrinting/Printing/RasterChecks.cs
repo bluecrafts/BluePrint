@@ -1,5 +1,6 @@
 using System.Globalization;
 using BluePrint.Core.Models;
+using BluePrint.Render.Export.Mono.Printers;
 using BluePrint.Render.Models;
 using BluePrint.UI.Controls;
 using ReceiptPrinting.Profiles;
@@ -25,6 +26,14 @@ public static class RasterChecks
     public const double StretchNoticeable = 0.10;
 
     public const string NotAReceipt = "This is not a receipt report. ReceiptPrinting prints canvas reports on roll paper.";
+
+    public const string TwentyFourDot =
+        "Not every printer has the 24-dot column modes. A 9-pin dot matrix printer, such as the Epson TM-U220, " +
+        "has only the 8-dot modes and prints garbage in these.";
+
+    public const string DoubleDensityTall =
+        "On a dot matrix printer, 8-dot double density prints the receipt about twice as tall as designed. " +
+        "Set the vertical resolution (72 dpi for the Epson TM-U220) and double the resolution across, or use single density.";
 
     public const string TooLong =
         "This receipt is longer than 10 m, the most a continuous form can render. Use a paged form for very long documents.";
@@ -53,7 +62,8 @@ public static class RasterChecks
         {
             if (natural > head)
                 result.Add((BpMessageKind.Warning,
-                    $"Image is {natural} dots wide but the print head is {head} dots. The right edge will be cut off."));
+                    $"Image is {natural} dots wide but the print head is {head} dots. The right edge will be cut off. " +
+                    "To fit it, set Image width to Stretch to the print head."));
             else if (natural < head)
                 result.Add((BpMessageKind.Information,
                     $"The receipt is {natural} dots wide on a {head}-dot print head. It prints at the left edge."));
@@ -71,7 +81,18 @@ public static class RasterChecks
             result.Add((BpMessageKind.Information,
                 $"This receipt is {(lengthMm / 1000).ToString("0.0", CultureInfo.InvariantCulture)} m long. Check that the paper roll is long enough."));
 
-        var cutsEveryPage = profile.Commands.EscPos.CutAfter;
+        var escPos = profile.Commands.EscPos;
+        if (escPos.ImageCommand == EscPosImageCommand.Column)
+        {
+            if (escPos.ColumnDensity is EscPosColumnDensity.Single24 or EscPosColumnDensity.Double24)
+                result.Add((BpMessageKind.Warning, TwentyFourDot));   // a TM-U220 prints garbage in it
+            // Without a vertical resolution the image is drawn with square dots; a dot
+            // matrix head is about twice as fine across as down the paper in double density.
+            else if (escPos.ColumnDensity == EscPosColumnDensity.Double8 && profile.VerticalDpi is null)
+                result.Add((BpMessageKind.Warning, DoubleDensityTall));
+        }
+
+        var cutsEveryPage = escPos.CutAfter;
         if (rendered.Pages.Count > 1 && !cutsEveryPage)
             result.Add((BpMessageKind.Information, "Pages print one after another without a cut."));
         // The encoder repeats the image for each copy; only a cut after every page separates them.
