@@ -15,6 +15,9 @@ public static class ProfileValidator
     /// <summary>The tallest block of one GS v 0 command that ESC/POS printers take.</summary>
     public const int MaxStripHeight = 2303;
 
+    /// <summary>The lowest resolution taken: below a dot matrix printer's.</summary>
+    public const int MinDpi = 60;
+
     /// <summary>Problems of one profile, against the others in the same list.</summary>
     public static IEnumerable<Problem> Validate(PrinterProfile p, IEnumerable<PrinterProfile> all)
     {
@@ -23,8 +26,11 @@ public static class ProfileValidator
         else if (all.Any(o => !ReferenceEquals(o, p) && string.Equals(o.Name.Trim(), p.Name.Trim(), StringComparison.OrdinalIgnoreCase)))
             yield return new("Name", "A profile with this name already exists.");
 
-        if (p.Dpi is < 100 or > 1200)
-            yield return new("Resolution", "Must be between 100 and 1200 dpi.");
+        // A dot matrix printer is about 80 dpi across (Epson TM-U220: 200 dots on 63.4 mm).
+        if (p.Dpi is < MinDpi or > 1200)
+            yield return new("Resolution", $"Must be between {MinDpi} and 1200 dpi.");
+        if (p.VerticalDpi is < MinDpi or > 1200)
+            yield return new("Vertical resolution", $"Must be between {MinDpi} and 1200 dpi, or empty.");
         if (p.PrintWidthDots <= 0)
             yield return new("Print width", "Must be more than 0.");
         else if (p.PrintWidthDots % 8 != 0)
@@ -71,6 +77,7 @@ public static class ProfileValidator
         var e = c.EscPos;
         if (e.FeedLinesAfter is < 0 or > 255) yield return new("Feed after image", "Must be between 0 and 255 lines.");
         if (e.MaxStripHeight is < 1 or > MaxStripHeight) yield return new("Strip height", $"Must be between 1 and {MaxStripHeight} dots.");
+        if (e.ColumnLineSpacing is < 1 or > 255) yield return new("Line spacing", "Must be between 1 and 255.");
         if (e.DrawerOnMs is < 0 or > 510) yield return new("Pulse on", "Must be between 0 and 510 ms.");
         if (e.DrawerOffMs is < 0 or > 510) yield return new("Pulse off", "Must be between 0 and 510 ms.");
     }

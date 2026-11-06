@@ -23,6 +23,13 @@ public sealed class PrinterProfile
     /// <summary>Width of the print head in dots. A multiple of 8.</summary>
     public int PrintWidthDots { get; set; } = 576;
 
+    /// <summary>
+    /// Dots per inch down the paper, when the head's dots are not square (a dot
+    /// matrix printer: the Epson TM-U220 is 80 across and 72 down). Null: the same
+    /// as <see cref="Dpi"/>.
+    /// </summary>
+    public int? VerticalDpi { get; set; }
+
     public RasterSettings Raster { get; set; } = new();
     public ReceiptCommands Commands { get; set; } = new();
     public TransportSettings Transport { get; set; } = new();
@@ -45,6 +52,7 @@ public sealed class PrinterProfile
         Name = other.Name;
         Dpi = other.Dpi;
         PrintWidthDots = other.PrintWidthDots;
+        VerticalDpi = other.VerticalDpi;
         Raster = other.Raster;
         Commands = other.Commands;
         Transport = other.Transport;

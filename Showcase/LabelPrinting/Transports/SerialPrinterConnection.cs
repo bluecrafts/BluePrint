@@ -83,7 +83,15 @@ public sealed class SerialPrinterConnection(SerialSettings settings, int writeTi
             // .NET's serial stream checks the token only when the write starts, so
             // a printer that holds CTS low would keep it waiting forever. The
             // timeout is enforced here; disposing the port then cancels the write.
-            await port.BaseStream.WriteAsync(data, ct).AsTask().WaitAsync(TimeSpan.FromMilliseconds(writeTimeoutMs), ct);
+            // It is for a printer that stops taking data, not for the whole piece:
+            // the piece goes about a second of the line at a time, each part within
+            // the timeout - 64 KB at 9600 baud takes over a minute.
+            var slice = SliceBytes(settings.BaudRate);
+            for (var offset = 0; offset < data.Length; offset += slice)
+            {
+                var part = data.Slice(offset, Math.Min(slice, data.Length - offset));
+                await port.BaseStream.WriteAsync(part, ct).AsTask().WaitAsync(TimeSpan.FromMilliseconds(writeTimeoutMs), ct);
+            }
         }
         catch (TimeoutException ex) when (!ct.IsCancellationRequested)
         {
@@ -95,20 +103,30 @@ public sealed class SerialPrinterConnection(SerialSettings settings, int writeTi
         }
     }
 
-    /// <summary>Waits until the driver has sent everything: closing earlier could cut off the end of the job.</summary>
+    /// <summary>
+    /// Waits until the driver has sent everything: closing earlier could cut off the end of the job.
+    /// The timeout starts again whenever the printer takes more data.
+    /// </summary>
     public async Task FlushAsync(CancellationToken ct)
     {
         var port = _port ?? throw new InvalidOperationException("The COM port is not open.");
         var deadline = DateTime.UtcNow.AddMilliseconds(writeTimeoutMs);
-        while (port.BytesToWrite > 0)
+        var left = port.BytesToWrite;
+        while (left > 0)
         {
             if (DateTime.UtcNow > deadline) throw new IOException(TimeoutMessage(port));
             await Task.Delay(20, ct);
+            var now = port.BytesToWrite;
+            if (now < left) deadline = DateTime.UtcNow.AddMilliseconds(writeTimeoutMs);
+            left = now;
         }
     }
 
+    /// <summary>About one second of the line (a byte is 10 bits on the wire), at least 64 bytes.</summary>
+    public static int SliceBytes(int baudRate) => Math.Max(64, baudRate / 10);
+
     private string TimeoutMessage(SerialPort port) =>
-        $"Sending to {port.PortName} timed out after {writeTimeoutMs} ms. Check that the printer is on and has paper, " +
+        $"Sending to {port.PortName} timed out: the printer took no data for {writeTimeoutMs} ms. Check that the printer is on and has paper, " +
         $"that flow control ({HandshakeName(settings.Handshake)}) matches the printer, or send smaller chunks with a longer delay.";
 
     public ValueTask DisposeAsync()

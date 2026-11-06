@@ -64,6 +64,7 @@ public partial class MainWindow
         ProfilePanel.ProfileChanged += (_, _) => OnProfileEdited();
         ProfilePanel.ListChanged += (_, _) => ShowProfileList();
         ProfilePanel.ProblemsChanged += (_, _) => ShowPrintState();
+        ProfilePanel.CalibrationRequested += async (_, _) => await PrintCalibrationAsync();
 
         ProfilePanel.Attach(_profiles, _config.App.SelectedProfile);
         ShowProfileList();

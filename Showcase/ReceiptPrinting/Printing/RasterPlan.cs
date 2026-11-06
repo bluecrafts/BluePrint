@@ -23,6 +23,8 @@ public static class RasterPlan
     {
         WidthDots = profile.Raster.ImageWidth == ImageWidthMode.PrintHead ? profile.PrintWidthDots : null,
         Dpi = profile.Dpi,
+        // Dots that are not square (dot matrix): drawn squeezed down the paper, so they print to size.
+        VerticalDpi = profile.VerticalDpi,
         Threshold = (byte)Math.Clamp(profile.Raster.Threshold, 0, 255),
         DitherScope = profile.Raster.DitherScope,
         DitherAlgorithm = profile.Raster.DitherAlgorithm,

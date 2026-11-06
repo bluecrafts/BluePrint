@@ -66,6 +66,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBlock Text="Name" Style="{StaticResource FieldLabel}" />
                             <TextBox Grid.Column="1" x:Name="NameBox" Margin="0,0,0,6" AutomationProperties.Name="Name" />
@@ -73,12 +74,20 @@
                             <TextBlock Grid.Row="1" Text="Resolution" Style="{StaticResource FieldLabel}" />
                             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,6">
                                 <ComboBox x:Name="DpiBox" IsEditable="True" MinWidth="80" AutomationProperties.Name="Resolution"
-                                          ToolTip="Dots per inch of the print head: 203 for most receipt printers, 180 for some" />
+                                          ToolTip="Dots per inch of the print head: 203 for most receipt printers, 180 for some, about 80 for a dot matrix printer" />
                                 <TextBlock Text="dpi" VerticalAlignment="Center" Margin="6,0,0,0" />
                             </StackPanel>
 
-                            <TextBlock Grid.Row="2" Text="Print width" Style="{StaticResource FieldLabel}" Margin="0,0,8,0" />
-                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Grid.Row="2" Text="Vertical" Style="{StaticResource FieldLabel}" />
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,6">
+                                <TextBox x:Name="VerticalDpiBox" MinWidth="80" AutomationProperties.Name="Vertical resolution"
+                                         ToolTip="Dots per inch down the paper, when it differs from across: 72 for the Epson TM-U220 dot matrix printer. Leave empty for a thermal printer." />
+                                <TextBlock Text="dpi" VerticalAlignment="Center" Margin="6,0,8,0" />
+                                <TextBlock Text="empty = same" VerticalAlignment="Center" Style="{DynamicResource Bp.Text.Caption}" />
+                            </StackPanel>
+
+                            <TextBlock Grid.Row="3" Text="Print width" Style="{StaticResource FieldLabel}" Margin="0,0,8,0" />
+                            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
                                 <TextBox x:Name="WidthCmBox" MinWidth="80" AutomationProperties.Name="Print width"
                                          ToolTip="Width of the print head: 7.2 cm on 80 mm paper, 4.8 cm on 58 mm paper. It is rounded to a whole number of bytes (8 dots)." />
                                 <TextBlock Text="cm" VerticalAlignment="Center" Margin="6,0,8,0" />
@@ -210,7 +219,6 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <TextBlock Text="Feed after image" Style="{StaticResource FieldLabel}" />
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,6">
@@ -225,21 +233,66 @@
                                 <ComboBox Grid.Row="2" Grid.Column="1" x:Name="CutTypeBox" DisplayMemberPath="Name" MinWidth="80"
                                           HorizontalAlignment="Left" Margin="0,0,0,6" AutomationProperties.Name="Cut type"
                                           ToolTip="A partial cut leaves the receipt hanging by a thread. Some printers only cut partially." />
-                                <TextBlock Grid.Row="3" Text="Strip height" Style="{StaticResource FieldLabel}" />
-                                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,6">
-                                    <TextBox x:Name="StripHeightBox" MinWidth="80" AutomationProperties.Name="Strip height"
-                                             ToolTip="The image is sent in blocks of this many rows of dots (1-2303). 255 suits every printer; larger blocks need a printer with more memory." />
-                                    <TextBlock Text="dots" VerticalAlignment="Center" Margin="6,0,0,0" />
-                                </StackPanel>
-                                <CheckBox Grid.Row="4" Grid.Column="1" x:Name="InitializeBox" Content="Initialize printer" Margin="0,0,0,6"
+                                <CheckBox Grid.Row="3" Grid.Column="1" x:Name="InitializeBox" Content="Initialize printer" Margin="0,0,0,6"
                                           ToolTip="Reset the printer's settings at the start of each job" />
-                                <TextBlock Grid.Row="5" Text="Copies" Style="{StaticResource FieldLabel}" Margin="0,0,8,0" />
-                                <TextBox Grid.Row="5" Grid.Column="1" x:Name="CopiesBox" MinWidth="80" HorizontalAlignment="Left"
+                                <TextBlock Grid.Row="4" Text="Copies" Style="{StaticResource FieldLabel}" Margin="0,0,8,0" />
+                                <TextBox Grid.Row="4" Grid.Column="1" x:Name="CopiesBox" MinWidth="80" HorizontalAlignment="Left"
                                          AutomationProperties.Name="Copies"
                                          ToolTip="Copies of each receipt (1-99). The Print panel starts from this number." />
                             </Grid>
                             <TextBlock Style="{DynamicResource Bp.Text.Caption}" Margin="0,6,0,0"
                                        Text="Feed moves the paper past the cutter. Printers without a cutter ignore the cut command." />
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Image command: GS v 0 (raster) or ESC * (column) -->
+                    <Expander x:Name="ImageCommandGroup" Tag="imagecommand" Header="Image command">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Command" Style="{StaticResource FieldLabel}" />
+                                <ComboBox Grid.Column="1" x:Name="ImageCommandBox" DisplayMemberPath="Name" Margin="0,0,0,6"
+                                          AutomationProperties.Name="Image command"
+                                          ToolTip="Raster suits most thermal printers. Dot matrix printers, and printers that print nothing or garbage with Raster, need Column." />
+
+                                <!-- Raster (GS v 0) -->
+                                <TextBlock Grid.Row="1" x:Name="StripHeightLabel" Text="Strip height" Style="{StaticResource FieldLabel}" />
+                                <StackPanel Grid.Row="1" Grid.Column="1" x:Name="StripHeightPanel" Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBox x:Name="StripHeightBox" MinWidth="80" AutomationProperties.Name="Strip height"
+                                             ToolTip="The image is sent in blocks of this many rows of dots (1-2303). 255 suits every printer; larger blocks need a printer with more memory." />
+                                    <TextBlock Text="dots" VerticalAlignment="Center" Margin="6,0,0,0" />
+                                </StackPanel>
+
+                                <!-- Column (ESC *) -->
+                                <TextBlock Grid.Row="2" x:Name="ColumnModeLabel" Text="Column mode" Style="{StaticResource FieldLabel}" />
+                                <ComboBox Grid.Row="2" Grid.Column="1" x:Name="ColumnModeBox" DisplayMemberPath="Name" Margin="0,0,0,6"
+                                          AutomationProperties.Name="Column mode"
+                                          ToolTip="How many dots each pass prints from top to bottom, and how close together across. A 9-pin dot matrix printer has only the 8-dot modes." />
+                                <TextBlock Grid.Row="3" x:Name="LineSpacingLabel" Text="Line spacing" Style="{StaticResource FieldLabel}" />
+                                <StackPanel Grid.Row="3" Grid.Column="1" x:Name="LineSpacingPanel" Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBox x:Name="LineSpacingBox" MinWidth="80" AutomationProperties.Name="Line spacing"
+                                             ToolTip="How far the paper moves after each pass (1-255, in the printer's own units). Too much leaves white lines between the passes; too little prints them over each other. 16 suits the Epson TM-U220." />
+                                    <TextBlock Text="units" VerticalAlignment="Center" Margin="6,0,0,0" />
+                                </StackPanel>
+                                <CheckBox Grid.Row="4" Grid.Column="1" x:Name="UnidirectionalBox" Content="Print in one direction"
+                                          ToolTip="The head prints only while moving one way: slower, but vertical lines of the image stay straight on a dot matrix printer." />
+                            </Grid>
+                            <Button x:Name="CalibrateButton" Content="Print Calibration Pattern" HorizontalAlignment="Left" Margin="0,8,0,0"
+                                    ToolTip="Prints a test block with five line spacings around this one, each labelled with its number" />
+                            <TextBlock x:Name="CalibrateHelp" Style="{DynamicResource Bp.Text.Caption}" Margin="0,6,0,0"
+                                       Text="Choose the number whose black bar has no white lines and whose diagonal lines are straight." />
+                            <TextBlock Style="{DynamicResource Bp.Text.Caption}" Margin="0,6,0,0"
+                                       Text="Column sends the image in passes 8 or 24 dots high, for printers that do not have the raster command." />
                         </StackPanel>
                     </Expander>
 

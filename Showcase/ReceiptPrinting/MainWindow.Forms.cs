@@ -21,6 +21,7 @@ public sealed class FormEntry
 {
     public const string Paper80 = "80 mm paper";
     public const string Paper58 = "58 mm paper";
+    public const string Paper75 = "75 mm paper";
     public const string Other = "Other";
 
     public required string Path { get; init; }
@@ -29,7 +30,7 @@ public sealed class FormEntry
     /// <summary>"72 mm - Continuous" or "72 mm - Paged, 200 mm pages"; "(cannot be read)" when the file is not a report.</summary>
     public required string Detail { get; init; }
 
-    /// <summary><see cref="Paper80"/>, <see cref="Paper58"/> or <see cref="Other"/>.</summary>
+    /// <summary><see cref="Paper80"/>, <see cref="Paper58"/>, <see cref="Paper75"/> or <see cref="Other"/>.</summary>
     public required string Group { get; init; }
 
     /// <summary>Opened with File > Open Form, not found in Samples.</summary>
@@ -37,15 +38,16 @@ public sealed class FormEntry
 
     public bool CanRead { get; init; } = true;
 
-    /// <summary>Order of the groups in the list: 80 mm, 58 mm, then the rest.</summary>
-    public int GroupOrder => Group switch { Paper80 => 0, Paper58 => 1, _ => 2 };
+    /// <summary>Order of the groups in the list: 80 mm, 58 mm, 75 mm, then the rest.</summary>
+    public int GroupOrder => Group switch { Paper80 => 0, Paper58 => 1, Paper75 => 2, _ => 3 };
 
     // The name screen readers and UI Automation give the list item.
     public override string ToString() => Name;
 
     /// <summary>
     /// Reads only what the list shows: the page of the report. The paper a form is for comes
-    /// from the width it prints: 64 to 80 mm on 80 mm paper, 40 to 58 mm on 58 mm paper.
+    /// from the width it prints: 64 to 80 mm on 80 mm paper, 40 to 58 mm on 58 mm paper, and
+    /// 60 to 64 mm on 75 mm paper - the 63.5 mm of a dot matrix printer such as the Epson TM-U220.
     /// </summary>
     public static FormEntry Read(string path, bool external = false)
     {
@@ -57,7 +59,11 @@ public sealed class FormEntry
             string detail = page.HeightMode == PageHeightMode.Continuous
                 ? $"{width} - Continuous"
                 : $"{width} - Paged, {page.PaperSize.HeightMm.ToString("0.#", CultureInfo.InvariantCulture)} mm pages";
-            string group = external ? Other : w is >= 64 and <= 80 ? Paper80 : w is >= 40 and <= 58 ? Paper58 : Other;
+            string group = external ? Other
+                : w is >= 64 and <= 80 ? Paper80
+                : w is >= 40 and <= 58 ? Paper58
+                : w is >= 60 and < 64 ? Paper75
+                : Other;
             return new FormEntry { Path = path, Detail = detail, Group = group, IsExternal = external };
         }
         catch (Exception ex) when (ex is not OutOfMemoryException)
