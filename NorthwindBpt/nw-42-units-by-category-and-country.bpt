@@ -1,0 +1,499 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Units by Category and Country",
+    "description": "Units shipped per product category and destination country. The country headings are printed at 90 degrees so all 21 countries fit across one landscape page.",
+    "author": "BluePrint"
+  },
+  "report": {
+    "type": "crosstab",
+    "layoutUnit": "cm",
+    "page": {
+      "paperSize": {
+        "name": "A4",
+        "widthMm": 210,
+        "heightMm": 297
+      },
+      "orientation": "landscape",
+      "margins": {
+        "top": 1.5,
+        "bottom": 1.5,
+        "left": 1.5,
+        "right": 1.5
+      },
+      "backgroundColor": "#FFFFFF"
+    },
+    "crosstabDefinition": {
+      "rows": [
+        {
+          "field": "Category",
+          "sort": "asc",
+          "subtotal": false
+        }
+      ],
+      "columns": [
+        {
+          "field": "Country",
+          "sort": "asc",
+          "subtotal": false
+        }
+      ],
+      "values": [
+        {
+          "source": "Units",
+          "aggregate": "sum",
+          "format": "#,##0"
+        }
+      ],
+      "totals": {
+        "rowGrand": true,
+        "colGrand": true,
+        "grand": true
+      },
+      "emptyCell": "-",
+      "columnGuard": {
+        "maxColumns": 256,
+        "maxPages": 10,
+        "onExceed": "warn"
+      }
+    }
+  },
+  "dataSource": {
+    "dataSourceType": "dbsql",
+    "sql": "SELECT c.CategoryName AS Category, o.ShipCountry AS Country, od.Quantity AS Units\nFROM Orders o\nJOIN {bp:Name(Order Details)} od ON od.OrderID = o.OrderID\nJOIN Products p ON p.ProductID = od.ProductID\nJOIN Categories c ON c.CategoryID = p.CategoryID\nORDER BY c.CategoryName, o.ShipCountry",
+    "columns": [
+      {
+        "name": "Category",
+        "dbType": "string"
+      },
+      {
+        "name": "Country",
+        "dbType": "string"
+      },
+      {
+        "name": "Units",
+        "dbType": "int64"
+      }
+    ]
+  },
+  "sortColumns": [],
+  "sections": [
+    {
+      "type": "reportHeader",
+      "height": 1.9,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "AccentBar",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 26.7,
+            "h": 0.12
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 2,
+            "foreColor": "#1F5FAD",
+            "backColor": "#1F5FAD",
+            "hAlign": "left",
+            "vAlign": "top"
+          },
+          "text": ""
+        },
+        {
+          "name": "Title",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0.3,
+            "w": 26.7,
+            "h": 0.9
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 18,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Units by Category and Country"
+        },
+        {
+          "name": "Subtitle",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 1.2,
+            "w": 26.7,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "text": "Units shipped per product category and destination country. Country headings are turned 90 degrees so 21 countries fit on one landscape page."
+        }
+      ]
+    },
+    {
+      "type": "pageHeader",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
+    },
+    {
+      "type": "crosstabColumnHeader",
+      "height": 2.4,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "xtab_corner_0_0",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 3.2,
+            "h": 2.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#EFEFEF",
+            "hAlign": "left",
+            "vAlign": "bottom",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Category"
+        },
+        {
+          "name": "xtab_colvalue_0",
+          "type": "field",
+          "bounds": {
+            "x": 3.2,
+            "y": 0,
+            "w": 1.05,
+            "h": 2.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#EFEFEF",
+            "hAlign": "center",
+            "vAlign": "bottom",
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "",
+          "source": "Country",
+          "textAngle": 90
+        },
+        {
+          "name": "xtab_coltotal",
+          "type": "label",
+          "bounds": {
+            "x": 4.25,
+            "y": 0,
+            "w": 1.4,
+            "h": 2.4
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#EFEFEF",
+            "hAlign": "center",
+            "vAlign": "bottom",
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Grand Total",
+          "textAngle": 90
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "height": 0.7,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "alternateBackColor": "#F7F9FC",
+      "elements": [
+        {
+          "name": "xtab_row_0",
+          "type": "field",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 3.2,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "",
+          "source": "Category"
+        },
+        {
+          "name": "xtab_value_0",
+          "type": "field",
+          "bounds": {
+            "x": 3.2,
+            "y": 0,
+            "w": 1.05,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "",
+          "source": "Units",
+          "format": "#,##0"
+        },
+        {
+          "name": "xtab_rowtotal_0",
+          "type": "field",
+          "bounds": {
+            "x": 4.25,
+            "y": 0,
+            "w": 1.4,
+            "h": 0.7
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "",
+          "source": "Units",
+          "format": "#,##0"
+        }
+      ]
+    },
+    {
+      "type": "crosstabGrandTotal",
+      "height": 0.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "xtab_grand_label",
+          "type": "label",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "w": 3.2,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#EFEFEF",
+            "hAlign": "left",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "Grand Total"
+        },
+        {
+          "name": "xtab_grand_value_0",
+          "type": "field",
+          "bounds": {
+            "x": 3.2,
+            "y": 0,
+            "w": 1.05,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#EFEFEF",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "",
+          "source": "Units",
+          "format": "#,##0"
+        },
+        {
+          "name": "xtab_grand_total_0",
+          "type": "field",
+          "bounds": {
+            "x": 4.25,
+            "y": 0,
+            "w": 1.4,
+            "h": 0.8
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9.5,
+            "bold": true,
+            "foreColor": "#1F2937",
+            "backColor": "#EFEFEF",
+            "hAlign": "right",
+            "vAlign": "middle",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05,
+            "border": {
+              "uniform": true,
+              "all": {
+                "style": "solid",
+                "color": "#9A9A9A",
+                "width": 0.5
+              }
+            }
+          },
+          "text": "",
+          "source": "Units",
+          "format": "#,##0"
+        }
+      ]
+    },
+    {
+      "type": "reportFooter",
+      "height": 0,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": []
+    },
+    {
+      "type": "pageFooter",
+      "height": 0.8,
+      "repeatOnNewPage": true,
+      "backColor": "Transparent",
+      "elements": [
+        {
+          "name": "PageInfo",
+          "type": "computed",
+          "bounds": {
+            "x": 20.7,
+            "y": 0.1,
+            "w": 6,
+            "h": 0.6
+          },
+          "style": {
+            "fontFamily": "Segoe UI",
+            "fontSize": 8.5,
+            "foreColor": "#6B7280",
+            "backColor": "Transparent",
+            "hAlign": "right",
+            "vAlign": "top",
+            "paddingLeft": 0.1,
+            "paddingRight": 0.05
+          },
+          "expression": "\"Page \" + Page() + \" of \" + TotalPages()"
+        }
+      ]
+    }
+  ],
+  "noDataShowStructure": true,
+  "paddingFullPage": false,
+  "slotData": []
+}

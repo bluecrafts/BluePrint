@@ -1,6 +1,6 @@
 # Northwind Reports
 
-Thirty-eight reports built on the classic **Northwind** sample database, running on **SQLite** - a
+Forty-two reports built on the classic **Northwind** sample database, running on **SQLite** - a
 single file, no server, nothing to install.
 
 These cover the things the [external-data samples](../SampleReport/README.md) cannot: real queries, retrieval
@@ -165,6 +165,23 @@ source language. The product and category names come from the database and are n
 Translated text is often longer than the original: the German column headings were shortened to fit
 the narrow number columns. Check every language by eye when you add one.
 
+## Column headings turned on their side
+
+[`nw-42-units-by-category-and-country.bpt`](nw-42-units-by-category-and-country.bpt) is a crosstab of
+the units shipped in each product category to each of the 21 destination countries. Written across,
+the country names would need columns several times wider than the numbers under them; turned 90 degrees
+they need only the height of one line, so the whole table fits on one landscape page.
+
+The turn is one setting on the column heading template: `"textAngle": 90`. Positive angles turn the
+text counter-clockwise, so the names read from bottom to top. `vAlign: bottom` starts every name at the
+same line just above the numbers, and `hAlign: center` keeps it in the middle of its column. Only the
+text turns: the cell, its border and its background stay upright, so the headings still line up as a
+table. The Grand Total heading is turned the same way.
+
+In the Designer the setting is **Text angle** in the Font & Style group of the property panel, and the
+canvas shows the text turned as it will print. Any angle from -90 to 90 works; 90 and -90 suit column
+headings best.
+
 ---
 
 ## Running the invoice
@@ -230,6 +247,7 @@ day of the range is included rather than dropped at midnight.
 | Page numbers used in arithmetic and conditions, such as a line on the last page only | 40 |
 | Colours and conditional formats that depend on the page | 40 |
 | One report in several languages - translated labels, `Tr()`, `Language()` and a number format per language | 41 |
+| Column headings turned 90 degrees, so many narrow columns fit on one page (`textAngle`) | 42 |
 
 ---
 

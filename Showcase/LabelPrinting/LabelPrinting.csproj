@@ -17,7 +17,7 @@
       printer command encoders. The connection to the printer (TCP, USB, Windows
       spooler, serial port) is this application's own code.
     -->
-    <PackageReference Include="BlueCrafts.BluePrint.Designer" Version="1.6.125" />
+    <PackageReference Include="BlueCrafts.BluePrint.Designer" Version="1.6.134" />
     <!-- Serial and Bluetooth printers (a paired Bluetooth printer is a COM port). -->
     <PackageReference Include="System.IO.Ports" Version="10.0.12" />
   </ItemGroup>

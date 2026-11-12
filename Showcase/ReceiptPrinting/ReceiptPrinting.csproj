@@ -18,7 +18,7 @@
       printed, not edited. The connection to the printer (TCP, USB, Windows
       spooler, serial port) is this application's own code.
     -->
-    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.6.125" />
+    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.6.134" />
     <!-- The sample data: the Northwind database in SQLite. -->
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.13" />
     <!-- Microsoft.Data.Sqlite on its own brings an older SQLite with a known vulnerability. -->
