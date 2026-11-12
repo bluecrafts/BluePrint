@@ -188,6 +188,33 @@ receipt to one of 5,000 lines. `Localization` prints one invoice report in seven
 languages - English, German, Japanese, Korean, Thai, Lao and Chinese - with the
 dates, numbers and fonts of each, and shows seven ways to keep the translations,
 from inside the report to files and a translator's CSV file.
+`SharingHTMLReportsViaEmail` sends one of seven monthly Northwind reports -
+tables, charts and a crosstab - as HTML in the body of an email, with inline
+styles that Gmail and Outlook keep and the charts as pictures inside the
+message, through SMTP, an `.eml` file or your own mail program.
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <a href="Showcase/LabelPrinting"><img src="Showcase/LabelPrinting/media/labelprinting-preview.png" alt="LabelPrinting: the Preview tab with product labels as the 1-bit image the printer will receive" width="380"></a><br>
+      <a href="Showcase/LabelPrinting"><code>LabelPrinting</code></a>
+    </td>
+    <td align="center" width="50%">
+      <a href="Showcase/ReceiptPrinting"><img src="Showcase/ReceiptPrinting/media/receiptprinting-main.png" alt="ReceiptPrinting: an 80 mm receipt for a Northwind order as the 1-bit image the printer will receive, with the printer profile beside it" width="380"></a><br>
+      <a href="Showcase/ReceiptPrinting"><code>ReceiptPrinting</code></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <a href="Showcase/Localization"><img src="Showcase/Localization/media/localization-main.png" alt="Localization: a Northwind invoice in Thai, with the language list and the translation sources beside it" width="380"></a><br>
+      <a href="Showcase/Localization"><code>Localization</code></a>
+    </td>
+    <td align="center" width="50%">
+      <a href="Showcase/SharingHTMLReportsViaEmail"><img src="Showcase/SharingHTMLReportsViaEmail/media/sharinghtml-email.png" alt="SharingHTMLReportsViaEmail: the Monthly Sales Dashboard for April 1998 as the email will be sent, with its three charts, and the email settings beside it" width="380"></a><br>
+      <a href="Showcase/SharingHTMLReportsViaEmail"><code>SharingHTMLReportsViaEmail</code></a>
+    </td>
+  </tr>
+</table>
 
 [`SampleReport/`](SampleReport/) holds finished `.bpt` report templates you can open
 in Studio directly, five of which need no data source at all.

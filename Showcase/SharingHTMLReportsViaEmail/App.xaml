@@ -1,0 +1,15 @@
+<Application x:Class="SharingHtmlReports.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- The shared BluePrint theme, merged once at the root. Every window and
+                     dialog of this application, and the preview, take their colours,
+                     fonts and spacing from it. -->
+                <ResourceDictionary Source="pack://application:,,,/BluePrint.UI;component/Themes/BluePrintTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

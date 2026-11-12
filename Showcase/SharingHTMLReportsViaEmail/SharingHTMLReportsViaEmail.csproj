@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SharingHtmlReports</RootNamespace>
+    <!-- The icon of the executable; the windows use it as well (title bar and taskbar). -->
+    <ApplicationIcon>app.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      One package brings everything this application uses from BluePrint: the
+      preview, the render engine and the HTML export. There is no designer: the
+      reports are opened, shown and sent, not edited. The email itself is put
+      together and sent with System.Net.Mail of .NET: no mail library is needed.
+    -->
+    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.6.134" />
+    <!-- The sample data: the Northwind database in SQLite. -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.13" />
+    <!-- Microsoft.Data.Sqlite on its own brings an older SQLite with a known vulnerability. -->
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The monthly reports, next to the executable: the Reports list shows every .bpt file in Samples. -->
+    <None Include="Samples\**" CopyToOutputDirectory="PreserveNewest" />
+    <!-- The Northwind database of this repository, opened read-only. -->
+    <None Include="..\..\NorthwindDB\SQLite\northwind.db" Link="northwind.db" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
