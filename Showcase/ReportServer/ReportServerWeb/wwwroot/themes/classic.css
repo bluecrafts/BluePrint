@@ -1,0 +1,48 @@
+/*
+  Classic - light, the way a PDF viewer shows a document: white pages on grey.
+
+  A theme is CSS variables only. The same file is linked into the web page and
+  into the report page inside the viewer:
+    --app-*    the web page (css/app.css)
+    --viewer-* --paper-*   around a page in the Paper layout (css/frame.css)
+    --t-*      the whole table in the Table layout (css/frame.css)
+  Copy this file, change the values, and add it to the list in js/app.js.
+*/
+:root {
+  color-scheme: light;
+
+  --app-bg: #eef1f4;
+  --app-surface: #ffffff;
+  --app-surface-2: #f6f8fa;
+  --app-text: #1f2937;
+  --app-muted: #5b6673;
+  --app-border: #d6dbe1;
+  --app-accent: #1f5fad;
+  --app-accent-text: #ffffff;
+  --app-accent-soft: #e3edf9;
+  --app-danger: #b42318;
+  --app-stage: #525659;
+
+  --viewer-bg: #525659;
+  --paper-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  --paper-radius: 0;
+  --paper-outline: 0;
+  --paper-filter: none;
+  --paper-image-filter: none;
+
+  --t-font: "Inter", sans-serif;
+  --t-size: 13px;
+  --t-pad: 4px 8px;
+  --t-page-bg: #ffffff;
+  --t-text: #1f2937;
+  --t-muted: #5b6673;
+  --t-line: #e3e7ec;
+  --t-zebra: #f7f9fc;
+  --t-head-bg: #f1f4f8;
+  --t-head-text: #1f2937;
+  --t-group-bg: #ffffff;
+  --t-group-text: #1f5fad;
+  --t-accent: #1f5fad;
+  --t-radius: 0;
+  --t-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}

@@ -1,0 +1,39 @@
+/* Ocean - bright and modern: rounded pages on a blue backdrop, coloured headings. */
+:root {
+  color-scheme: light;
+
+  --app-bg: #e8f1fb;
+  --app-surface: #ffffff;
+  --app-surface-2: #f2f7fd;
+  --app-text: #0f2a44;
+  --app-muted: #4d6a86;
+  --app-border: #c8daee;
+  --app-accent: #0b72d9;
+  --app-accent-text: #ffffff;
+  --app-accent-soft: #dcebfb;
+  --app-danger: #c0262d;
+  --app-stage: #1d4f86;
+
+  --viewer-bg: linear-gradient(160deg, #1d4f86 0%, #2a7bc4 100%);
+  --paper-shadow: 0 12px 32px rgba(5, 30, 60, 0.45);
+  --paper-radius: 10px;
+  --paper-outline: 0;
+  --paper-filter: none;
+  --paper-image-filter: none;
+
+  --t-font: "Inter", sans-serif;
+  --t-size: 13px;
+  --t-pad: 7px 12px;
+  --t-page-bg: #ffffff;
+  --t-text: #0f2a44;
+  --t-muted: #4d6a86;
+  --t-line: #e3edf8;
+  --t-zebra: #f5f9fe;
+  --t-head-bg: #0b72d9;
+  --t-head-text: #ffffff;
+  --t-group-bg: #e6f1fc;
+  --t-group-text: #0b4f99;
+  --t-accent: #084f98;
+  --t-radius: 10px;
+  --t-shadow: 0 12px 32px rgba(5, 30, 60, 0.45);
+}

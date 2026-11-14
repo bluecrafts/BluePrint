@@ -1,0 +1,160 @@
+/*
+  frame.css - linked into every report page shown in the viewer (the iframe).
+
+  The HTML of a page comes from ReportServerAPI exactly as BluePrint exports it.
+  The viewer adds three stylesheets at the end of its <head>:
+
+    /api/fonts/fonts.css   the fonts the server measured the text with
+    /css/frame.css         this file: the rules every theme shares
+    /themes/<name>.css     the theme: CSS variables only
+
+  and two classes on <html>: rs-frame, and rs-paper or rs-table for the layout.
+
+  Paper layout - BluePrint's own markup (.bp-page, .bp-el, position:absolute). The
+  theme changes what is AROUND the page: the background, the frame, a colour
+  filter. Inside the page every element keeps the report's fonts and colours, so
+  it still matches the PDF.
+
+  Table layout - a plain <table> with no style of BluePrint at all. Here the theme
+  decides everything: fonts, colours, lines, stripes.
+*/
+
+/* ---- shared --------------------------------------------------------------- */
+html.rs-frame body {
+  margin: 0;
+  padding: 24px 16px;
+  background: var(--viewer-bg);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* ---- Paper layout --------------------------------------------------------- */
+html.rs-paper .bp-page {
+  margin: 0 auto;
+  box-shadow: var(--paper-shadow);
+  border-radius: var(--paper-radius);
+  outline: var(--paper-outline);
+  filter: var(--paper-filter);
+}
+
+/* A filter that turns the page dark also turns pictures into negatives: turn them back. */
+html.rs-paper .bp-img {
+  filter: var(--paper-image-filter);
+}
+
+/* ---- Table layout --------------------------------------------------------- */
+html.rs-table table {
+  /* border="1" of the markup is replaced by the lines below */
+  border: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0 auto;
+  background: var(--t-page-bg);
+  color: var(--t-text);
+  font-family: var(--t-font);
+  font-size: var(--t-size);
+  line-height: 1.45;
+  box-shadow: var(--t-shadow);
+  border-radius: var(--t-radius);
+  overflow: hidden;
+}
+
+html.rs-table td,
+html.rs-table th {
+  border: 0;
+  border-bottom: 1px solid var(--t-line);
+  padding: var(--t-pad);
+  text-align: left;
+  vertical-align: top;
+  font-weight: 400;
+}
+
+/* BluePrint writes the alignment of the report as align="..." on every heading and
+   on figures; follow it. */
+html.rs-table [align="right"] {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+html.rs-table [align="center"] {
+  text-align: center;
+}
+
+/* The first row only sets the width of the columns. */
+html.rs-table tr:first-child > td {
+  padding: 0;
+  border: 0;
+  height: 0;
+}
+
+/* Stripes on every other row. */
+html.rs-table tr:nth-child(even) > td {
+  background: var(--t-zebra);
+}
+
+/* Column headings: a row with more than one heading cell. */
+html.rs-table tr:has(> th + th) > th {
+  background: var(--t-head-bg);
+  color: var(--t-head-text);
+  font-weight: 600;
+  border-bottom: 2px solid var(--t-accent);
+}
+
+/* A group heading or total: a row that starts with a cell across several columns. */
+html.rs-table tr:has(> td:first-child[colspan]) > td {
+  background: var(--t-group-bg);
+  color: var(--t-group-text);
+  font-weight: 600;
+}
+
+/* Titles and the page footer: a row with a single heading cell. */
+html.rs-table tr:has(> th:only-of-type) > th,
+html.rs-table tr:has(> th:only-of-type) > td {
+  background: transparent;
+  color: var(--t-muted);
+  border-bottom: 0;
+}
+
+/* ---- printing ------------------------------------------------------------- */
+@media print {
+  /* Print the page as the report draws it: no zoom, no frame, no filter. */
+  html.rs-frame {
+    zoom: 1 !important;
+  }
+
+  html.rs-frame body {
+    padding: 0;
+    background: #fff;
+    min-height: 0;
+  }
+
+  html.rs-paper .bp-page,
+  html.rs-paper .bp-img {
+    box-shadow: none;
+    border-radius: 0;
+    outline: 0;
+    filter: none;
+  }
+
+  /* A dark theme prints dark text on white paper. */
+  html.rs-frame.rs-table {
+    --t-page-bg: #fff;
+    --t-text: #000;
+    --t-muted: #444;
+    --t-line: #bbb;
+    --t-zebra: #f2f2f2;
+    --t-head-bg: #e6e6e6;
+    --t-head-text: #000;
+    --t-group-bg: #f2f2f2;
+    --t-group-text: #000;
+    --t-accent: #000;
+    --t-shadow: none;
+  }
+
+  html.rs-table table {
+    box-shadow: none;
+    border-radius: 0;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

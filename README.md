@@ -192,6 +192,11 @@ from inside the report to files and a translator's CSV file.
 tables, charts and a crosstab - as HTML in the body of an email, with inline
 styles that Gmail and Outlook keep and the charts as pictures inside the
 message, through SMTP, an `.eml` file or your own mail program.
+`ReportServer` is an ASP.NET Core API and a web page: it renders six Northwind
+reports - among them invoices with a Code 128 barcode and a QR code - with the
+conditions picked in the browser, sends them one page at a
+time as HTML, restyles them with CSS themes and prints the page on the screen or
+downloads a PDF - on Windows, on Linux or in Docker.
 
 <table>
   <tr>
@@ -212,6 +217,16 @@ message, through SMTP, an `.eml` file or your own mail program.
     <td align="center" width="50%">
       <a href="Showcase/SharingHTMLReportsViaEmail"><img src="Showcase/SharingHTMLReportsViaEmail/media/sharinghtml-email.png" alt="SharingHTMLReportsViaEmail: the Monthly Sales Dashboard for April 1998 as the email will be sent, with its three charts, and the email settings beside it" width="380"></a><br>
       <a href="Showcase/SharingHTMLReportsViaEmail"><code>SharingHTMLReportsViaEmail</code></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <a href="Showcase/ReportServer"><img src="Showcase/ReportServer/media/reportserver-paper.png" alt="ReportServer: the Sales Dashboard of 1997 in the browser, one page from the server, with the reports and their conditions beside it" width="380"></a><br>
+      <a href="Showcase/ReportServer"><code>ReportServer</code></a>
+    </td>
+    <td align="center" width="50%">
+      <a href="Showcase/ReportServer"><img src="Showcase/ReportServer/media/reportserver-table.png" alt="ReportServer: a page of Sales by Employee as a plain table styled by the Ocean theme" width="380"></a><br>
+      <a href="Showcase/ReportServer"><code>ReportServer</code> - Table layout, Ocean theme</a>
     </td>
   </tr>
 </table>

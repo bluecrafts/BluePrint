@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ReportServerApi</RootNamespace>
+    <!--
+      Never run with invariant globalization: BluePrint formats dates and numbers by
+      culture and breaks lines with ICU, which invariant mode turns off.
+    -->
+    <InvariantGlobalization>false</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      The render engine, the HTML and PDF export, and RetrieveAsync. No WPF: this
+      package runs on Windows, Linux and in a container alike.
+    -->
+    <PackageReference Include="BlueCrafts.BluePrint.Render" Version="1.7.140" />
+    <!-- The sample data: the Northwind database in SQLite. -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.13" />
+    <!-- Microsoft.Data.Sqlite on its own brings an older SQLite with a known vulnerability. -->
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
+    <!--
+      The native parts of SkiaSharp and HarfBuzz for Linux. The packages bring the
+      Windows ones by themselves, the Linux ones only when asked.
+    -->
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="4.153.1" />
+    <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="14.2.1.301" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The five reports, next to the executable. -->
+    <None Include="Reports\**" CopyToOutputDirectory="PreserveNewest" />
+    <!--
+      The fonts the reports are measured and drawn with, on every platform. The same
+      files are sent to the browser, so the HTML shows the text exactly as measured.
+    -->
+    <None Include="fonts\**" CopyToOutputDirectory="PreserveNewest" />
+    <!-- The Northwind database of this repository, opened read-only. -->
+    <None Include="..\..\..\NorthwindDB\SQLite\northwind.db" Link="northwind.db" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

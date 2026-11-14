@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    The web page: plain HTML, CSS and JavaScript in wwwroot, with no framework and no
+    package. This small ASP.NET Core host serves those files and passes every request
+    for /api on to ReportServerAPI, so a browser talks to one address only - no CORS,
+    and the address of the API is a setting of the server, not of the page.
+
+    No reference to BluePrint at all: the web never renders anything, it shows what
+    the API sends.
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ReportServerWeb</RootNamespace>
+  </PropertyGroup>
+
+</Project>

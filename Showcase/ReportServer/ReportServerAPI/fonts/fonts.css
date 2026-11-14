@@ -1,0 +1,31 @@
+/*
+  The fonts the server measures and draws the reports with, for the browser.
+
+  Inter (SIL Open Font License, LICENSE.txt next to this file): a modern sans-serif
+  made for screens, with Latin, Greek and Cyrillic. Windows and Linux do not come
+  with it, which is the point: the server reads these files on every platform, and
+  the browser gets the same files from here.
+
+  The HTML of a page puts every piece of text in a box exactly as wide as the
+  server measured it. Shown with another font - one the browser picks because
+  the reader's machine does not have this one - the text no longer fits and is
+  cut off. ReportServerWeb links this file into every page it shows.
+
+  BluePrint reads only the font files in this folder (BpFonts.UseBundledFonts);
+  it skips this file and LICENSE.txt.
+*/
+@font-face {
+  font-family: "Inter";
+  src: url("Inter-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("Inter-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}

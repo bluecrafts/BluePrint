@@ -1,0 +1,46 @@
+/*
+  Slate - dark.
+
+  Paper layout: the page itself is turned dark with a CSS filter (invert, then a
+  half turn of the hue so blue stays blue). Pictures are turned back, so a photo
+  or a logo is not shown as a negative. The PDF and the printed page are not
+  touched: frame.css takes the filter off for printing.
+*/
+:root {
+  color-scheme: dark;
+
+  --app-bg: #14181d;
+  --app-surface: #1c2229;
+  --app-surface-2: #232a33;
+  --app-text: #e6eaef;
+  --app-muted: #9aa5b1;
+  --app-border: #333c47;
+  --app-accent: #6ea8ff;
+  --app-accent-text: #0b1220;
+  --app-accent-soft: #1d2b40;
+  --app-danger: #ff8a80;
+  --app-stage: #0f1216;
+
+  --viewer-bg: #0f1216;
+  --paper-shadow: 0 0 0 1px #2a313a, 0 8px 24px rgba(0, 0, 0, 0.6);
+  --paper-radius: 4px;
+  --paper-outline: 0;
+  --paper-filter: invert(0.9) hue-rotate(180deg);
+  --paper-image-filter: invert(1) hue-rotate(180deg);
+
+  --t-font: "Inter", sans-serif;
+  --t-size: 13px;
+  --t-pad: 5px 10px;
+  --t-page-bg: #1c2229;
+  --t-text: #e6eaef;
+  --t-muted: #9aa5b1;
+  --t-line: #2c343e;
+  --t-zebra: #212831;
+  --t-head-bg: #262e38;
+  --t-head-text: #e6eaef;
+  --t-group-bg: #1a2534;
+  --t-group-text: #8ab8ff;
+  --t-accent: #6ea8ff;
+  --t-radius: 6px;
+  --t-shadow: 0 0 0 1px #2a313a, 0 8px 24px rgba(0, 0, 0, 0.6);
+}

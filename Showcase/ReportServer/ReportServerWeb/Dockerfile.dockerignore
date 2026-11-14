@@ -1,0 +1,6 @@
+# Sent to Docker with the build context (the GitHub.Contribute folder): only what
+# the Dockerfile copies, without build output.
+*
+!Showcase/ReportServer/ReportServerWeb/
+**/bin
+**/obj
