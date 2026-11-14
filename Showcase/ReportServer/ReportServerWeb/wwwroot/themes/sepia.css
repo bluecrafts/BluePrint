@@ -1,0 +1,39 @@
+/* Sepia - warm paper, easy on the eyes for reading a long report. */
+:root {
+  color-scheme: light;
+
+  --app-bg: #efe7da;
+  --app-surface: #fbf6ee;
+  --app-surface-2: #f4ecdf;
+  --app-text: #3b2f22;
+  --app-muted: #7a6a57;
+  --app-border: #dccdb6;
+  --app-accent: #9a5b1e;
+  --app-accent-text: #ffffff;
+  --app-accent-soft: #f1e0c8;
+  --app-danger: #a3271b;
+  --app-stage: #d9ccb8;
+
+  --viewer-bg: #d9ccb8;
+  --paper-shadow: 0 2px 10px rgba(80, 55, 25, 0.25);
+  --paper-radius: 2px;
+  --paper-outline: 0;
+  --paper-filter: sepia(0.35) saturate(0.9);
+  --paper-image-filter: none;
+
+  --t-font: Georgia, "Inter", serif;
+  --t-size: 14px;
+  --t-pad: 5px 10px;
+  --t-page-bg: #fbf6ee;
+  --t-text: #3b2f22;
+  --t-muted: #7a6a57;
+  --t-line: #e6d9c4;
+  --t-zebra: #f6eee1;
+  --t-head-bg: #efe2cc;
+  --t-head-text: #3b2f22;
+  --t-group-bg: #fbf6ee;
+  --t-group-text: #9a5b1e;
+  --t-accent: #9a5b1e;
+  --t-radius: 2px;
+  --t-shadow: 0 2px 10px rgba(80, 55, 25, 0.25);
+}

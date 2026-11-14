@@ -1,0 +1,42 @@
+/*
+  Mono - black and white, the way the page comes out of a laser printer: no
+  colour, no shadow, a thin frame. The Table layout uses a typewriter font.
+*/
+:root {
+  color-scheme: light;
+
+  --app-bg: #ffffff;
+  --app-surface: #ffffff;
+  --app-surface-2: #f4f4f4;
+  --app-text: #111111;
+  --app-muted: #555555;
+  --app-border: #cccccc;
+  --app-accent: #111111;
+  --app-accent-text: #ffffff;
+  --app-accent-soft: #ececec;
+  --app-danger: #b00020;
+  --app-stage: #e9e9e9;
+
+  --viewer-bg: #e9e9e9;
+  --paper-shadow: none;
+  --paper-radius: 0;
+  --paper-outline: 1px solid #999999;
+  --paper-filter: grayscale(1) contrast(1.1);
+  --paper-image-filter: none;
+
+  --t-font: "Courier New", Courier, monospace;
+  --t-size: 13px;
+  --t-pad: 3px 8px;
+  --t-page-bg: #ffffff;
+  --t-text: #000000;
+  --t-muted: #444444;
+  --t-line: #000000;
+  --t-zebra: #ffffff;
+  --t-head-bg: #ffffff;
+  --t-head-text: #000000;
+  --t-group-bg: #ffffff;
+  --t-group-text: #000000;
+  --t-accent: #000000;
+  --t-radius: 0;
+  --t-shadow: 0 0 0 1px #999999;
+}

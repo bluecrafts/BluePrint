@@ -1,0 +1,31 @@
+# The report server in two containers.
+#
+#   docker compose up --build
+#
+# then open port 8080 of the machine in a browser. Only the web is published: the
+# browser talks to the web, and the web passes /api on to the API by the name of
+# its service.
+
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: Showcase/ReportServer/ReportServerAPI/Dockerfile
+    environment:
+      # The print date on the reports is in this time zone (the container has UTC).
+      TZ: Etc/UTC
+      # Every setting of appsettings.json can be set here, for example:
+      # ReportServer__CacheSize: "64"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ../..
+      dockerfile: Showcase/ReportServer/ReportServerWeb/Dockerfile
+    environment:
+      ReportServerApi: api:8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      - api
+    restart: unless-stopped

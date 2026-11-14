@@ -8,6 +8,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- Not "Localization": that would read as a part of BluePrint.Render.Localization. -->
     <RootNamespace>LocalizationShowcase</RootNamespace>
+    <!-- The icon of the executable; the windows use it as well (title bar and taskbar). -->
+    <ApplicationIcon>app.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +20,7 @@
       language and the font of each language). There is no designer: the forms
       are opened and shown, not edited.
     -->
-    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.6.134" />
+    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.7.140" />
     <!-- The sample data: the Northwind database in SQLite. -->
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.13" />
     <!-- Microsoft.Data.Sqlite on its own brings an older SQLite with a known vulnerability. -->

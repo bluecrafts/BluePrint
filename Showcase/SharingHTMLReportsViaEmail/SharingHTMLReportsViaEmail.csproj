@@ -18,7 +18,7 @@
       reports are opened, shown and sent, not edited. The email itself is put
       together and sent with System.Net.Mail of .NET: no mail library is needed.
     -->
-    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.6.134" />
+    <PackageReference Include="BlueCrafts.BluePrint.Render.WPF" Version="1.7.140" />
     <!-- The sample data: the Northwind database in SQLite. -->
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.13" />
     <!-- Microsoft.Data.Sqlite on its own brings an older SQLite with a known vulnerability. -->

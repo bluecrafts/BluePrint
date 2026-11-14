@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" class="rs-app">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Report Server</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/api/fonts/fonts.css">
+  <link id="theme-link" rel="stylesheet" href="themes/classic.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <button id="menu-button" class="icon-button only-narrow" type="button" aria-label="Reports and conditions" aria-controls="sidebar" aria-expanded="false">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h7M9 15h7M9 18h4"/></svg>
+    <span class="brand-name">Report Server</span>
+    <span class="brand-sub">BluePrint showcase</span>
+  </div>
+  <label class="theme-picker">
+    <span>Theme</span>
+    <select id="theme-select" aria-label="Theme"></select>
+  </label>
+</header>
+
+<div class="layout">
+  <aside id="sidebar" class="sidebar">
+    <section class="panel">
+      <h2>Reports</h2>
+      <ul id="report-list" class="report-list" role="listbox" aria-label="Reports"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Conditions</h2>
+      <form id="conditions" class="conditions" autocomplete="off">
+        <div id="condition-fields"></div>
+        <div id="period-presets" class="presets" aria-label="Period"></div>
+        <button id="show-button" class="button primary" type="submit">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          <span>Show report</span>
+        </button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>From the server</h2>
+      <dl id="render-info" class="render-info">
+        <dt>Pages</dt><dd data-field="pages">-</dd>
+        <dt>Rows</dt><dd data-field="rows">-</dd>
+        <dt>Render</dt><dd data-field="render">-</dd>
+        <dt>This page</dt><dd data-field="page">-</dd>
+      </dl>
+      <p class="hint">The server renders a report once for a set of conditions and keeps it in memory. Each page is then sent on its own, when you turn to it.</p>
+    </section>
+  </aside>
+
+  <main class="viewer">
+    <div class="toolbar" role="toolbar" aria-label="Page">
+      <div class="group">
+        <button id="first-page" class="icon-button" type="button" title="First page" aria-label="First page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M18 6l-6 6 6 6"/></svg>
+        </button>
+        <button id="prev-page" class="icon-button" type="button" title="Previous page (Left arrow)" aria-label="Previous page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <label class="page-box">
+          <span class="visually-hidden">Page</span>
+          <input id="page-input" type="number" min="1" value="1" inputmode="numeric">
+          <span id="page-count" class="page-count">of -</span>
+        </label>
+        <button id="next-page" class="icon-button" type="button" title="Next page (Right arrow)" aria-label="Next page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <button id="last-page" class="icon-button" type="button" title="Last page" aria-label="Last page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 5v14M6 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+
+      <div class="group segmented" role="radiogroup" aria-label="Layout">
+        <button id="layout-paper" type="button" role="radio" aria-checked="true" title="The page as the report draws it - the same as the PDF">Paper</button>
+        <button id="layout-table" type="button" role="radio" aria-checked="false" title="A plain table that the theme styles from scratch">Table</button>
+      </div>
+
+      <div class="group">
+        <button id="zoom-out" class="icon-button" type="button" title="Zoom out" aria-label="Zoom out">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>
+        </button>
+        <select id="zoom-select" aria-label="Zoom">
+          <option value="width">Fit width</option>
+          <option value="page">Whole page</option>
+          <option value="0.5">50%</option>
+          <option value="0.75">75%</option>
+          <option value="1">100%</option>
+          <option value="1.25">125%</option>
+          <option value="1.5">150%</option>
+          <option value="2">200%</option>
+        </select>
+        <button id="zoom-in" class="icon-button" type="button" title="Zoom in" aria-label="Zoom in">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg>
+        </button>
+      </div>
+
+      <div class="group push">
+        <button id="print-button" class="button" type="button" title="Print the page on the screen">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9V3h10v6"/><path d="M7 17H4v-7h16v7h-3"/><path d="M7 14h10v7H7z"/></svg>
+          <span>Print page</span>
+        </button>
+        <div class="split">
+          <a id="pdf-all" class="button primary" href="#" download title="Every page as one PDF file">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>
+            <span>Download PDF</span>
+          </a>
+          <a id="pdf-page" class="button" href="#" download title="Only the page on the screen, as a PDF file">This page</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage" id="stage">
+      <iframe id="page-frame" title="Report page"></iframe>
+
+      <div id="overlay" class="overlay" hidden>
+        <div class="overlay-card" role="status" aria-live="polite">
+          <div class="spinner" aria-hidden="true"></div>
+          <div id="overlay-text" class="overlay-text">Rendering...</div>
+        </div>
+      </div>
+
+      <div id="message" class="overlay" hidden>
+        <div class="overlay-card message-card" role="alert">
+          <svg class="message-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg>
+          <div>
+            <div id="message-title" class="message-title"></div>
+            <div id="message-detail" class="message-detail"></div>
+            <button id="message-retry" class="button" type="button">Try again</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="welcome" class="welcome">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h7M9 15h7M9 18h4"/></svg>
+        <p>Choose a report on the left.</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="scrim" class="scrim" hidden></div>
+</body>
+</html>
