@@ -17,7 +17,7 @@
       The render engine, the HTML and PDF export, and RetrieveAsync. No WPF: this
       package runs on Windows, Linux and in a container alike.
     -->
-    <PackageReference Include="BlueCrafts.BluePrint.Render" Version="1.7.140" />
+    <PackageReference Include="BlueCrafts.BluePrint.Render" Version="1.8.158" />
     <!-- The sample data: the Northwind database in SQLite. -->
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.13" />
     <!-- Microsoft.Data.Sqlite on its own brings an older SQLite with a known vulnerability. -->
